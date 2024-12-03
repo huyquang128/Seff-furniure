@@ -1,0 +1,254 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+    :root {
+        --background: #fff;
+        --foreground: #f5f6fa;
+        --input: #f5f6fa;
+        --text-first: #000;
+        --text-second: #202224;
+        --text-third: #afb1b3;
+    }
+    .dark {
+        --background: #273142;
+        --foreground: #1b2431;
+        --input: #323d4e;
+        --text-first: #ffffff;
+        --text-second: #abafb6;
+        --text-third: #fff;
+    }
+}
+
+.swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+    background-color: #fff;
+    opacity: 1;
+    border-radius: 50%;
+    margin: 0 8px;
+    transition: background-color 0.3s ease;
+    transition: all 0.3s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+    width: 35px;
+    height: 10px;
+    border-radius: 10px;
+}
+
+.swiper-button-next {
+    background-color: transparent; /* Màu nền */
+    color: transparent;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 60%;
+    right: -15px; /* Vị trí bên phải */
+    transform: translateY(-60%);
+    z-index: 100;
+    border-radius: 9999px;
+}
+
+/* Tùy chỉnh nút prev */
+.swiper-button-prev {
+    background-color: transparent;
+    color: transparent; /* Màu nền */
+    border: none;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 60%;
+    left: 7px; /* Vị trí bên phải */
+    transform: translateY(-60%);
+    z-index: 100;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+}
+
+.swiper-button-next-1 {
+    background-color: transparent; /* Màu nền */
+    color: transparent;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 70%;
+    right: -25px; /* Vị trí bên phải */
+    transform: translateY(-70%);
+    z-index: 10;
+    border-radius: 9999px;
+}
+
+.swiper-button-prev-1 {
+    color: transparent; /* Màu nền */
+    border: none;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 70%;
+    left: -25px; /* Vị trí bên phải */
+    transform: translateY(-70%);
+    z-index: 10;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+}
+
+.swiper-button-next-2 {
+    background-color: transparent; /* Màu nền */
+    color: transparent;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 74%;
+    right: -15px; /* Vị trí bên phải */
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 9999px;
+}
+
+.swiper-button-prev-2 {
+    color: transparent; /* Màu nền */
+    border: none;
+    padding: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 74%;
+    left: -15px; /* Vị trí bên phải */
+    transform: translateY(-50%);
+    z-index: 10;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease;
+}
+
+select {
+    -webkit-appearance: none; /* Loại bỏ kiểu mặc định trên Safari và Chrome */
+    -moz-appearance: none; /* Loại bỏ kiểu mặc định trên Firefox */
+    appearance: none;
+}
+
+select {
+    outline: 1px solid #e7e3e3;
+    border: none;
+    transition: outline 0.1s ease, box-shadow 0.1s ease;
+}
+
+select:focus {
+    outline: 2px solid #b99674;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Thêm bóng cho hiệu ứng nổi bật */
+}
+
+/* input::placeholder {
+    color: #4b5563;
+} */
+.discount-code {
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 5px;
+    z-index: 1;
+}
+
+.discount-code::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 1px solid #b99674;
+    background: #fff;
+    z-index: 1;
+    left: -6px;
+    top: 50%;
+    position: absolute;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+.discount-code::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border: 1px solid #b99674;
+    background: #fff;
+    z-index: 1;
+    right: -6px;
+    top: 50%;
+    position: absolute;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+}
+
+.range-avatar {
+    -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+    appearance: none; /* Remove default styling for other browsers */
+    height: 4px; /* Height of the slider track */
+    background: #ccc; /* Track gradient */
+    border-radius: 5px; /* Rounded edges for the track */
+}
+
+/* Style for the thumb (the circular knob) */
+.range-avatar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px; /* Size of the thumb */
+    height: 20px;
+    background: #ffbf00; /* Thumb color */
+    border-radius: 50%; /* Make it circular */
+    cursor: pointer;
+}
+
+.range-avatar::-ms-thumb {
+    width: 20px;
+    height: 20px;
+    background: #4caf50;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+}
+
+.range-avatar::-webkit-slider-runnable-track {
+    /* background: blue; */
+}
+
+/* .credit {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+} */
+
+/* range star */
+.range-star {
+    -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+    appearance: none;
+    width: 100%; /* Full width */
+    height: 8px; /* Height of the track */
+    background: linear-gradient(to right, #e7b66b 50%, #f0efef 50%);
+    border-radius: 4px; /* Rounded corners for the track */
+    outline: none; /* Removes focus outline */
+    margin: 10px 0; /* Optional spacing */
+    transition: background 0.3s;
+}
+
+.range-star::-webkit-slider-thumb {
+    display: none;
+}
+
+.range-star::-ms-fill-lower {
+    background: #007bff; /* Màu xanh bên trái thumb */
+}
+
+.custom-range::-moz-range-progress {
+    background: #007bff; /* Phần đã có giá trị */
+    border-radius: 8px;
+}
+
+/* custom input number */
+.number-quantity::-webkit-inner-spin-button,
+.number-quantity::-webkit-outer-spin-button {
+    -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+}
