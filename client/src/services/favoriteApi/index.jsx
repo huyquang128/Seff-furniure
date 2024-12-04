@@ -23,6 +23,9 @@ export const addFavoriteProductApi = async (formData) => {
             formData,
             {
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json', // hoặc application/x-www-form-urlencoded
+                },
             }
         );
 
@@ -36,9 +39,12 @@ export const deleteFavoriteProductApi = async (formData) => {
     try {
         const response = await axios.delete(
             `${GetBaseUrl()}/favorite/delete-favorite-product`,
-            formData,
             {
+                data: formData,
                 withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json', // Chỉ cần nếu bạn thực sự gửi JSON
+                },
             }
         );
 

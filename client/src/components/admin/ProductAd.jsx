@@ -15,6 +15,7 @@ import heart from '@/assets/svg/heart.svg';
 import heart_red from '@/assets/svg/heart_red.svg';
 import star from '@/assets/svg/star.svg';
 import star_yellow from '@/assets/svg/star_yellow.svg';
+import AddProductAd from '../modals/addProductAd';
 
 function ProductAd() {
     const dispatch = useDispatch();
@@ -26,6 +27,7 @@ function ProductAd() {
 
     //state react
     const [currentPage, setCurrentPage] = useState(1);
+    const [isShowAddProductModal, setIsShowProductModal] = useState(false);
     // Số mục trên mỗi trang
     const totalItems = 100; // Tổng số mục
     const [urlImgActive, setUrlImgActive] = useState(null);
@@ -69,13 +71,15 @@ function ProductAd() {
                 </div>
                 <button className="flex p-4 bg-black text-white rounded-lg text-sm gap-2">
                     <img src={note_edit} alt="" className="h-5" />
-                    <div>Thêm sản phẩm</div>
+                    <div onClick={() => setIsShowProductModal(true)}>
+                        Thêm sản phẩm
+                    </div>
                 </button>
             </div>
 
             {/* products */}
             <div className="grid grid-cols-4 max-xl:gap-4 max-lg:grid-cols-3 gap-10 mb-10 text-text-first ">
-                {productPageList.products.map((item) => (
+                {productPageList?.products?.map((item) => (
                     <div
                         key={item._id}
                         className="bg-background rounded-xl transition-all ease-in-out duration-500"
@@ -153,6 +157,9 @@ function ProductAd() {
                     </div>
                 ))}
             </div>
+
+            {/* modal products */}
+            {isShowAddProductModal && <AddProductAd />}
 
             {/* pagination */}
             <div className="flex justify-center cursor-pointer mb-10">

@@ -30,6 +30,7 @@ function HotItems() {
     const listProductLiving = useSelector(
         (state) => state?.products?.livingRoomAllProd
     );
+   
 
     //state react
     const [screenSize, setScreenSize] = useState({

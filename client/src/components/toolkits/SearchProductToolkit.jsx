@@ -112,79 +112,57 @@ function SearchProductToolkit({
 
             {/* list products */}
             <div className="flex flex-col">
-                {sliceProductsSearchByKeywords
-                    ? sliceProductsSearchByKeywords.map((product) => (
-                          <Link key={product._id} to={`/${product.name}`}>
-                              <div
-                                  key={product._id}
-                                  onClick={() =>
-                                      handleRedirectToDetail(
-                                          product.name,
-                                          product._id
-                                      )
-                                  }
-                                  className="flex gap-2 py-3"
-                              >
-                                  <img
-                                      src={product.colors[0].images[0]}
-                                      alt=""
-                                      className="h-20 rounded-md"
-                                  />
-                                  <div className="flex flex-col gap-2">
-                                      <div className="font-medium">
-                                          {product.name}
-                                      </div>
-                                      <div className="flex text-xs text-text-gray gap-1 items-center flex-wrap">
-                                          <div className="">
-                                              {product.material}
-                                          </div>
-                                          <div className="w-[1px] h-3.5 bg-gray-400"></div>
-                                          <div className="">
-                                              {product.colors
-                                                  .map((color) => color.colorId)
-                                                  .join(', ')}
-                                          </div>
-                                          <div className="w-[1px] h-3.5 bg-gray-400"></div>
-                                          <div>
-                                              {product.size.width}x
-                                              {product.size.height}x
-                                              {product.size.length}centimetre
-                                          </div>
-                                      </div>
-                                      <div className="text-red-700 text-sm font-medium">
-                                          {product.price.toLocaleString(
-                                              'VN-vn'
-                                          )}
-                                          đ
-                                      </div>
-                                  </div>
-                              </div>
-                          </Link>
-                      ))
-                    : listProducts.map((product, index) => (
-                          <div key={index} className="flex gap-2 py-3">
-                              <img
-                                  src={product.src}
-                                  alt=""
-                                  className="h-20 rounded-md"
-                              />
-                              <div className="flex flex-col gap-2">
-                                  <div className="font-medium">
-                                      {product.name}
-                                  </div>
-                                  <div className="flex text-sm text-text-gray gap-1 items-center">
-                                      <div className="">{product.material}</div>
-                                      <div className="w-[1px] h-3.5 bg-gray-400"></div>
-                                      <div className="">{product.color}</div>
-                                      <div className="w-[1px] h-3.5 bg-gray-400"></div>
-                                      <div>{product.size}</div>
-                                  </div>
-                                  <div className="text-red-700 text-sm font-medium">
-                                      {product.price.toLocaleString('VN-vn')}đ
-                                  </div>
-                              </div>
-                          </div>
-                      ))}
+                {sliceProductsSearchByKeywords ? (
+                    sliceProductsSearchByKeywords.map((product) => (
+                        <Link key={product._id} to={`/${product.name}`}>
+                            <div
+                                key={product._id}
+                                onClick={() =>
+                                    handleRedirectToDetail(
+                                        product.name,
+                                        product._id
+                                    )
+                                }
+                                className="flex gap-2 py-3"
+                            >
+                                <img
+                                    src={product.colors[0].images[0]}
+                                    alt=""
+                                    className="h-20 rounded-md"
+                                />
+                                <div className="flex flex-col gap-2">
+                                    <div className="font-medium">
+                                        {product.name}
+                                    </div>
+                                    <div className="flex text-xs text-text-gray gap-1 items-center flex-wrap">
+                                        <div className="">
+                                            {product.material}
+                                        </div>
+                                        <div className="w-[1px] h-3.5 bg-gray-400"></div>
+                                        <div className="">
+                                            {product.colors
+                                                .map((color) => color.colorId)
+                                                .join(', ')}
+                                        </div>
+                                        <div className="w-[1px] h-3.5 bg-gray-400"></div>
+                                        <div>
+                                            {product.size.width}x
+                                            {product.size.height}x
+                                            {product.size.length}centimetre
+                                        </div>
+                                    </div>
+                                    <div className="text-red-700 text-sm font-medium">
+                                        {product.price.toLocaleString('VN-vn')}đ
+                                    </div>
+                                </div>
+                            </div>
+                        </Link>
+                    ))
+                ) : (
+                    <div className="text-center mb-5 text-xs">
+                        Không có kết quả tìm kiếm{' '}
+                    </div>
+                )}
             </div>
         </div>
     );

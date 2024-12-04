@@ -8,6 +8,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const initialState = {
     favoriteProduct: null,
     isLoading: false,
+    productFavoriteActive: [],
 };
 
 export const getFavoriteProduct = createAsyncThunk(
@@ -35,7 +36,7 @@ export const addFavoriteProduct = createAsyncThunk(
 );
 
 export const deleteFavoriteProduct = createAsyncThunk(
-    'favorite/add-favorite-product',
+    'favorite/delete-favorite-product',
     async (formData) => {
         try {
             const response = await deleteFavoriteProductApi(formData);
@@ -49,7 +50,29 @@ export const deleteFavoriteProduct = createAsyncThunk(
 const favoriteProductSlice = createSlice({
     name: 'favoriteProduct',
     initialState,
-    reducers: {},
+    reducers: {
+        setProductFavoriteActive: (state, action) => {
+            let map = state.productFavoriteActive || []; // Lấy mảng hiện tại từ state hoặc khởi tạo mảng rỗng
+
+            // Kiểm tra nếu id chưa tồn tại thì thêm vào mảng
+            if (!map.includes(action.payload) && action.payload !== null) {
+                map.push(action.payload);
+            }
+
+            state.productFavoriteActive = map;
+        },
+
+        clearProductFavoriteActive: (state, action) => {
+            let arr = state.productFavoriteActive || [];
+            const filterArr = arr.filter((id) => id !== action.payload);
+            state.productFavoriteActive = filterArr;
+
+            // let arrs = state.favoriteProduct.products.filter(
+            //     (item) => item._id !== action.payload
+            // );
+            // state.favoriteProduct = arrs;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(getFavoriteProduct.pending, (state) => {
@@ -57,7 +80,9 @@ const favoriteProductSlice = createSlice({
             })
             .addCase(getFavoriteProduct.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.favoriteProduct = action.payload.data;
+                state.favoriteProduct = action.payload?.success
+                    ? action.payload.data
+                    : null;
             })
             .addCase(getFavoriteProduct.rejected, (state) => {
                 state.isLoading = false;
@@ -71,10 +96,12 @@ const favoriteProductSlice = createSlice({
             .addCase(addFavoriteProduct.rejected, (state) => {
                 state.isLoading = false;
             })
-            .addCase(addFavoriteProduct.fulfilled, (state) => {
+            .addCase(deleteFavoriteProduct.fulfilled, (state) => {
                 state.isLoading = false;
             });
     },
 });
 
+export const { setProductFavoriteActive, clearProductFavoriteActive } =
+    favoriteProductSlice.actions;
 export default favoriteProductSlice.reducer;

@@ -16,7 +16,6 @@ function FormCommon({
 }) {
     const dispatch = useDispatch();
     const [isShowPass, setIsShowPass] = useState(false);
-    console.log('🚀 ~ isShowPass:', isShowPass);
 
     const handleTogglePass = () => {
         setIsShowPass(!isShowPass);

@@ -94,6 +94,7 @@ const deleteFavoriteProduct = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: 'Sản phẩm đã bị xóa khỏi danh sách yêu thích của bạn.',
+                data: checkFavoriteUser,
             });
         }
     } catch (error) {

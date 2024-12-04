@@ -60,6 +60,9 @@ function HeaderHome() {
         )
     );
     const urlImgAvatar = useSelector((state) => state?.auth.urlImgAvatar);
+    const productFavoriteActive = useSelector(
+        (state) => state?.favoriteProducts?.productFavoriteActive.length
+    );
 
     // state show - close modals, toolkit
     const [isShowCategoryUserOption, setShowCategoryUserOption] =
@@ -395,7 +398,7 @@ function HeaderHome() {
                             className="h-5 max-sm:h-4 cursor-pointer"
                         />
                         <span className="absolute top-[-16px] bg-red-500 cursor-pointer flex justify-center text-white py-1 px-1.5 text-[9.5px] max-md:text-[8.5px] rounded-full right-[-12px] min-w-2 max-w-5">
-                            0
+                            {productFavoriteActive || 0}
                         </span>
                     </Link>
                 </div>

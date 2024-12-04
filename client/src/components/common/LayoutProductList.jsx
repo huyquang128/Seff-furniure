@@ -7,8 +7,17 @@ import heart_red from '@/assets/svg/heart_red.svg';
 import star from '@/assets/svg/star.svg';
 import star_yellow from '@/assets/svg/star_yellow.svg';
 import ActiveImgTooltip from '../toolkits/ActiveImgTooltip';
+import { useDispatch, useSelector } from 'react-redux';
+import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
 
 function LayoutProduct({ item }) {
+    const dispatch = useDispatch();
+
+    const productFavoriteActive = useSelector(
+        (state) => state?.favoriteProducts?.productFavoriteActive
+    );
+    const userId = useSelector((state) => state?.auth?.user?.id);
+
     //state react
     const [urlImgActive, setUrlImgActive] = useState(null);
     const [urlImgHover, setUrlImgHover] = useState(null);
@@ -33,6 +42,16 @@ function LayoutProduct({ item }) {
         setProductIdActiveModal(null);
         setColorIdActive(null);
     };
+
+    const handleClickAddProductFavorite = (id) => {
+        dispatch(setProductFavoriteActive(id));
+        const formData = new FormData();
+        formData.append('userId', userId);
+        formData.append('productId', id);
+
+        dispatch(addFavoriteProduct(formData));
+    };
+
     return (
         <div>
             <Link to={`${item.name}`}>
@@ -103,8 +122,23 @@ function LayoutProduct({ item }) {
                     <img src={star} alt="" className="h-4" />
                     <img src={star} alt="" className="h-4" />
                 </div>
-                <div className="mx-2 bg-bg-slider p-2 rounded-full cursor-pointer ">
-                    <img src={heart} alt="" className="h-4" />
+                <div
+                    onClick={() => handleClickAddProductFavorite(item._id)}
+                    className={`mx-2 ${
+                        productFavoriteActive.includes(item._id)
+                            ? 'bg-red-100'
+                            : 'bg-bg-slider'
+                    } r p-2 rounded-full cursor-pointer`}
+                >
+                    <img
+                        src={
+                            productFavoriteActive.includes(item._id)
+                                ? heart_red
+                                : heart
+                        }
+                        alt=""
+                        className="h-4"
+                    />
                 </div>
             </div>
         </div>
