@@ -1,4 +1,4 @@
-1.Project trang web bán đồ nội thất
+### 1.Project trang web bán đồ nội thất
 - Mục tiêu là tạo trang web bán các sản phẩm nột thất cao cấp.
 - Sử dụng react, redux, mongodb và postman để test api
   
@@ -10,7 +10,7 @@
 - Mua hàng: thêm, xóa sản phẩm giỏ hàng, yêu thích, thanh toán sản phẩm thàng công.
 - Read đọc dữ liệu từ cơ sở dữ liệu, Create địa chỉ mới, update địa chỉ hiện tại đang được chọn, delete địa chỉ đang được chọn.
   
-2.Api
+### 2.Api
 - Tự tạo các api: * API để thao tác đăng nhập, đăng ký 
 
 ## ẢNH CHẠY PROJECT THÀNH CÔNG!
