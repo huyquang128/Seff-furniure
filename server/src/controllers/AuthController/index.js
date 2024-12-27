@@ -111,7 +111,6 @@ const authMiddleware = (req, res, next) => {
 //upload avatar
 const uploadAvatar = async (req, res) => {
     const { userId } = req.params;
-    console.log('🚀 ~ uploadAvatar ~ userId:', userId);
     try {
         const avatar = req.file;
         console.log('🚀 ~ uploadAvatar ~ avatar:', avatar);

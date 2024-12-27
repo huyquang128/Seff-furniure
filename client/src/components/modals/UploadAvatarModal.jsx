@@ -11,8 +11,13 @@ import frame_blue from '@/assets/svg/frame-blue.svg';
 import img_load from '@/assets/svg/img-load.svg';
 import img_load_blue from '@/assets/svg/img-load-blue.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUrlImageAvatar, uploadAvatar } from '@/redux/authSlice';
+import {
+    getProfileUser,
+    setUrlImageAvatar,
+    uploadAvatar,
+} from '@/redux/authSlice';
 import { motion } from 'framer-motion';
+import ToastMessage from '../common/ToastMessage';
 
 function UploadAvatarModal({
     isActive,
@@ -29,6 +34,7 @@ function UploadAvatarModal({
 
     const urlImgAvatar = useSelector((state) => state?.auth.urlImgAvatar);
     const userId = useSelector((state) => state?.auth.user.id);
+    const authSelector = useSelector((state) => state?.auth);
 
     const dispatch = useDispatch();
 
@@ -134,8 +140,19 @@ function UploadAvatarModal({
                         avatar: blob,
                     };
                     dispatch(setUrlImageAvatar(croppedImage));
-                    dispatch(uploadAvatar(formData));
-                    handleCloseModalUploadAvatar();
+                    dispatch(uploadAvatar(formData)).then((data) => {
+                        if (data.payload.success) {
+                            dispatch(getProfileUser(authSelector?.user._id));
+
+                            handleCloseModalUploadAvatar();
+
+                            ToastMessage({
+                                message: 'Cập nhật ảnh đại diện thành công!!',
+                                position: 'top-center',
+                                status: 'success',
+                            });
+                        }
+                    });
                 }
             } catch (error) {
                 console.error(error);

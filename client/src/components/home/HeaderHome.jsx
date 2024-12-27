@@ -64,7 +64,6 @@ function HeaderHome() {
     const totalQuantityInCart = useSelector(
         (state) => state?.cart?.totalQuantityInCart
     );
-    console.log('🚀 ~ HeaderHome ~ totalQuantityInCart:', totalQuantityInCart);
     const urlImgAvatar = useSelector((state) => state?.auth.urlImgAvatar);
     const urlImgAvatarData = useSelector(
         (state) => state?.auth.user?.urlImgAvatar
@@ -404,7 +403,7 @@ function HeaderHome() {
                                             ? userStore?.firstName +
                                               ' ' +
                                               userStore?.lastName
-                                            : userStore?.email}
+                                            : userStore?.username}
                                     </span>
                                 </div>
                                 <div className="flex justify-center text-sm flex-col px-6 gap-4 text-white-text cursor-pointer ">

@@ -11,9 +11,7 @@ function SideBar() {
     const urlImgAvatarData = useSelector(
         (state) => state?.auth.user?.urlImgAvatar
     );
-    const locationCurrent =
-        // location.pathname.split('/').at(3) ||
-        location.pathname.split('/').at(2);
+    const locationCurrent = location.pathname.split('/').at(2);
 
     return (
         <div className="max-xl:w-60 max-md:hidden">
@@ -39,7 +37,7 @@ function SideBar() {
                         <div className="font-semibold text-black-second">
                             {user?.lastName && user?.firstName
                                 ? user?.firstName + ' ' + user?.lastName
-                                : user?.email}
+                                : user?.username}
                         </div>
                     </div>
                 </div>

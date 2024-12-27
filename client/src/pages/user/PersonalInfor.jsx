@@ -1,7 +1,11 @@
 import FormCommon from '@/components/common/Form';
 import { useDispatch, useSelector } from 'react-redux';
 import { formInformationUser } from '@/components/config/formConfig';
-import { setFormInfoUser, updateProfile } from '@/redux/authSlice';
+import {
+    getProfileUser,
+    setFormInfoUser,
+    updateProfile,
+} from '@/redux/authSlice';
 import edit from '@/assets/svg/note-edit.svg';
 import { useState } from 'react';
 import UploadAvatarModal from '@/components/modals/UploadAvatarModal';
@@ -36,6 +40,7 @@ function PersonalInfor() {
         };
         dispatch(updateProfile(formData)).then((data) => {
             if (data.payload.success) {
+                dispatch(getProfileUser(authSelector?.user._id));
                 ToastMessage({
                     message: 'Thông tin đã được cập nhật',
                     position: 'top-center',
