@@ -36,10 +36,17 @@
 - chưa hoàn thiện cũng như tốt ưu được các style-css dây dư thừa.
 - api chưa được tốt đôi khi bị chậm lag khi render ra giao diện.
 
+### 5.Lệnh Chạy project
+- mở terminal và vào folder tương ứng để chạy:
+- client: npm run dev ([http://localhost:5173](http://localhost:5173/))
+- server: npm start
+
 ## ẢNH CHẠY PROJECT THÀNH CÔNG!
+<p>Hình ảnh giao diện chính:</p>
+<img src="./client/src/assets/screen/img1.png" alt="Hình ảnh 1" width="800"/>
 
-<p>Hình ảnh 1:</p>
-<img src="./client/src/assets/screen/img1.png" alt="Hình ảnh 1" width="500"/>
+<p>Hình ảnh code chạy:</p>
+<img src="./client/src/assets/screen/img2.png" alt="Hình ảnh 1" width="800"/>
 
-<p>Hình ảnh 2:</p>
-<img src="./client/src/assets/screen/img2.png" alt="Hình ảnh 1" width="500"/>
+<p>test Postman:</p>
+<img src="./client/src/assets/screen/img3.png" alt="Hình ảnh 1" width="800"/>
