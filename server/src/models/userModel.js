@@ -24,12 +24,17 @@ const userSchema = new mongoose.Schema({
     phone: {
         type: String,
     },
-    address: {
-        detailed: { type: String },
-        province: { type: String },
-        district: { type: String },
-        ward: { type: String },
-    },
+    address: [
+        {
+            firstName: { type: String },
+            lastName: { type: String },
+            phone: { type: String },
+            detailed: { type: String },
+            province: { type: String },
+            district: { type: String },
+            ward: { type: String },
+        },
+    ],
     role: {
         type: String,
         default: 'user',
@@ -50,21 +55,16 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
-
-    if (!this.reviewers || this.reviewers.length === 0) {
-        this.reviewers = []; // Đặt mảng reviewers rỗng nếu chưa có
+    if (!this.reviewers) {
+        this.reviewers = [];
     }
 
-    this.firstName = this.firstName || '';
-    this.lastName = this.lastName || '';
-    this.phone = this.phone || '';
-    this.address = {
-        detailed: this.address?.detailed || '',
-        province: this.address?.province || '',
-        district: this.address?.district || '',
-        ward: this.address?.ward || '',
-    };
-    this.urlImgAvatar = this.urlImgAvatar || '';
+    // Khởi tạo mảng `address` nếu chưa có
+    if (!this.address) {
+        this.address = [];
+    }
+
+    // this.urlImgAvatar = this.urlImgAvatar || '';
     next();
 });
 

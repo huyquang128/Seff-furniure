@@ -1,6 +1,5 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import eat1 from '@/assets/image/eat-1.jpg';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -23,14 +22,12 @@ function HotItems() {
     //state redux
     const category = useSelector((state) => state?.menuNav.menuNav);
     const categorySlice = category?.slice(0, 4);
+
     const categoryProductHotActive = useSelector(
         (state) => state?.menuNav.categoryProductHotActive
     );
+
     const categoryLink = useSelector((state) => state?.menuNav.categoryLink);
-    const listProductLiving = useSelector(
-        (state) => state?.products?.livingRoomAllProd
-    );
-   
 
     //state react
     const [screenSize, setScreenSize] = useState({
@@ -103,27 +100,25 @@ function HotItems() {
                     >
                         {categorySlice?.map((category, index) => (
                             <SwiperSlide key={category._id}>
-                                <Link className="">
-                                    <button
-                                        key={category._id}
-                                        onClick={() =>
-                                            dispatch(
-                                                setCategoryProductHot({
-                                                    index,
-                                                    link: category.link,
-                                                })
-                                            )
-                                        }
-                                        className={`${
-                                            categoryProductHotActive === index
-                                                ? 'text-black bg-gray-100'
-                                                : 'text-gray-500 '
-                                        } px-7 py-3.5 text-sm font-medium min-w-40 
+                                <button
+                                    key={category._id}
+                                    onClick={() =>
+                                        dispatch(
+                                            setCategoryProductHot({
+                                                index,
+                                                link: category.link,
+                                            })
+                                        )
+                                    }
+                                    className={`${
+                                        categoryProductHotActive === index
+                                            ? 'text-black bg-gray-100'
+                                            : 'text-gray-500 '
+                                    } px-7 py-3.5 text-sm font-medium min-w-40 
                                 rounded-full hover:text-black transition-color ease-in-out duration-300`}
-                                    >
-                                        <Link to="">{category.title}</Link>
-                                    </button>
-                                </Link>
+                                >
+                                    <Link to="">{category.title}</Link>
+                                </button>
                             </SwiperSlide>
                         ))}
                     </Swiper>
@@ -154,17 +149,17 @@ function HotItems() {
                                 } px-7 py-3.5 text-sm font-medium min-w-40 
                                 rounded-full hover:text-black transition-color ease-in-out duration-300`}
                             >
-                                <Link to="">{category.title}</Link>
+                                <Link>{category.title}</Link>
                             </button>
                         ))}
                     </div>
                     <button
                         className="text-sm flex items-center gap-2 border border-black text-black-second
-                                        px-6 py-2.5 rounded-full font-medium hover:text-white hover:bg-black
+                                        px-6 py-2 rounded-full font-medium hover:text-white hover:bg-black
                                         transition-all ease-in-out duration-300"
                     >
                         <span>
-                            <Link to={categoryLink}>Xem thêm</Link>
+                            <Link to={`/room/${categoryLink}`}>Xem thêm</Link>
                         </span>
                         <FontAwesomeIcon
                             icon={faChevronRight}
@@ -180,13 +175,16 @@ function HotItems() {
                 animate={inView ? { opacity: 1, y: 0 } : { opacity: 0 }}
                 transition={{ duration: 1.2 }}
                 className="grid grid-cols-4 max-lg:gap-4 max-lg:grid-cols-3 
-                            max-sm:grid-cols-2 gap-8 justify-between py-4  "
+                           max-md:grid-cols-2 max-sm:grid-cols-2 gap-8 justify-between py-4  "
             >
-                {listProductLiving?.map((item, index) => (
-                    <div key={index}>
-                        <LayoutProduct item={item} />
-                    </div>
-                ))}
+                {categorySlice &&
+                    categorySlice[categoryProductHotActive]?.products
+                        ?.slice(0, 16)
+                        .map((item, index) => (
+                            <div key={index}>
+                                <LayoutProduct item={item} />
+                            </div>
+                        ))}
             </motion.div>
         </div>
     );

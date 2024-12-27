@@ -24,21 +24,21 @@ const blockRoomSelect = [
         name: 'PHÒNG NGỦ',
         src: bed_3,
 
-        link: 'living-room',
+        link: 'bed-room',
         description:
             'Với các bộ sưu tập đa dạng về giường, nệm, khăn trải giường và các sản phẩm chăn ga gối nệm khác, chúng tôi cam kết mang đến cho bạn những trải nghiệm giấc ngủ thật tuyệt vời.',
     },
     {
         name: 'BẾP & PHÒNG ĂN',
         src: kitchen_1,
-        link: 'living-room',
+        link: 'kitchen',
         description:
             'Phòng bếp không chỉ là nơi nấu ăn, mà còn là trái tim của ngôi nhà, nơi giữ lửa hạnh phúc và kết nối yêu thương.',
     },
     {
         name: 'PHÒNG LÀM VIỆC',
         src: work_3,
-        link: 'living-room',
+        link: 'work-room',
         description:
             'Phòng làm việc là không gian của sự tập trung và sáng tạo, nơi những ý tưởng được ươm mầm và ước mơ trở thành hiện thực.',
     },
@@ -72,7 +72,7 @@ function IntroductionHome() {
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    
+
     return (
         <div
             className=" max-w-[1440px] mx-auto max-xl:px-[68px] 
@@ -110,13 +110,10 @@ function IntroductionHome() {
                         375: {
                             slidesPerView: 1.5,
                         },
-                        425: {
-                            slidesPerView: 1.5,
+                        426: {
+                            slidesPerView: 2,
                         },
-                        768: {
-                            slidesPerView: 3.5,
-                        },
-                        1024: {
+                        769: {
                             slidesPerView: 3,
                         },
                     }}
@@ -127,13 +124,13 @@ function IntroductionHome() {
                         prevEl: '.swiper-button-prev',
                     }}
                     modules={[Navigation]}
-                    className="h-[500px] rounded-xl overflow-hidden  max-lg:h-[400px] max-md:h-[300px]"
+                    className="h-[420px] rounded-xl overflow-hidden max-lg:h-[350px]"
                 >
                     {blockRoomSelect.map((blockRoom, index) => {
                         return (
                             <SwiperSlide key={index}>
                                 <motion.div
-                                    className={`h-full overflow-hidden cursor-pointer`}
+                                    className={`h-full overflow-hidden cursor-pointer `}
                                     whileHover="hover"
                                     onMouseEnter={() => setActiveBlock(index)}
                                     onMouseLeave={() => setActiveBlock(null)}
@@ -155,12 +152,12 @@ function IntroductionHome() {
                                             y: screenSize.isXs
                                                 ? 200
                                                 : screenSize.isSm
-                                                ? 150
+                                                ? 350
                                                 : screenSize.isMd
-                                                ? 140
+                                                ? 260
                                                 : screenSize.isLg
-                                                ? 100
-                                                : 390,
+                                                ? 220
+                                                : 280,
                                         }}
                                         variants={{
                                             hover: { y: 0 },
@@ -176,10 +173,10 @@ function IntroductionHome() {
                                                     : screenSize.isSm
                                                     ? -240
                                                     : screenSize.isMd
-                                                    ? -230
+                                                    ? -170
                                                     : screenSize.isLg
-                                                    ? 100
-                                                    : -300,
+                                                    ? -140
+                                                    : -200,
                                             }}
                                             variants={{
                                                 hover: { y: 0 },
@@ -205,9 +202,13 @@ function IntroductionHome() {
                                             >
                                                 {blockRoom.description}
                                             </p>
-                                            <button className="bg-red-800 hover:brightness-110 max-md:text-xs max-md:px-5 max-md:py-3 px-10 py-4 text-base rounded-full">
+                                            <button
+                                                className="bg-red-800 hover:brightness-110
+                                                             max-lg:text-sm  max-md:text-xs max-lg:px-5 max-lg:py-3 px-10 py-4 
+                                                             text-base rounded-full max-md:px-4 max-md:py-2"
+                                            >
                                                 <Link
-                                                    to={`room/${blockRoom.link}`}
+                                                    to={`/room/${blockRoom.link}`}
                                                 >
                                                     Khám phá ngay
                                                 </Link>
@@ -221,13 +222,13 @@ function IntroductionHome() {
                 </Swiper>
             </motion.div>
             {/* Các button điều hướng nằm ngoài Swiper */}
-            <div className="swiper-button-prev max-lg:top-[70%] max-lg:left-7 max-md:hidden">
+            <div className="swiper-button-prev  max-lg:top-[70%] max-lg:left-2.5 max-lg:translate-x-2.5 max-md:hidden">
                 <FontAwesomeIcon
                     icon={faCaretLeft}
                     className="text-gray-500 bg-white px-3.5 py-1.5 rounded-full shadow-btn-slider"
                 />
             </div>
-            <div className="swiper-button-next max-lg:top-[70%] max-lg:right-2 max-md:hidden">
+            <div className="swiper-button-next max-lg:top-[70%] max-lg:right-0 max-md:hidden">
                 <FontAwesomeIcon
                     icon={faCaretRight}
                     className="text-gray-500 bg-white px-3.5 py-1.5 rounded-full shadow-btn-slider"

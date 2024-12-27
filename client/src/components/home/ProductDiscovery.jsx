@@ -4,12 +4,23 @@ import { Navigation } from 'swiper/modules';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import bed4 from '@/assets/image/bed-4.jpg';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getChildMenu } from '@/redux/menuNav';
 
 function ProductDiscovery() {
     const [ref, inView] = useInView({ threshold: 1, triggerOnce: true });
+    const dispatch = useDispatch();
+
+    //state redux
+    const childMenu = useSelector((state) => state?.menuNav?.childMenu);
+
+    //hook
+    useEffect(() => {
+        dispatch(getChildMenu());
+    }, [dispatch]);
 
     return (
         <div
@@ -55,156 +66,33 @@ function ProductDiscovery() {
                     }}
                     modules={[Navigation]}
                 >
-                    <SwiperSlide className="px-8 py-4  rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20  min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
-                    <SwiperSlide className="px-8 py-4   rounded-2xl hover:bg-white cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20"
-                            />
-                            <span className="font-medium">Giường</span>
-                        </Link>
-                    </SwiperSlide>
+                    {childMenu?.map((menu, index) => (
+                        <SwiperSlide
+                            key={menu._id}
+                            className=" py-4 rounded-2xl hover:bg-white cursor-pointer transition-colors ease-linear duration-400"
+                        >
+                            <Link
+                                to={`/room/${
+                                    (index >= 0 &&
+                                        index <= 2 &&
+                                        'living-room') ||
+                                    (index >= 3 && index <= 6 && 'bed-room') ||
+                                    (index >= 7 && index <= 10 && 'kitchen') ||
+                                    (index >= 11 && 'work-room')
+                                }/${menu.link}`}
+                                className="flex flex-col gap-2 items-center "
+                            >
+                                <img
+                                    src={menu.products[0].colors[0].images[0]}
+                                    alt=""
+                                    className="h-20 min-w-28 max-lg:min-w-22 max-sm:min-w-20 rounded-md"
+                                />
+                                <span className="font-medium text-sm text-center">
+                                    {menu.title}
+                                </span>
+                            </Link>
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
             </motion.div>
 
@@ -212,7 +100,7 @@ function ProductDiscovery() {
                 initial={{ opacity: 0, x: -100 }}
                 animate={inView ? { opacity: 1, x: 0, y: -40 } : { opacity: 0 }}
                 transition={{ duration: 1 }}
-                className="swiper-button-prev-1 max-lg:top-[70%] max-lg:-left-3 max-sm:hidden"
+                className="swiper-button-prev-1 max-lg:top-[70%] max-lg:-left-1 max-sm:hidden"
             >
                 <FontAwesomeIcon
                     icon={faCaretLeft}
@@ -223,7 +111,7 @@ function ProductDiscovery() {
                 initial={{ opacity: 0, x: 100 }}
                 animate={inView ? { opacity: 1, x: 0, y: -40 } : { opacity: 0 }}
                 transition={{ duration: 1 }}
-                className="swiper-button-next-1 max-lg:top-[70%] max-lg:-right-3 max-sm:hidden"
+                className="swiper-button-next-1 max-lg:top-[70%] max-lg:-right-1 max-sm:hidden"
             >
                 <FontAwesomeIcon
                     icon={faCaretRight}

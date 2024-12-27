@@ -9,31 +9,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     orders: null,
+    ordersDeleted: [],
     isLoading: true,
     errorMessageInputs: {},
     inputIndex: null,
-    filterDistrictsToProvince: null,
-    filterWardsToDistrict: null,
-    temporaryOrder: {
-        valueProvince: {
-            value: '',
-            code: null,
-        },
-        valueDistrict: {
-            value: '',
-            code: null,
-        },
-        valueWard: {
-            value: '',
-            code: null,
-        },
-        valueFormUser: {
-            fullname: '',
-            phone: '',
-            detailAddress: '',
-        },
-        methodPayment: null,
-    },
+    methodPayment: null,
     qrCodeZalo: null,
 };
 
@@ -67,14 +47,17 @@ export const updateOrder = createAsyncThunk('order/updateOrder', async () => {
     }
 });
 
-export const removeOrder = createAsyncThunk('order/removeOrder', async () => {
-    try {
-        const response = await deleteOrderApi();
-        return response;
-    } catch (error) {
-        console.error('Error removing order:', error);
+export const removeOrder = createAsyncThunk(
+    'order/removeOrder',
+    async (orderId) => {
+        try {
+            const response = await deleteOrderApi(orderId);
+            return response;
+        } catch (error) {
+            console.error('Error removing order:', error);
+        }
     }
-});
+);
 
 export const createQrOrderZalo = createAsyncThunk(
     'order/createQrOrderZalo',
@@ -92,34 +75,8 @@ const orderSlice = createSlice({
     name: 'order',
     initialState,
     reducers: {
-        setDistricts: (state, action) => {
-            state.filterDistrictsToProvince = action.payload;
-        },
-        setWards: (state, action) => {
-            state.filterWardsToDistrict = action.payload;
-        },
-        setValueProvince: (state, action) => {
-            state.temporaryOrder.valueProvince.value = action.payload.value;
-            state.temporaryOrder.valueProvince.code = action.payload.code;
-        },
-        setValueDistrict: (state, action) => {
-            state.temporaryOrder.valueDistrict.value = action.payload.value;
-            state.temporaryOrder.valueDistrict.code = action.payload.code;
-        },
-        setValueWard: (state, action) => {
-            state.temporaryOrder.valueWard.value = action.payload.value;
-            state.temporaryOrder.valueWard.code = action.payload.code;
-        },
-        setValueFormUser: (state, action) => {
-            let newFormUserInfo = state.temporaryOrder.valueFormUser;
-            newFormUserInfo = {
-                ...newFormUserInfo,
-                [action.payload.name]: action.payload.value,
-            };
-            state.temporaryOrder.valueFormUser = newFormUserInfo;
-        },
         setValueMethodPayment: (state, action) => {
-            state.temporaryOrder.methodPayment = action.payload;
+            state.methodPayment = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -152,6 +109,13 @@ const orderSlice = createSlice({
             .addCase(updateOrder.rejected, (state) => {
                 state.isLoading = false;
             })
+            .addCase(removeOrder.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.ordersDeleted = [
+                    ...state.ordersDeleted,
+                    action.payload.data,
+                ];
+            })
             .addCase(createQrOrderZalo.pending, (state) => {
                 state.isLoading = true;
             })
@@ -161,19 +125,8 @@ const orderSlice = createSlice({
             })
             .addCase(createQrOrderZalo.rejected, (state) => {
                 state.isLoading = false;
-            })
-            .addCase(removeOrder.fulfilled, (state) => {
-                state.isLoading = false;
             });
     },
 });
-export const {
-    setValueFormUser,
-    setDistricts,
-    setWards,
-    setValueProvince,
-    setValueDistrict,
-    setValueWard,
-    setValueMethodPayment,
-} = orderSlice.actions;
+export const { setValueFormUser, setValueMethodPayment } = orderSlice.actions;
 export default orderSlice.reducer;

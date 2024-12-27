@@ -7,7 +7,13 @@ const {
     logout,
     authMiddleware,
     uploadAvatar,
-    updateProfileUser,
+    getProfileUser,
+    addProfileUser,
+    addAddressUser,
+    removeAddressUser,
+    updateAddressUser,
+    getAllUser,
+    addUser,
 } = require('../controllers/AuthController');
 const { upload } = require('../helper/cloudinary');
 
@@ -23,6 +29,12 @@ router.get('/check-auth', authMiddleware, (req, res) => {
     }
 });
 router.post('/upload-avatar/:userId', upload.single('avatar'), uploadAvatar);
-router.post('/update-profile-user/:userId', upload.none(), updateProfileUser);
+router.post('/add-profile-user/:userId', upload.none(), addProfileUser);
+router.get('/get-profile-user/:userId', getProfileUser);
+router.post('/add-address-user/:userId', addAddressUser);
+router.post('/update-address-user/:userId', updateAddressUser);
+router.delete('/remove-address-user/:userId', removeAddressUser);
+router.get('/get-all-user', getAllUser);
+router.post('/add-user', addUser);
 
 module.exports = router;

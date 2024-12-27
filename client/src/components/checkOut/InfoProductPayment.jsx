@@ -1,16 +1,26 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import discount_code from '@/assets/svg/discount-code.svg';
 import { motion } from 'framer-motion';
 import cartYellow from '@/assets/svg/cart-yellow.svg';
 import arrowDownYellow from '@/assets/svg/arr-down-yellow.svg';
-import discountCode from '@/assets/svg/discount-code.svg';
+// import discount_code from '@/assets/svg/discount-code.svg';
+import DiscountCodeModal from '../modals/DicountCodeModal';
+import close_white from '@/assets/svg/close_white.svg';
+import discount_code_3 from '@/assets/svg/discount_code_3.svg';
+import { ListDiscountCode } from '../common/ListDiscountCode';
+import { setDiscountPrice } from '@/redux/cartSlice';
 
 function InfoProductPayment() {
+    const dispatch = useDispatch();
+    //
     const [isOpenListProductAnimated, setIsOpenListProductAnimated] =
         useState(false);
     const [isOpenListProduct, setIsOpenListProduct] = useState(true);
+    const [isShowDiscountModal, setIsShowDiscountModal] = useState(false);
 
+    //state redux
     const lengthProductInCart = useSelector(
         (state) => state.cart?.cartItem?.products?.length
     );
@@ -24,6 +34,7 @@ function InfoProductPayment() {
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
+    const discountCode = useSelector((state) => state.cart.discountCode);
 
     const toggleListProduct = () => {
         setIsOpenListProductAnimated(true);
@@ -111,53 +122,114 @@ function InfoProductPayment() {
                     ))}
             </motion.div>
 
-            <div className="px-4 py-3 max-md:px-0">
-                <div className="flex items-center justify-center border rounded-md overflow-hidden mt-3 mb-3">
+            {/* total price and discount code */}
+            <div className="px-4 py-2 ">
+                <span className="text-sm text-gray-600">
+                    Nhập mã giảm giá nếu có
+                </span>
+                <div className="flex items-center justify-center border rounded-md overflow-hidden mt-3">
                     <input
                         type="text"
-                        className="flex-1 py-3 px-3 text-sm"
-                        placeholder="Mã giảm giá"
+                        className="flex-1 outline-none px-3 text-sm"
+                        placeholder="mã giảm giá"
                     />
                     <span className="bg-black text-white text-sm py-3 px-3">
                         Sử dụng
                     </span>
                 </div>
-                <div className="text-sm text-yellow-base cursor-pointer hover:brightness-110 flex items-center gap-1 mb-5">
-                    <img src={discountCode} alt="" className="h-5" />
-                    Nhập mã giảm giá nếu có
-                </div>
+            </div>
 
-                {/* list discount */}
-                <div className="flex flex-wrap justify-start w-full mb-5 h-8 items-center">
+            <div
+                onClick={() => setIsShowDiscountModal(true)}
+                className="px-4 text-sm mb-3 flex items-center gap-1 cursor-pointer"
+            >
+                <img src={discount_code} alt="" />
+                <span className="text-yellow-base hover:brightness-110">
+                    Xem thêm mã giảm giá
+                </span>
+            </div>
+
+            {ListDiscountCode.map((item, index) => {
+                const result = item.code === discountCode && (
                     <div
-                        className="discount-code relative text-yellow-base text-sm  
-                            text-center font-semibold cursor-pointer w-[110px] h-full flex
-                            "
+                        onClick={() => setIsShowDiscountModal(true)}
+                        key={index}
+                        className="px-5 flex flex-wrap justify-start w-full mb-5 h-8 items-center"
                     >
-                        <span className="border px-[5px] w-full py-1 border-yellow-base rounded-sm">
-                            Giảm 50.000₫
-                        </span>
+                        <div
+                            className="discount-code relative text-yellow-base text-sm
+                                text-center font-semibold cursor-pointer w-[120px] h-full flex
+                                "
+                        >
+                            <span className="border  w-full py-1 border-yellow-base rounded-sm">
+                                Giảm {item.price_sale.toLocaleString('VN-vn')}đ
+                            </span>
+                        </div>
                     </div>
+                );
+                return result;
+            })}
+
+            {/* modal discount code */}
+            {isShowDiscountModal && (
+                <DiscountCodeModal
+                    isShowDiscountModal={isShowDiscountModal}
+                    setIsShowDiscountModal={setIsShowDiscountModal}
+                />
+            )}
+
+            <div className="flex justify-between items-center px-4 text-gray-700 py-3">
+                <div className="text-sm flex flex-col  gap-2">
+                    <span>Mã giảm giá</span>
+                    {ListDiscountCode.map((item, index) => {
+                        const result = item.code === discountCode && (
+                            <div
+                                key={index}
+                                className="flex items-center gap-2"
+                            >
+                                <img
+                                    src={discount_code_3}
+                                    alt=""
+                                    className="h-4 translate-y-[1px]"
+                                />
+                                <div className="text-xs text-yellow-base">
+                                    {item.code}
+                                </div>
+                                <img
+                                    onClick={() =>
+                                        dispatch(setDiscountPrice(''))
+                                    }
+                                    src={close_white}
+                                    alt=""
+                                    className="bg-gray-300 h-4 rounded-full p-[1px] cursor-pointer hover:border"
+                                />
+                            </div>
+                        );
+                        return result;
+                    })}
                 </div>
 
-                <div className="col-span-2 rounded-md">
-                    <div className="flex justify-between py-3 border-t items-center">
-                        <h3 className=" ">Tạm tính</h3>
-                        <span className="">
-                            {totalProductInCart.toLocaleString('vn-VN')} ₫
-                        </span>
-                    </div>
-                    <div className="flex justify-between text-gray-700 py-3  border-b border-gray-100">
-                        <span className="text-sm">Phí vận chuyển</span>
-                        <span> --- </span>
-                    </div>
-                    <div className="flex justify-between font-medium py-5">
-                        <span className="text-lg ">Tổng cộng</span>
-                        <span className="text-2xl">
-                            {totalProductInCart.toLocaleString('vn-VN')} ₫
-                        </span>
-                    </div>
-                </div>
+                {discountCode
+                    ? ListDiscountCode.map((item, index) => {
+                          const result = item.code === discountCode && (
+                              <span key={index}>
+                                  - {item.price_sale.toLocaleString('VN-vn')}₫
+                              </span>
+                          );
+
+                          return result;
+                      })
+                    : 0 + '₫'}
+            </div>
+            <div className="flex justify-between items-center text-sm px-4">
+                <span>Phí vận chuyển</span>
+                <span>Miễn phí</span>
+            </div>
+            <div className="flex justify-between px-3 py-5">
+                <span className="text-lg font-semibold">Tổng cộng</span>
+                <span className="font-bold text-lg">
+                    {totalProductInCart.toLocaleString('vn-VN')}₫
+                </span>
             </div>
         </div>
     );

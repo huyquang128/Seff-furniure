@@ -9,6 +9,7 @@
         --text-first: #000;
         --text-second: #202224;
         --text-third: #afb1b3;
+        --text-gray: #6b7280;
     }
     .dark {
         --background: #273142;
@@ -17,6 +18,7 @@
         --text-first: #ffffff;
         --text-second: #abafb6;
         --text-third: #fff;
+        --text-gray: #fff;
     }
 }
 
@@ -38,15 +40,15 @@
 }
 
 .swiper-button-next {
-    background-color: transparent; /* Màu nền */
+    background-color: transparent;
     color: transparent;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
+    right: -10px;
     top: 60%;
-    right: -15px; /* Vị trí bên phải */
-    transform: translateY(-60%);
+    transform: translateX(10px);
     z-index: 100;
     border-radius: 9999px;
 }
@@ -54,43 +56,43 @@
 /* Tùy chỉnh nút prev */
 .swiper-button-prev {
     background-color: transparent;
-    color: transparent; /* Màu nền */
+    color: transparent;
     border: none;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
     top: 60%;
-    left: 7px; /* Vị trí bên phải */
-    transform: translateY(-60%);
+    left: 0;
+    /* transform: translateY(-60%); */
     z-index: 100;
     border-radius: 9999px;
     transition: background-color 0.3s ease;
 }
 
 .swiper-button-next-1 {
-    background-color: transparent; /* Màu nền */
+    background-color: transparent;
     color: transparent;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
     top: 70%;
-    right: -25px; /* Vị trí bên phải */
+    right: 0px;
     transform: translateY(-70%);
     z-index: 10;
     border-radius: 9999px;
 }
 
 .swiper-button-prev-1 {
-    color: transparent; /* Màu nền */
+    color: transparent;
     border: none;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
     top: 70%;
-    left: -25px; /* Vị trí bên phải */
+    left: 0px;
     transform: translateY(-70%);
     z-index: 10;
     border-radius: 9999px;
@@ -98,28 +100,28 @@
 }
 
 .swiper-button-next-2 {
-    background-color: transparent; /* Màu nền */
+    background-color: transparent;
     color: transparent;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
     top: 74%;
-    right: -15px; /* Vị trí bên phải */
+    right: -15px;
     transform: translateY(-50%);
     z-index: 10;
     border-radius: 9999px;
 }
 
 .swiper-button-prev-2 {
-    color: transparent; /* Màu nền */
+    color: transparent;
     border: none;
     padding: 6px;
     font-size: 18px;
     cursor: pointer;
     position: absolute;
     top: 74%;
-    left: -15px; /* Vị trí bên phải */
+    left: -15px;
     transform: translateY(-50%);
     z-index: 10;
     border-radius: 9999px;
@@ -133,9 +135,9 @@ select {
 }
 
 select {
-    outline: 1px solid #e7e3e3;
+    /* outline: 1px solid #e7e3e3; */
     border: none;
-    transition: outline 0.1s ease, box-shadow 0.1s ease;
+    transition: all ease-in-out 0.3;
 }
 
 select:focus {
@@ -251,4 +253,58 @@ select:focus {
 .number-quantity::-webkit-inner-spin-button,
 .number-quantity::-webkit-outer-spin-button {
     -webkit-appearance: none; /* Remove default styling for Webkit browsers */
+}
+
+@media screen and (max-width: 1440px) {
+    .swiper-button-prev {
+        left: 32px;
+        transform: translateX(32px);
+    }
+
+    .swiper-button-next {
+        right: 3%;
+        transform: translateX(3%);
+    }
+
+    .swiper-button-next-1 {
+        right: 40px;
+    }
+
+    .swiper-button-prev-1 {
+        left: 40px;
+    }
+}
+
+.custom-toast {
+    background: white !important;
+    color: #b99674 !important;
+    border-radius: 10px !important;
+    margin: 0 !important;
+}
+
+.custom-body {
+    font-size: 13px;
+    text-align: center;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.custom-progress {
+    background: #b99674 !important;
+    height: 2.5px !important;
+}
+
+.Toastify__progress-bar--success {
+    background-color: white !important;
+}
+
+/* scroll */
+.hidden-scrollbar-discount-modal {
+    overflow: auto; /* Cho phép cuộn */
+    scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+    -ms-overflow-style: none; /* Ẩn scrollbar trên IE */
+}
+
+.hidden-scrollbar-discount-modal::-webkit-scrollbar {
+    display: none; /* Ẩn scrollbar trên Chrome, Safari */
 }

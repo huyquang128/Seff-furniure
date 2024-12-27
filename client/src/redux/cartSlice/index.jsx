@@ -3,6 +3,7 @@ import {
     deleteCartItemApi,
     getCartItemsApi,
     updateCartItemQuantityAndTotalPriceApi,
+    updateTotalPriceByIdCartApi,
 } from '@/services/cartApi';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
@@ -14,9 +15,14 @@ const initialState = {
     color: [],
     nameProduct: null,
     productId: null,
+    fullName: null,
     quantityProductInCart: {},
     priceProductInCart: {},
     totalProductInCart: 0,
+    discountCode: '',
+    discountPrice: 0,
+    deliveryFee: 50000,
+    totalQuantityInCart: 0,
 };
 
 export const getCartItems = createAsyncThunk(
@@ -46,7 +52,6 @@ export const addToCart = createAsyncThunk(
 export const deleteCartItem = createAsyncThunk(
     '/cart/delete-cart-item',
     async (cartItemId) => {
-        console.log(cartItemId);
         try {
             const response = await deleteCartItemApi(cartItemId);
             return response;
@@ -59,11 +64,22 @@ export const deleteCartItem = createAsyncThunk(
 export const updateCartItemQuantityAndTotalPrice = createAsyncThunk(
     '/cart/update-cart-item-quantity-and-total-price',
     async (formData) => {
-        console.log(formData.userId);
         try {
             const response = await updateCartItemQuantityAndTotalPriceApi(
                 formData
             );
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const updateTotalPriceByIdCart = createAsyncThunk(
+    '/cart/put-totalPrice-Cart',
+    async (formData) => {
+        try {
+            const response = await updateTotalPriceByIdCartApi(formData);
             return response;
         } catch (error) {
             console.error(error);
@@ -133,6 +149,13 @@ const cartSlice = createSlice({
             let colorArr = [...state.color, action.payload];
             state.color = [...new Set(colorArr)];
         },
+        setDiscountPrice: (state, action) => {
+            state.discountCode = action.payload;
+            console.log('🚀 ~ action.payload:', action.payload);
+        },
+        setTotalQuantityInCart: (state, action) => {
+            state.totalQuantityInCart = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -179,6 +202,15 @@ const cartSlice = createSlice({
             .addCase(updateCartItemQuantityAndTotalPrice.rejected, (state) => {
                 state.isCartLoading = false;
             })
+            .addCase(updateTotalPriceByIdCart.pending, (state) => {
+                state.isCartLoading = true;
+            })
+            .addCase(updateTotalPriceByIdCart.fulfilled, (state) => {
+                state.isCartLoading = false;
+            })
+            .addCase(updateTotalPriceByIdCart.rejected, (state) => {
+                state.isCartLoading = false;
+            })
             .addCase(deleteCartItem.fulfilled, (state, action) => {
                 state.cartItem = action.payload?.data;
                 state.isCartLoading = false;
@@ -196,5 +228,7 @@ export const {
     increaseQuantityInCart,
     decreaseQuantityInCart,
     inputQuantityAndTotalPrice,
+    setDiscountPrice,
+    setTotalQuantityInCart,
 } = cartSlice.actions;
 export default cartSlice.reducer;

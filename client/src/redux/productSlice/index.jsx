@@ -14,6 +14,21 @@ const initialState = {
     productsSearchByKeyword: null,
     productsRecommended: null,
     productPageList: null,
+    formAddProduct: {
+        name: '',
+        brand: '',
+        sale: '',
+        price: '',
+        introduce: '',
+        width: '',
+        height: '',
+        length: '',
+        material: '',
+        infoDetailProduct: '',
+        infoEssential: '',
+        infoSafetyStandards: '',
+        infoFeatures: '',
+    },
 };
 
 export const getAllProductFromLivingRoom = createAsyncThunk(
@@ -82,6 +97,9 @@ const productsSlice = createSlice({
         setProductsSearch: (state, action) => {
             state.productsSearchByKeyword = action.payload;
         },
+        setFormAddProduct: (state, action) => {
+            state.formAddProduct[action.payload.name] = action.payload.value;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -141,5 +159,5 @@ const productsSlice = createSlice({
     },
 });
 
-export const { setProductsSearch, setStarEvaluated } = productsSlice.actions;
+export const { setProductsSearch, setFormAddProduct } = productsSlice.actions;
 export default productsSlice.reducer;

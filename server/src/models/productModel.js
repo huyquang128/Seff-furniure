@@ -20,6 +20,7 @@ const productSchema = new mongoose.Schema({
     },
     sale: {
         type: Number,
+        default: 0,
     },
     material: { type: String },
     size: {
@@ -32,10 +33,6 @@ const productSchema = new mongoose.Schema({
         Essential_Information: { type: String },
         Safety_Standards: { type: String },
         Product_Features: { type: String },
-    },
-    isFeatured: {
-        type: Boolean,
-        default: false,
     },
     reviews: [
         {
@@ -54,12 +51,11 @@ const productSchema = new mongoose.Schema({
     ],
 });
 
-productSchema.pre('save', function (next) {
-    this.isFeatured = isFeatured || '';
-    this.sale = sale || '';
+// productSchema.pre('save', function (next) {
+//     this.sale = sale || '';
 
-    next();
-});
+//     next();
+// });
 
 const Product = mongoose.model('Product', productSchema);
 

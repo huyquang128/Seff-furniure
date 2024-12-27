@@ -1,4 +1,4 @@
-import { getMenuNavApi } from '@/services/menuNavApi';
+import { getChildMenuAPi, getMenuNavApi } from '@/services/menuNavApi';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -6,6 +6,8 @@ const initialState = {
     isLoading: true,
     categoryProductHotActive: 0,
     categoryLink: '/room/living-room',
+    childMenu: null,
+    
 };
 
 export const getAllMenuNav = createAsyncThunk(
@@ -19,6 +21,15 @@ export const getAllMenuNav = createAsyncThunk(
         }
     }
 );
+
+export const getChildMenu = createAsyncThunk('/get-child-menu', async () => {
+    try {
+        const response = await getChildMenuAPi();
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+});
 
 const menuNavSlice = createSlice({
     name: 'menuNav',
@@ -41,6 +52,18 @@ const menuNavSlice = createSlice({
                     : null;
             })
             .addCase(getAllMenuNav.rejected, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(getChildMenu.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getChildMenu.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.childMenu = action.payload?.success
+                    ? action.payload?.data
+                    : null;
+            })
+            .addCase(getChildMenu.rejected, (state) => {
                 state.isLoading = false;
             });
     },

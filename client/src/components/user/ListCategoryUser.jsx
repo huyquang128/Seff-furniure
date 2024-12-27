@@ -1,12 +1,12 @@
 import user2 from '@/assets/svg/user2.svg';
 import bag_black from '@/assets/svg/bag-black.svg';
-import heart from '@/assets/svg/heart.svg';
+import heart_black from '@/assets/svg/heart_black.svg';
 import location from '@/assets/svg/location.svg';
 import card from '@/assets/svg/card.svg';
 import setting from '@/assets/svg/setting.svg';
 
 import user2_yellow from '@/assets/svg/user2_yellow.svg';
-import bag_black_yellow from '@/assets/svg/bag-black_yellow.svg';
+import bag_yellow from '@/assets/svg/bag_yellow.svg';
 import heart_yellow from '@/assets/svg/heart_yellow.svg';
 import location_yellow from '@/assets/svg/location_yellow.svg';
 import card_yellow from '@/assets/svg/card_yellow.svg';
@@ -21,14 +21,14 @@ export const ListCategoryUser = [
     },
     {
         title: 'Đơn hàng của tôi',
-        svg_yellow: bag_black_yellow,
+        svg_yellow: bag_yellow,
         svg: bag_black,
         link: 'My-orders/All-Orders',
     },
     {
         title: 'Sản phẩm yêu thích',
         svg_yellow: heart_yellow,
-        svg: heart,
+        svg: heart_black,
         link: 'My-favorite',
     },
     {

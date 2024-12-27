@@ -10,8 +10,12 @@ function ToastMessage({ message, position, status }) {
         draggable: true,
         pauseOnHover: false,
         pauseOnFocusLoss: false,
-        progress: undefined,
+        progress: false,
         transition: Bounce,
+        className: 'custom-toast',
+        bodyClassName: 'custom-body',
+        progressClassName: 'custom-progress',
+        icon: false,
     });
 }
 

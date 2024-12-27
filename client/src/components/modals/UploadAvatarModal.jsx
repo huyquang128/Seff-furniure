@@ -82,11 +82,6 @@ function UploadAvatarModal({
                         return;
                     }
                     const croppedImgUrl = URL.createObjectURL(blob);
-                    console.log(
-                        '🚀 ~ canvas.toBlob ~ croppedImgUrl:',
-                        croppedImgUrl
-                    );
-
                     resolve(croppedImgUrl);
                 }, 'image/ipeg');
             };
@@ -129,7 +124,6 @@ function UploadAvatarModal({
                     urlImgAvatar,
                     croppedAreaPixels
                 );
-                console.log('🚀 ~ handleCrop ~ croppedImage:', croppedImage);
 
                 if (croppedImage) {
                     const response = await fetch(croppedImage);

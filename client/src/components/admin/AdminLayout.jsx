@@ -3,9 +3,11 @@ import HeaderAdmin from './Header';
 // import { useEffect, useState } from 'react';
 import SidebarAd from './SidebarAd';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllUsers } from '@/redux/authSlice';
 
 function AdminLayout() {
+    const dispatch = useDispatch();
     const theme = useSelector((state) => state?.auth.theme);
     useEffect(() => {
         if (theme === 'dark') {
@@ -15,12 +17,16 @@ function AdminLayout() {
         }
     }, [theme]);
 
+    useEffect(() => {
+        dispatch(getAllUsers());
+    }, [dispatch]);
+
     return (
-        <div className="flex">
+        <div className="">
             <SidebarAd />
-            <div className="w-11/12 max-xl:w-10/12 max-md:w-full">
+            <div className={`ml-48 max-md:w-full max-md:ml-0`}>
                 <HeaderAdmin />
-                <div className=" bg-foreground transition-all ease-in-out duration-500">
+                <div className=" bg-foreground transition-all ease-in-out duration-500 min-h-screen">
                     <Outlet />
                 </div>
             </div>

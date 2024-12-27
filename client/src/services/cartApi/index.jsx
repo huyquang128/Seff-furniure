@@ -66,3 +66,16 @@ export const updateCartItemQuantityAndTotalPriceApi = async (formData) => {
         console.error(error);
     }
 };
+
+export const updateTotalPriceByIdCartApi = async (formData) => {
+    const { cartId, totalPriceInCart, discountPrice } = formData;
+    try {
+        const response = await axios.patch(
+            `${GetBaseUrl()}/cart/put-totalPrice-Cart/${cartId}`,
+            { totalPriceInCart, discountPrice }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

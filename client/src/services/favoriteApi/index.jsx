@@ -53,3 +53,15 @@ export const deleteFavoriteProductApi = async (formData) => {
         console.error(error);
     }
 };
+
+export const deleteAllFavoriteProductApi = async (userId) => {
+    try {
+        const response = await axios.delete(
+            `${GetBaseUrl()}/favorite/delete-all-favorite-product/${userId}`
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

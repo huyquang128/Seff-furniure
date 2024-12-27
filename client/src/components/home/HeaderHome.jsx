@@ -1,11 +1,11 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import MenuNavModel from '../modals/menuNavModals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFloating } from '@floating-ui/react';
 import CartToolkit from '../toolkits/cartToolkits';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { getCartItems } from '@/redux/cartSlice';
+import { getCartItems, setTotalQuantityInCart } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
 import UserInfoToolkit from '../toolkits/userInfoToolkit';
 import { ListCategoryUser } from '../user/ListCategoryUser';
@@ -53,13 +53,22 @@ function HeaderHome() {
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
-    const lengthAllProduct = useSelector((state) =>
-        state.cart?.cartItem?.products?.reduce(
-            (acc, item) => acc + item.quantity,
-            0
-        )
+    const cartItems = useSelector(
+        (state) => state?.cart?.cartItem
+        // ?.products?.reduce(
+        //         (acc, item) => acc + item.quantity,
+        //         0
+        //     )
     );
+
+    const totalQuantityInCart = useSelector(
+        (state) => state?.cart?.totalQuantityInCart
+    );
+    console.log('🚀 ~ HeaderHome ~ totalQuantityInCart:', totalQuantityInCart);
     const urlImgAvatar = useSelector((state) => state?.auth.urlImgAvatar);
+    const urlImgAvatarData = useSelector(
+        (state) => state?.auth.user?.urlImgAvatar
+    );
     const productFavoriteActive = useSelector(
         (state) => state?.favoriteProducts?.productFavoriteActive.length
     );
@@ -106,6 +115,14 @@ function HeaderHome() {
     useEffect(() => {
         if (userId) dispatch(getAllOrder(userId));
     }, [dispatch]);
+
+    useEffect(() => {
+        const total = cartItems?.products.reduce(
+            (acc, item) => acc + item.quantity,
+            0
+        );
+        dispatch(setTotalQuantityInCart(total));
+    }, [cartItems?.products]);
 
     //debounce
     const debounceSearchProducts = debounce(async (searchTerm) => {
@@ -176,6 +193,14 @@ function HeaderHome() {
         debounceSearchProducts(value);
     };
 
+    const handleLogout = () => {
+        dispatch(logout()).then((data) => {
+            if (data.payload.success) {
+                navigate('/auth/login');
+            }
+        });
+    };
+
     // floating ui
     const { reference, floating } = useFloating({
         placement: 'bottom',
@@ -189,15 +214,15 @@ function HeaderHome() {
     return (
         <div
             className={`max-w-[1440px] mx-auto max-xl:px-[68px] 
-                            max-lg:px-3 ${
-                                isAuthenticated ? 'py-0' : 'py-2.5'
-                            } max-md:py-0 max-md:relative bg-white 
-                            flex items-center justify-between`}
+                            max-lg:px-3  max-md:py-0 max-md:relative bg-white 
+                            flex items-center justify-between ${
+                                isAuthenticated ? 'mb-2' : 'py-3.5'
+                            }`}
         >
             <img
                 src={menu}
                 alt=""
-                className="h-5   max-md:block md:hidden"
+                className="h-5 max-md:block md:hidden"
                 onClick={() => setOpenModelMenu(true)}
             />
             <div
@@ -305,13 +330,23 @@ function HeaderHome() {
                         onMouseLeave={handleCloseToolkitUser}
                         className="py-5 bg-transparent"
                     >
-                        <img
-                            src={urlImgAvatar}
-                            alt=""
+                        <div
                             onMouseEnter={() => setIsOpen(true)}
-                            // onMouseLeave={handleCloseToolkitUser}
-                            className="h-12 w-12 object-cover max-md:hidden rounded-full  border-2 cursor-pointer"
-                        />
+                            className="h-10 w-10 object-cover max-md:hidden rounded-full  border-2 
+                            cursor-pointer bg-blue-400 flex justify-center items-center overflow-hidden"
+                        >
+                            {urlImgAvatar || urlImgAvatarData ? (
+                                <img
+                                    src={urlImgAvatarData || urlImgAvatar}
+                                    alt=""
+                                    className="object-cover"
+                                    // onMouseLeave={handleCloseToolkitUser}
+                                />
+                            ) : (
+                                <div className="text-white"></div>
+                            )}
+                        </div>
+
                         {isOpen && (
                             <motion.div
                                 initial={{ opacity: 0 }}
@@ -331,7 +366,7 @@ function HeaderHome() {
                                 style={{
                                     position: 'absolute',
                                     backgroundColor: 'white',
-                                    top: `${urlImgAvatar ? '88px' : ''}`,
+                                    top: `${urlImgAvatar ? '70px' : '70px'}`,
                                     right: `${
                                         urlImgAvatar ? '130px' : '100px'
                                     }`,
@@ -345,16 +380,30 @@ function HeaderHome() {
                                 }}
                             >
                                 <div className="flex flex-col justify-center items-center">
-                                    <img
-                                        src={urlImgAvatar}
-                                        alt=""
-                                        className="h-16 w-16 max-md:hidden rounded-full mb-4 border-2 cursor-pointer object-cover"
-                                    />
-                                    <span className="mb-4 text-black-base">
-                                        {userStore?.lastName +
+                                    <div
+                                        onMouseEnter={() => setIsOpen(true)}
+                                        className="h-14 w-14 object-cover max-md:hidden rounded-full border-2 
+                                                     cursor-pointer overflow-hidden bg-blue-400 flex justify-center items-center mb-3"
+                                    >
+                                        {urlImgAvatar || urlImgAvatarData ? (
+                                            <img
+                                                src={
+                                                    urlImgAvatarData ||
+                                                    urlImgAvatar
+                                                }
+                                                alt=""
+                                                className="object-cover"
+                                            />
+                                        ) : (
+                                            <div className="text-white"></div>
+                                        )}
+                                    </div>
+                                    <span className="mb-4 text-black-base text-sm">
+                                        {userStore?.lastName &&
                                         userStore?.firstName
-                                            ? userStore?.lastName +
-                                              userStore?.firstName
+                                            ? userStore?.firstName +
+                                              ' ' +
+                                              userStore?.lastName
                                             : userStore?.email}
                                     </span>
                                 </div>
@@ -365,10 +414,12 @@ function HeaderHome() {
                                         </Link>
                                     </p>
                                     <p className="mb-4 cursor-pointer">
-                                        Thông tin đơn hàng
+                                        <Link to="/user/My-orders/All-Orders">
+                                            Thông tin đơn hàng
+                                        </Link>
                                     </p>
                                     <p
-                                        onClick={() => dispatch(logout())}
+                                        onClick={handleLogout}
                                         className="border-t pt-5 pb-3 cursor-pointer font-medium hover:text-opacity-80"
                                     >
                                         Đăng xuất
@@ -378,12 +429,7 @@ function HeaderHome() {
                         )}
                     </div>
                 ) : (
-                    <img
-                        src={user}
-                        alt=""
-                        className="h-5 max-sm:h-4 max-md:hidden cursor-pointer"
-                        onClick={() => navigate('/auth/login')}
-                    />
+                    <img src={user} alt="" className="h-5" />
                 )}
 
                 <div
@@ -395,9 +441,13 @@ function HeaderHome() {
                         <img
                             src={heart}
                             alt=""
-                            className="h-5 max-sm:h-4 cursor-pointer"
+                            className="h-[18px] max-sm:h-4 cursor-pointer"
                         />
-                        <span className="absolute top-[-16px] bg-red-500 cursor-pointer flex justify-center text-white py-1 px-1.5 text-[9.5px] max-md:text-[8.5px] rounded-full right-[-12px] min-w-2 max-w-5">
+                        <span
+                            className="absolute bottom-[13px] left-[6.5px] translate-x-[6.5px] bg-red-500 cursor-pointer flex justify-center text-white 
+                                        py-[1.5px] px-1 text-[9.5px] max-md:text-[8.5px] rounded-full 
+                                        min-w-1 max-w-6"
+                        >
                             {productFavoriteActive || 0}
                         </span>
                     </Link>
@@ -418,8 +468,12 @@ function HeaderHome() {
                         onMouseEnter={() => setIsOpenToolkitCart(true)}
                         onMouseLeave={() => setIsOpenToolkitCart(false)}
                     />
-                    <span className="absolute top-[-16px] bg-red-500 cursor-pointer flex justify-center text-white py-1 px-1.5 text-[9.5px] max-md:text-[8.5px rounded-full right-[-12px] min-w-2 max-w-5">
-                        {lengthAllProduct || 0}
+                    <span
+                        className="absolute bottom-[12px] left-[7px] translate-x-[7px] bg-red-500 cursor-pointer flex justify-center text-white 
+                                        py-[1.5px] px-1 text-[9.5px] max-md:text-[8.5px] rounded-full 
+                                        min-w-1 max-w-6"
+                    >
+                        {totalQuantityInCart || 0}
                     </span>
                     {isOpenToolkitCart && (
                         <CartToolkit

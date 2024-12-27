@@ -14,6 +14,7 @@ import {
     decreaseQuantity,
     increaseQuantity,
     setIdProduct,
+    setTotalQuantityInCart,
     updateColor,
     updateQuantity,
 } from '@/redux/cartSlice';
@@ -28,12 +29,13 @@ import { getReviewsByProductId } from '@/redux/reviewSlice';
 import check_circle from '@/assets/svg/check_circle.svg';
 import arr_right_black from '@/assets/svg/arr_right_black.svg';
 import ToastMessage from '../common/ToastMessage';
+import heart from '@/assets/svg/heart.svg';
+import heart_red from '@/assets/svg/heart_red.svg';
+import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
 
 function ContentProductDetail({ productName }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const location = useLocation();
-    // const locationCurrent = location.pathname;
 
     //state redux
     const singleProductDetail = useSelector(
@@ -49,12 +51,17 @@ function ContentProductDetail({ productName }) {
     const productRecommends = useSelector(
         (state) => state?.products.productsRecommended
     );
+
     const reviewStore = useSelector((state) => state?.review.reviews);
     const averageStarNumber = useSelector((state) => state?.review.averageStar);
     const reviewsRedux = useSelector((state) => state?.review);
-    // const user = useSelector(
-    //     (state) => state?.auth?.user
-    // );
+    const userId = useSelector((state) => state?.auth?.user.id);
+    const productFavoriteActive = useSelector(
+        (state) => state?.favoriteProducts?.productFavoriteActive
+    );
+    const totalQuantityInCart = useSelector(
+        (state) => state?.cart?.totalQuantityInCart
+    );
 
     //state react
     const [selectInfoReviewBtn, setSelectInfoReviewBtn] = useState(false);
@@ -71,6 +78,10 @@ function ContentProductDetail({ productName }) {
         if (productId) dispatch(getReviewsByProductId(productId));
     }, [dispatch, productId]);
 
+    useEffect(() => {
+        dispatch(recommendProduct(productId));
+    }, [productId]);
+
     //handle events
     const handleClickColorImage = (id, nameColor) => {
         setActiveColorImage(id);
@@ -78,9 +89,7 @@ function ContentProductDetail({ productName }) {
     };
 
     const handleRedirectToDetail = (productName, productId) => {
-        console.log('🚀 ~ handleRedirectToDetail ~ productName:', productName);
         dispatch(setIdProduct(productId));
-        dispatch(recommendProduct(productId));
         dispatch(getProductSingleByName(productName)).then((response) => {
             if (response.data?.success) {
                 navigate(`${productName}`);
@@ -104,14 +113,13 @@ function ContentProductDetail({ productName }) {
 
         dispatch(addToCart(formData)).then((data) => {
             if (data?.payload?.success) {
-                toast.success(`Đã thêm vào giỏ hàng ️🛒`, {
-                    position: 'top-right',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    draggable: true,
-                    progress: undefined,
-                    transition: Bounce,
+                dispatch(
+                    setTotalQuantityInCart(totalQuantityInCart + quantity)
+                );
+                ToastMessage({
+                    message: `Đã thêm ${productName} vào giỏ hàng ️🛒`,
+                    position: 'top-center',
+                    status: 'success',
                 });
             }
         });
@@ -128,6 +136,15 @@ function ContentProductDetail({ productName }) {
                 status: 'error',
             });
         }
+    };
+
+    const handleClickAddProductFavorite = (id) => {
+        dispatch(setProductFavoriteActive(id));
+        const formData = new FormData();
+        formData.append('userId', userId);
+        formData.append('productId', id);
+
+        dispatch(addFavoriteProduct(formData));
     };
 
     return (
@@ -157,10 +174,10 @@ function ContentProductDetail({ productName }) {
                     {/* top inner image and color image */}
                     <div className="col-span-2 max-md:col-span-3 max-md:mb-[60px]">
                         <div
-                            className={`h-full rounded-lg  border-black
+                            className={`h-[850px] rounded-lg  border-black
                                         max-md:h-[600px] max-lg:h-[600px] max-sm:h-[300px] 
                                          max-md:bg-bg-slider
-                                        relative mb-5 `}
+                                        relative mb-5`}
                         >
                             <Swiper
                                 spaceBetween={10}
@@ -224,10 +241,31 @@ function ContentProductDetail({ productName }) {
                         <div className="text-2xl font-semibold mb-4">
                             {singleProductDetail?.name}
                         </div>
-                        <div className="font-semibold text-xl pb-4 border-b border-gray-100 mb-4">
-                            {singleProductDetail?.price.toLocaleString('vn-VN')}{' '}
-                            đ
-                        </div>
+
+                        {singleProductDetail?.sale > 0 ? (
+                            <div className=" flex items-center gap-3  pb-4 border-b border-gray-100 mb-4">
+                                <div className="font-semibold text-xl">
+                                    {singleProductDetail?.sale.toLocaleString(
+                                        'vn-VN'
+                                    )}
+                                    đ
+                                </div>
+                                <div className="text-text-gray text-sm line-through ">
+                                    {singleProductDetail?.price.toLocaleString(
+                                        'vn-VN'
+                                    )}
+                                    đ
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="font-semibold text-xl pb-4 border-b border-gray-100 mb-4">
+                                {singleProductDetail?.price.toLocaleString(
+                                    'vn-VN'
+                                )}{' '}
+                                đ
+                            </div>
+                        )}
+
                         <p className="text-sm mb-3">
                             {singleProductDetail?.description}
                         </p>
@@ -245,7 +283,7 @@ function ContentProductDetail({ productName }) {
                             {singleProductDetail?.colors.map((color, index) => (
                                 <div
                                     key={index}
-                                    className="flex flex-col items-center"
+                                    className="flex flex-col items-center cursor-pointer"
                                     onClick={() =>
                                         handleClickColorImage(
                                             index,
@@ -256,7 +294,11 @@ function ContentProductDetail({ productName }) {
                                     <img
                                         src={color.images[0]}
                                         alt=""
-                                        className="h-20 rounded-lg border"
+                                        className={` ${
+                                            activeColorImage === index
+                                                ? 'border-yellow-base'
+                                                : ''
+                                        } h-20 rounded-lg border`}
                                     />
                                     <span className="text-sm font-light">
                                         {color.colorId}
@@ -323,19 +365,36 @@ function ContentProductDetail({ productName }) {
                                 Thêm vào giỏ hàng
                             </button>
                         </div>
-                        <div className="flex items-center gap-3 mb-6 ">
-                            <FontAwesomeIcon icon={faHeart} />
-                            <span className="font-medium text-gray-600 ">
+                        <div
+                            onClick={() =>
+                                handleClickAddProductFavorite(
+                                    singleProductDetail?._id
+                                )
+                            }
+                            className="flex items-center gap-3 mb-6 cursor-pointer hover:brightness-110"
+                        >
+                            <img
+                                src={
+                                    productFavoriteActive.includes(
+                                        singleProductDetail?._id
+                                    )
+                                        ? heart_red
+                                        : heart
+                                }
+                                alt=""
+                                className="h-5"
+                            />
+                            <span className="font-medium text-gray-600">
                                 Thêm vào yêu thích
                             </span>
                         </div>
                         <div className="mb-2">Chia sẻ</div>
                         <div className="flex justify-between items-center mb-4 pb-4 border-b border-gray-100">
-                            <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center cursor-pointer">
                                 <img src={share} alt="" />
                                 <span className="text-gray-600">chia sẻ</span>
                             </div>
-                            <div className="flex gap-2 items-center">
+                            <div className="flex gap-2 items-center  cursor-pointer">
                                 <img src={fb} alt="" className="w-5" />
                                 <span className="text-gray-600">facebook</span>
                             </div>
@@ -409,7 +468,7 @@ function ContentProductDetail({ productName }) {
                                 <h1 className="font-bold text-xl mb-3">
                                     1. Chi tiết sản phẩm
                                 </h1>
-                                <span>Ghế bành HANOVER </span>
+                                <span>{singleProductDetail.name} </span>
                                 <p className="text-sm py-3 mb-4">
                                     {
                                         singleProductDetail?.infoProduct
@@ -500,7 +559,7 @@ function ContentProductDetail({ productName }) {
                                                     min={0}
                                                     max={5}
                                                     step={0.1}
-                                                    value="3"
+                                                    // value="3"
                                                     name=""
                                                     id=""
                                                     className="range-star"

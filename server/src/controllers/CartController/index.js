@@ -3,7 +3,6 @@ const Cart = require('../../models/cartModel');
 const { Product } = require('../../models/productModel');
 const User = require('../../models/userModel');
 
-
 const addToCart = async (req, res) => {
     const {
         productId,
@@ -17,18 +16,6 @@ const addToCart = async (req, res) => {
     } = req.body;
 
     try {
-        console.log(
-            'add to cart:',
-            productId,
-            userId,
-            quantity,
-            totalPriceProduct,
-            color,
-            nameProduct,
-            price,
-            imageUrl
-        );
-
         const colorArr = Array.isArray(color) ? color : [color];
 
         let cart = await Cart.findOne({ userId });
@@ -94,7 +81,7 @@ const addToCart = async (req, res) => {
             data: newCart,
         });
     } catch (error) {
-        console.log('Error adding to cart:', error);
+        console.error('Error adding to cart:', error);
         res.status(500).json({
             success: false,
             message: 'An error occurred!',
@@ -115,6 +102,7 @@ const getCartItemsById = async (req, res) => {
 const updateQuantityAndTotalPiceProductInCart = async (req, res) => {
     const { userId } = req.params;
     const { productId, quantity, priceProductInCart } = req.body;
+
     try {
         const exitUser = await Cart.findOne({ userId });
         if (!exitUser) {
@@ -133,7 +121,7 @@ const updateQuantityAndTotalPiceProductInCart = async (req, res) => {
 
         res.status(200).json({ message: 'updated successfully!' });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ success: false, message: 'An error occurred!' });
     }
 };
@@ -180,11 +168,37 @@ const deleteCartItem = async (req, res) => {
     }
 };
 
+const updateTotalPriceById = async (req, res) => {
+    const { cartId } = req.params;
+    console.log('🚀 ~ updateTotalPriceById ~ id:', cartId);
+    const { totalPriceInCart, discountPrice } = req.body;
+    console.log(
+        '🚀 ~ updateTotalPriceById ~ totalPriceInCart:',
+        totalPriceInCart
+    );
+    try {
+        const totalPrice = totalPriceInCart - discountPrice;
+        const updatedCart = await Cart.findByIdAndUpdate(
+            cartId,
+            { totalPrice: totalPrice },
+            { new: true, runValidators: true }
+        );
 
+        if (!updatedCart) {
+            return res.status(404).json({ error: 'Cart not found' });
+        }
+
+        res.status(200).json({ success: true });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
 
 module.exports = {
     addToCart,
     getCartItemsById,
     deleteCartItem,
     updateQuantityAndTotalPiceProductInCart,
+    updateTotalPriceById,
 };

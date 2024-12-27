@@ -14,10 +14,15 @@ function PersonalInfor() {
     const authSelector = useSelector((state) => state?.auth);
     const urlImgAvatar = useSelector((state) => state?.auth.urlImgAvatar);
     const formInfoUser = useSelector((state) => state?.auth.formInfoUser);
+    const urlImgAvatarData = useSelector(
+        (state) => state?.auth.user?.urlImgAvatar
+    );
 
     //state react
     const [isShowUploadAvatar, setIsShowUploadAvatar] = useState(false);
     const [isActive, setIsActive] = useState(1);
+    const [namePropertyInput, setNamePropertyInput] = useState({});
+    const [isValidForm, setIsValidForm] = useState(false);
 
     //handle events
     const handleSubmit = (e) => {
@@ -28,12 +33,11 @@ function PersonalInfor() {
             lastName: formInfoUser.lastName,
             phone: formInfoUser.phone,
             email: authSelector.formInfoUser.email,
-            detailAddress: formInfoUser.detailAddress,
         };
         dispatch(updateProfile(formData)).then((data) => {
-            if (data.success) {
+            if (data.payload.success) {
                 ToastMessage({
-                    message: data.message,
+                    message: 'Thông tin đã được cập nhật',
                     position: 'top-center',
                     status: 'success',
                 });
@@ -46,21 +50,24 @@ function PersonalInfor() {
     };
 
     return (
-        <div className="max-lg:w-8/12 max-md:w-full w-9/12 max-sm:w-full">
+        <div className="max-lg:w-full max-md:w-full w-9/12 max-sm:w-full px-[2px]">
             <div
                 onClick={handleOpenModalUploadAvatar}
                 className="mb-6 w-20 h-20 rounded-full bg-blue-400 flex 
                         justify-center items-center text-white
-                        text-2xl relative cursor-pointer "
+                        text-2xl relative cursor-pointer"
             >
-                {urlImgAvatar ? (
+                {urlImgAvatar || urlImgAvatarData ? (
                     <img
-                        src={urlImgAvatar}
+                        src={urlImgAvatarData || urlImgAvatar}
                         alt=""
-                        className="h-20 w-20 object-cover rounded-full"
+                        className={`h-20 w-20 ${
+                            urlImgAvatar ||
+                            (urlImgAvatarData && 'absolute z-10')
+                        }  object-cover rounded-full`}
                     />
                 ) : (
-                    <span>H</span>
+                    <span></span>
                 )}
                 <img
                     src={edit}
@@ -69,7 +76,7 @@ function PersonalInfor() {
                 />
             </div>
 
-            <div>
+            <div className="w-full">
                 <FormCommon
                     form={formInfoUser}
                     setForm={setFormInfoUser}
@@ -77,6 +84,10 @@ function PersonalInfor() {
                     buttonText={'Lưu thông tin'}
                     onSubmit={handleSubmit}
                     type="form-info-user"
+                    namePropertyInput={namePropertyInput}
+                    setNamePropertyInput={setNamePropertyInput}
+                    isValidForm={isValidForm}
+                    setIsValidForm={setIsValidForm}
                 />
             </div>
             {isShowUploadAvatar && (

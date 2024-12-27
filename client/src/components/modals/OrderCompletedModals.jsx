@@ -52,12 +52,14 @@ function OrderCompletedModal({
                 <h3 className="text-lg font-semibold mb-3 text-center">
                     Đơn hàng của bạn đã hoàn thành
                 </h3>
-                <span className='text-center mb-1'>Cảm ơn bạn đã tin tưởng mua sắm tại HOMECOR!</span>
+                <span className="text-center mb-1">
+                    Cảm ơn bạn đã tin tưởng mua sắm tại HOMECOR!
+                </span>
                 <span className="mb-4 text-center">
                     Chúng tôi sẽ xử lý đơn hàng và giao đến bạn sớm nhất có thể.
                 </span>
                 <div className="bg-yellow-base text-white w-full text-center py-2 rounded-md mb-3 hover:brightness-110 cursor-pointer">
-                    Xem đơn hàng
+                    <Link to="/user/My-orders/All-Orders">Xem đơn hàng</Link>
                 </div>
                 <div
                     onClick={handleClickToHome}

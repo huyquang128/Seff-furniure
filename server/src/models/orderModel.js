@@ -31,6 +31,10 @@ const OrderSchema = new mongoose.Schema({
             },
         },
     ],
+    fullname: {
+        type: String,
+        required: true,
+    },
     totalPrice: {
         type: Number,
         required: true,

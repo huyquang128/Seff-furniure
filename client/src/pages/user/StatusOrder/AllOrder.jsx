@@ -1,14 +1,41 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import warning from '@/assets/svg/warning.svg';
+import { getAllOrder, removeOrder } from '@/redux/orderSlice';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
+import ConfirmRemoveOrder from '@/components/modals/ConfirmRemoveOrder';
 
 function AllOrder() {
+    const dispatch = useDispatch();
+
+    //
+    const [isShowDetailOrder, setIsShowDetailOrder] = useState(null);
+    const [isAnimation, setIsAnimation] = useState(false);
+    const [isShowModalConfirmRemoveOrder, setIsShowModalConfirmRemoveOrder] =
+        useState(false);
+
+    //
     const orderRedux = useSelector((state) => state?.order);
+
+    //handle events
+    const handleRemoveOrder = (orderId) => {
+        // dispatch(removeOrder(orderId));
+        // dispatch(getAllOrder());
+    };
+
+    const handleHideDetailOrder = () => {
+        setIsAnimation(true);
+        setTimeout(() => {
+            setIsAnimation(false);
+            setIsShowDetailOrder(null);
+        }, 500);
+    };
 
     return (
         <div>
-            {orderRedux.orders ? (
+            {orderRedux.orders?.length > 0 ? (
                 <div className="overflow-y-auto scroll-none max-h-[600px] ">
-                    {orderRedux.orders.map((order) => (
+                    {orderRedux.orders.map((order, index) => (
                         <div
                             key={order._id}
                             className="mb-6 py-3  bg-gray-50 p-3 rounded-sm"
@@ -17,7 +44,9 @@ function AllOrder() {
                                 <div className="text-green-500 bg-green-100 px-2 py-1 rounded-md">
                                     {order.status}
                                 </div>
-                                <span className='max-md:hidden'>Sản phẩm của bạn đang được xử lý</span>
+                                <span className="max-md:hidden">
+                                    Sản phẩm của bạn đang được xử lý
+                                </span>
                                 <span
                                     className="border-l px-3 text-gray-500 max-sm:border-none
                                                 "
@@ -34,77 +63,122 @@ function AllOrder() {
                                 </span>
                             </div>
 
-                            {/*  */}
-                            <div className="py-4">
-                                <div
-                                    key={order.products[0]._id}
-                                    className="flex justify-between items-center "
+                            {isShowDetailOrder === index ? (
+                                <motion.div
+                                    initial={{ y: '-10%', opacity: 0 }}
+                                    animate={{
+                                        y:
+                                            isShowDetailOrder && !isAnimation
+                                                ? '0'
+                                                : '-10%',
+                                        opacity:
+                                            isShowDetailOrder && !isAnimation
+                                                ? 1
+                                                : 0,
+                                    }}
+                                    transition={{ duration: 0.5 }}
                                 >
-                                    <div className="py-3 flex gap-3 items-center ">
-                                        <img
-                                            src={order.products[0].imageUrl}
-                                            alt=""
-                                            className="h-20 rounded-sm border border-gray-200"
-                                        />
-                                        <div className="flex flex-col gap-3">
-                                            <div className="font-semibold">
-                                                {order.products[0].nameProduct}
-                                            </div>
-                                            <div>
-                                                <div className="text-sm">
-                                                    {' '}
-                                                    color: {''}
-                                                    {order.products[0].colors}
+                                    {orderRedux.orders[index].products?.map(
+                                        (items) => (
+                                            <div
+                                                key={items._id}
+                                                className="flex justify-between items-center "
+                                            >
+                                                <div className="py-3 flex gap-3 items-center ">
+                                                    <img
+                                                        src={items.imageUrl}
+                                                        alt=""
+                                                        className="h-20 rounded-sm border border-gray-200"
+                                                    />
+                                                    <div className="flex flex-col gap-3">
+                                                        <div className="font-semibold">
+                                                            {items.nameProduct}
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-sm">
+                                                                {' '}
+                                                                color: {''}
+                                                                {items.colors}
+                                                            </div>
+                                                            <div className="text-sm">
+                                                                sl: {''}
+                                                                {items.quantity}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div className="text-sm">
-                                                    sl: {''}
-                                                    {order.products[0].quantity}
+                                                <div>
+                                                    {items.totalPriceProduct.toLocaleString(
+                                                        'VN-vn'
+                                                    )}
+                                                    đ
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
+                                </motion.div>
+                            ) : (
+                                <div className="py-4">
+                                    <div
+                                        key={order.products[0]._id}
+                                        className="flex justify-between items-center "
+                                    >
+                                        <div className="py-3 flex gap-3 items-center ">
+                                            <img
+                                                src={order.products[0].imageUrl}
+                                                alt=""
+                                                className="h-20 rounded-sm border border-gray-200"
+                                            />
+                                            <div className="flex flex-col gap-3">
+                                                <div className="font-semibold">
+                                                    {
+                                                        order.products[0]
+                                                            .nameProduct
+                                                    }
+                                                </div>
+                                                <div>
+                                                    <div className="text-sm">
+                                                        {' '}
+                                                        color: {''}
+                                                        {
+                                                            order.products[0]
+                                                                .colors
+                                                        }
+                                                    </div>
+                                                    <div className="text-sm">
+                                                        sl: {''}
+                                                        {
+                                                            order.products[0]
+                                                                .quantity
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div>
-                                        {order.products[0].totalPriceProduct.toLocaleString(
-                                            'VN-vn'
-                                        )}
-                                        đ
+                                        <div>
+                                            {order.products[0].totalPriceProduct.toLocaleString(
+                                                'VN-vn'
+                                            )}
+                                            đ
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            )}
 
-                            {/*  */}
-                            {/* <div>
-                        {order.products.map((product) => (
-                            <div
-                                key={product._id}
-                                className="py-3 flex gap-3 items-center"
-                            >
-                                <img
-                                    src={product.imageUrl}
-                                    alt=""
-                                    className="h-20 rounded-sm"
+                            {/* modal confirm order */}
+                            {isShowModalConfirmRemoveOrder && (
+                                <ConfirmRemoveOrder
+                                    isShowModalConfirmRemoveOrder={
+                                        isShowModalConfirmRemoveOrder
+                                    }
+                                    setIsShowModalConfirmRemoveOrder={
+                                        setIsShowModalConfirmRemoveOrder
+                                    }
+                                    orderId={order._id}
+                                    imgUrl={order.products[0].imageUrl}
+                                    orderTotal={order.totalPrice}
                                 />
-                                <div>
-                                    <div>{product.nameProduct}</div>
-                                    <div>
-                                        {' '}
-                                        color: {''}
-                                        {product.colors}
-                                    </div>
-                                    <div>
-                                        sl: {''}
-                                        {product.quantity}
-                                    </div>
-                                </div>
-                                <div>
-                                    {product.totalPriceProduct.toLocaleString(
-                                        'VN-vn'
-                                    )}
-                                    đ
-                                </div>
-                            </div>
-                        ))}
-                    </div> */}
+                            )}
 
                             {/*  */}
                             <div className="flex flex-col items-end border-t py-3 border-gray-100">
@@ -120,12 +194,33 @@ function AllOrder() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end gap-3 items-center text-sm ">
-                                    <button className="bg-red-600 text-white px-3 py-2.5 hover:brightness-110 rounded-sm">
+                                    <button
+                                        onClick={() =>
+                                            setIsShowModalConfirmRemoveOrder(
+                                                true
+                                            )
+                                        }
+                                        className="bg-red-600 text-white px-3 py-2.5 hover:brightness-110 rounded-sm"
+                                    >
                                         Hủy đơn hàng
                                     </button>
-                                    <button className=" text-blue-500 border border-blue-500 px-3 py-2 hover:brightness-110  rounded-sm">
+                                    <button
+                                        onClick={() =>
+                                            setIsShowDetailOrder(index)
+                                        }
+                                        className=" text-blue-500 border border-blue-500 px-3 py-2 hover:brightness-110  rounded-sm"
+                                    >
                                         xem chi tiết
                                     </button>
+
+                                    {isShowDetailOrder === index && (
+                                        <button
+                                            onClick={handleHideDetailOrder}
+                                            className=" text-gray-500 border border-gray-400 px-3 py-2 hover:brightness-110  rounded-sm"
+                                        >
+                                            Thu gọn
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>

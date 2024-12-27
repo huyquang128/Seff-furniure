@@ -10,12 +10,13 @@ import arr_left_white from '@/assets/svg/admin/arr_left_white.svg';
 import arr_left_black from '@/assets/svg/admin/arr_left_black.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductsPage } from '@/redux/productSlice';
-import ActiveImgTooltip from '../toolkits/ActiveImgTooltip';
+import ActiveImgTooltip from '../../components/toolkits/ActiveImgTooltip';
 import heart from '@/assets/svg/heart.svg';
 import heart_red from '@/assets/svg/heart_red.svg';
 import star from '@/assets/svg/star.svg';
 import star_yellow from '@/assets/svg/star_yellow.svg';
-import AddProductAd from '../modals/addProductAd';
+import AddProductAd from '../../components/modals/AddProductAdModal';
+import AddProductAdModal from '../../components/modals/AddProductAdModal';
 
 function ProductAd() {
     const dispatch = useDispatch();
@@ -24,12 +25,12 @@ function ProductAd() {
     const productPageList = useSelector(
         (state) => state?.products?.productPageList
     );
+    const themeRedux = useSelector((state) => state.auth.theme);
 
     //state react
     const [currentPage, setCurrentPage] = useState(1);
     const [isShowAddProductModal, setIsShowProductModal] = useState(false);
-    // Số mục trên mỗi trang
-    const totalItems = 100; // Tổng số mục
+
     const [urlImgActive, setUrlImgActive] = useState(null);
     const [urlImgHover, setUrlImgHover] = useState(null);
     const [productIdActive, setProductIdActive] = useState(null);
@@ -45,7 +46,6 @@ function ProductAd() {
         dispatch(getProductsPage(currentPage));
     }, [dispatch, currentPage]);
 
-    //
     //handle Events
     const handleActiveImg = (urlImg, id, colorId) => {
         setUrlImgActive(urlImg);
@@ -76,9 +76,12 @@ function ProductAd() {
                     </div>
                 </button>
             </div>
+            <div className="mb-5 text-sm text-end text-text-first">
+                ({productPageList?.totalProducts}) sản phẩm
+            </div>
 
             {/* products */}
-            <div className="grid grid-cols-4 max-xl:gap-4 max-lg:grid-cols-3 gap-10 mb-10 text-text-first ">
+            <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-2  mb-10 text-text-first ">
                 {productPageList?.products?.map((item) => (
                     <div
                         key={item._id}
@@ -91,9 +94,9 @@ function ProductAd() {
                                     : item.colors[0].images[0]
                             }
                             alt=""
-                            className="w-full h-[310px] max-lg:h-[250px]  max-md:h-[200px] rounded-lg mb-4 object-cover"
+                            className="w-full rounded-lg mb-4 object-cover"
                         />
-                        <div className="text-xs text-gray-500 mx-2 ">
+                        <div className="text-xs text-text-first mx-2 ">
                             {item.subChildMenu}
                         </div>
                         <div className="font-semibold  mx-2 mb-1 hover:underline">
@@ -159,14 +162,19 @@ function ProductAd() {
             </div>
 
             {/* modal products */}
-            {isShowAddProductModal && <AddProductAd />}
+            {isShowAddProductModal && (
+                <AddProductAdModal
+                    isShowAddProductModal={isShowAddProductModal}
+                    setIsShowProductModal={setIsShowProductModal}
+                />
+            )}
 
             {/* pagination */}
             <div className="flex justify-center cursor-pointer mb-10">
                 <Pagination
                     current={currentPage} // Trang hiện tại
-                    total={totalItems} // Tổng số mục
-                    pageSize={productPageList?.totalPages} // Số mục trên mỗi trang
+                    total={productPageList?.totalProducts} // Tổng số mục
+                    pageSize={8} // Số mục trên mỗi trang
                     onChange={onChangePage} // Hàm xử lý khi chuyển trang
                     className="flex gap-3 items-center"
                     showLessItems
@@ -174,23 +182,41 @@ function ProductAd() {
                         if (type === 'prev') {
                             return (
                                 <button className="border border-gray-200 px-4 py-3.5 rounded-md">
-                                    <img src={arr_left_black} alt="" />
+                                    <img
+                                        src={
+                                            themeRedux === 'light'
+                                                ? arr_left_black
+                                                : arr_left_white
+                                        }
+                                        alt=""
+                                    />
                                 </button>
                             );
                         }
                         if (type === 'next') {
                             return (
                                 <button className="border border-gray-200 px-4 py-3.5 rounded-md">
-                                    <img src={arr_right_black} alt="" />
+                                    <img
+                                        src={
+                                            themeRedux === 'light'
+                                                ? arr_right_black
+                                                : arr_right_white
+                                        }
+                                        alt=""
+                                    />
                                 </button>
                             );
                         }
                         if (type === 'jump-prev' || type === 'jump-next') {
-                            return <span>...</span>;
+                            return <span className='text-text-first'>...</span>;
                         }
                         return (
                             <button
-                                className={`px-4 py-2 border border-gray-300 rounded-md ${
+                                className={`px-4 py-2 border ${
+                                    themeRedux === 'light'
+                                        ? 'text-black-base'
+                                        : 'text-white'
+                                } border-gray-300 rounded-md ${
                                     currentPage === page
                                         ? 'bg-orange-200 text-yellow-600'
                                         : ''

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import GetBaseUrl from '../GetBaseUrl';
-import { Bounce, toast } from 'react-toastify';
+import ToastMessage from '@/components/common/ToastMessage';
 
 export const registerApi = async (formData) => {
     try {
@@ -11,7 +11,6 @@ export const registerApi = async (formData) => {
                 withCredentials: true,
             }
         );
-        console.log('🚀 ~ registerApi ~ response.data:', response.data);
 
         return response.data;
     } catch (error) {
@@ -32,15 +31,10 @@ export const loginApi = async (formData) => {
         return response.data;
     } catch (error) {
         console.error(error);
-        toast.error(`Người dùng chưa đăng ký 😢 `, {
+        ToastMessage({
+            message: 'Người dùng chưa đăng ký 😢',
             position: 'top-center',
-            autoClose: 3000,
-            text: 'black',
-            hideProgressBar: false,
-            closeOnClick: true,
-            draggable: true,
-            progress: undefined,
-            transition: Bounce,
+            status: 'error',
         });
     }
 };
@@ -103,9 +97,8 @@ export const updateProfileApi = async (formData) => {
         data.append('lastName', formData.lastName);
         data.append('phone', formData.phone);
         data.append('email', formData.email);
-        data.append('detailAddress', formData.detailAddress);
         const response = await axios.post(
-            `${GetBaseUrl()}/auth/update-profile-user/${formData.userId}`,
+            `${GetBaseUrl()}/auth/add-profile-user/${formData.userId}`,
             data,
             {
                 withCredentials: true,
@@ -114,6 +107,125 @@ export const updateProfileApi = async (formData) => {
                 },
             }
         );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getProfileUserApi = async (userId) => {
+    try {
+        const response = await axios.get(
+            `${GetBaseUrl()}/auth/get-profile-user/${userId}`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json', // Đảm bảo gửi dạng json
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const addAddressUserApi = async (formData) => {
+    const data = new FormData();
+    data.append('firstName', formData.firstName);
+    data.append('lastName', formData.lastName);
+    data.append('phone', formData.phone);
+    data.append('detailAddress', formData.detailAddress);
+    data.append('province', formData.province);
+    data.append('district', formData.district);
+    data.append('ward', formData.ward);
+    try {
+        const response = await axios.post(
+            `${GetBaseUrl()}/auth/add-address-user/${formData.userId}`,
+            data,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json', // Đảm bảo gửi dạng json
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const updateAddressUserApi = async (formData) => {
+    const data = new FormData();
+    data.append('firstName', formData.firstName);
+    data.append('addressId', formData.addressId);
+    data.append('lastName', formData.lastName);
+    data.append('phone', formData.phone);
+    data.append('detailAddress', formData.detailAddress);
+    data.append('province', formData.province);
+    data.append('district', formData.district);
+    data.append('ward', formData.ward);
+    try {
+        const response = await axios.post(
+            `${GetBaseUrl()}/auth/update-address-user/${formData.userId}`,
+            data,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const removeAddressUserApi = async (formData) => {
+    try {
+        const response = await axios.delete(
+            `${GetBaseUrl()}/auth/remove-address-user/${
+                formData.userId
+            }?addressId=${formData.addressId}`,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const getAllUserApi = async () => {
+    try {
+        const response = await axios.get(`${GetBaseUrl()}/auth/get-all-user`, {
+            withCredentials: true,
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+export const addUserApi = async (formData) => {
+    try {
+        const response = await axios.post(
+            `${GetBaseUrl()}/auth/add-user`,
+            formData,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+
         return response.data;
     } catch (error) {
         console.error(error);

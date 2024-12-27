@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import eat1 from '@/assets/image/eat-1.jpg';
 import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 function InfoHot() {
     const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: true });
@@ -88,7 +89,7 @@ function InfoHot() {
                 className="text-center "
             >
                 <button className="px-7 py-2.5 font-medium text-báe rounded-lg bg-red-800 text-white hover:brightness-125">
-                    Xem thêm
+                    <Link to="/Blog">Xem thêm</Link>
                 </button>
             </motion.div>
         </div>

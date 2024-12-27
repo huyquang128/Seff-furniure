@@ -103,8 +103,23 @@ const deleteFavoriteProduct = async (req, res) => {
     }
 };
 
+const deleteAllFavoriteProduct = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        await Favorite.deleteOne({ userId });
+        res.status(200).json({
+            success: true,
+            message: 'All favorite products deleted.',
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
+
 module.exports = {
     addFavoriteProduct,
     getFavoriteProduct,
     deleteFavoriteProduct,
+    deleteAllFavoriteProduct,
 };

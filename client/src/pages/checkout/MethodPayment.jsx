@@ -55,34 +55,41 @@ const methodPayments = [
     },
 ];
 function MethodPayment() {
+    const dispatch = useDispatch();
+
     const [showModalCreditCard, setShowModalCreditCard] = useState(false);
     const [showQrPaymentModal, setShowQrPaymentModal] = useState(null);
     const [showOrderCompletedModal, setShowOrderCompletedModal] =
         useState(false);
 
+    //
     const valueMethodPayment = useSelector(
-        (state) => state.order?.temporaryOrder.methodPayment
-    );
-    const fullnameCustomer = useSelector(
-        (state) => state.order?.temporaryOrder.valueFormUser.fullname
+        (state) => state.order?.methodPayment
     );
     const userId = useSelector((state) => state?.auth?.user?.id);
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
     const cartItems = useSelector((state) => state.cart?.cartItem?.products);
-    const temporaryOrder = useSelector((state) => state.order?.temporaryOrder);
+    const authRedux = useSelector((state) => state?.auth);
+    const getAddressDefault = authRedux?.user.address?.find(
+        (address) => address._id === authRedux.addressDefault
+    );
+    console.log('🚀 ~ MethodPayment ~ getAddressDefault:', getAddressDefault);
 
-    const dispatch = useDispatch();
-
+    //handle events
     const handleShowModalCredit = () => {
         setShowModalCreditCard(true);
     };
 
     const handleChangePaymentMethod = (e, index, typeMethod) => {
+        console.log(e.target.value);
         if (typeMethod === 'qr') {
             const formData = new FormData();
-            formData.append('fullname', fullnameCustomer);
+            formData.append(
+                'fullname',
+                getAddressDefault?.firstName + getAddressDefault?.lastName
+            );
             formData.append('totalProductInCart', totalProductInCart);
             formData.append('products', JSON.stringify(cartItems));
 
@@ -99,22 +106,24 @@ function MethodPayment() {
         formData.append('userId', userId);
         formData.append('products', JSON.stringify(cartItems));
         formData.append('totalPrice', totalProductInCart);
-        formData.append('province', temporaryOrder?.valueProvince.value);
-        formData.append('district', temporaryOrder?.valueDistrict.value);
-        formData.append('ward', temporaryOrder?.valueWard.value);
-        formData.append('fullname', temporaryOrder?.valueFormUser.fullname);
-        formData.append('phone', temporaryOrder?.valueFormUser.phone);
+        formData.append('province', authRedux.temporary.valueProvince.value);
+        formData.append('district', authRedux.temporary.valueDistrict.value);
+        formData.append('ward', authRedux.temporary.valueWard.value);
+        formData.append(
+            'fullname',
+            getAddressDefault?.firstName + ' ' + getAddressDefault?.lastName
+        );
+        formData.append('phone', authRedux.formAddAddressNew.phone);
         formData.append(
             'detailedAddress',
-            temporaryOrder?.valueFormUser.detailAddress
+            authRedux.formAddAddressNew.detailAddress
         );
-        formData.append('paymentMethod', temporaryOrder?.methodPayment);
+        formData.append('paymentMethod', valueMethodPayment);
 
         if (valueMethodPayment === 'cash_on_delivery') {
             //  handle complete order
             dispatch(addOrder(formData)).then((response) => {
-                console.log('🚀 ~ dispatch ~ response:', response);
-                if (response?.payload.success) {
+                if (response?.payload?.success) {
                     setShowOrderCompletedModal(true);
                 } else {
                     setShowOrderCompletedModal(false);

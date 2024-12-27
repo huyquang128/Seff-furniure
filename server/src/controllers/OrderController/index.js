@@ -26,11 +26,11 @@ const addOrder = async (req, res) => {
         district,
         ward,
         status,
-        imageUrl,
         paymentMethod,
         fullname,
         phone,
     } = req.body;
+
     const products = JSON.parse(req.body.products);
     try {
         const productsArr = Array.isArray(products) ? products : [products];
@@ -47,8 +47,8 @@ const addOrder = async (req, res) => {
                     $set: {
                         fullname,
                         phone,
-                        address: {
-                            detailed: detailedAddress,
+                        shippingAddress: {
+                            detailedAddress,
                             province,
                             district,
                             ward,
@@ -60,8 +60,8 @@ const addOrder = async (req, res) => {
             const newOrder = new Order({
                 userId,
                 products: productsArr,
+                fullname,
                 totalPrice,
-                imageUrl,
                 shippingAddress: {
                     detailedAddress,
                     province,
@@ -103,8 +103,13 @@ const updateStatusOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
     const { orderId } = req.params;
     try {
-        await Order.findByIdAndDelete(orderId);
-        res.json({ success: true, message: 'Xóa đơn hàng thành công!' });
+        const result = await Order.findByIdAndDelete(orderId);
+        console.log('🚀 ~ deleteOrder ~ result:', result);
+        res.json({
+            success: true,
+            message: 'Xóa đơn hàng thành công!',
+            data: result,
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'An error occurred!' });

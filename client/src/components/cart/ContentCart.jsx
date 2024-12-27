@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import recycle from '@/assets/svg/recycle.svg';
-import CartModels from '../modals/CartModals';
+import CartModels from '../modals/PaymentCartModals';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     decreaseQuantityInCart,
@@ -14,17 +14,31 @@ import {
     getCartItems,
     increaseQuantityInCart,
     inputQuantityAndTotalPrice,
+    setDiscountPrice,
     updateCartItemQuantityAndTotalPrice,
     updateQuantity,
 } from '@/redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import cartEmpty from '@/assets/svg/cart-empty.svg';
+import ConfirmRemoveCartProductModal from '../modals/ConfirmRemoveCartProductModal';
+import discount_code from '@/assets/svg/discount-code.svg';
+import discount_code_3 from '@/assets/svg/discount_code_3.svg';
+import DiscountCodeModal from '../modals/DicountCodeModal';
+import PaymentCartModals from '../modals/PaymentCartModals';
+import close_white from '@/assets/svg/close_white.svg';
+import { ListDiscountCode } from '../common/ListDiscountCode';
 
 function ContentCart() {
-    const [isOpenModalsPayment, setIsOpenModalsPayment] = useState(false);
-    const [productId, setProductId] = useState(null);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [isOpenModalsPayment, setIsOpenModalsPayment] = useState(false);
+    const [productId, setProductId] = useState(null);
+    const [isOpenConfirmProductCartModal, setIsOpenConfirmProductCartModal] =
+        useState(false);
+    const [isShowDiscountModal, setIsShowDiscountModal] = useState(false);
+
+    //state redux
     const cartItems = useSelector((state) => state.cart?.cartItem);
     const quantityProductInCart = useSelector(
         (state) => state.cart?.quantityProductInCart
@@ -37,22 +51,20 @@ function ContentCart() {
         (state) => state.cart?.totalProductInCart
     );
 
-    const dispatch = useDispatch();
     const userId = useSelector((state) => state.auth?.user?.id);
     const lengthProductInCart = useSelector(
         (state) => state.cart?.cartItem?.products?.length
     );
+    // deliveryFee
+    const discountCode = useSelector((state) => state.cart.discountCode);
+    const deliveryFee = useSelector((state) => state.cart.deliveryFee);
 
+    //hook
     useEffect(() => {
         if (userId) {
             dispatch(getCartItems(userId));
         }
     }, [lengthProductInCart]);
-
-    const handleIncreaseQuantityProduct = ({ productId, price }) => {
-        dispatch(increaseQuantityInCart({ productId, price }));
-        setProductId(productId);
-    };
 
     useEffect(() => {
         if (productId) {
@@ -63,12 +75,16 @@ function ContentCart() {
                     quantity: quantityProductInCart[productId],
                     priceProductInCart: priceProductInCart[productId],
                 };
-                console.log(priceProductInCart[productId]);
-
                 dispatch(updateCartItemQuantityAndTotalPrice(formData));
             }
         }
     }, [productId, totalProductInCart]);
+
+    //handle events
+    const handleIncreaseQuantityProduct = ({ productId, price }) => {
+        dispatch(increaseQuantityInCart({ productId, price }));
+        setProductId(productId);
+    };
 
     const handleDecreaseQuantityProduct = ({ productId, price }) => {
         dispatch(decreaseQuantityInCart({ productId, price }));
@@ -85,13 +101,8 @@ function ContentCart() {
         );
     };
 
-    const handleDeleteProduct = (userId, productId) => {
-        dispatch(
-            deleteCartItem({
-                userId,
-                productIds: [productId],
-            })
-        );
+    const handleDeleteProduct = () => {
+        setIsOpenConfirmProductCartModal(true);
     };
 
     return (
@@ -264,17 +275,28 @@ function ContentCart() {
                                                     col-start-12 justify-center"
                                     >
                                         <img
-                                            onClick={() =>
-                                                handleDeleteProduct(
-                                                    userId,
-                                                    product._id
-                                                )
-                                            }
+                                            onClick={handleDeleteProduct}
                                             src={recycle}
                                             alt=""
                                             className="w-5 cursor-pointer "
                                         />
                                     </div>
+
+                                    {/* modal confirm remove product cart */}
+                                    {isOpenConfirmProductCartModal && (
+                                        <ConfirmRemoveCartProductModal
+                                            isOpenConfirmProductCartModal={
+                                                isOpenConfirmProductCartModal
+                                            }
+                                            setIsOpenConfirmProductCartModal={
+                                                setIsOpenConfirmProductCartModal
+                                            }
+                                            productName={product.nameProduct}
+                                            productImg={product.imageUrl}
+                                            userId={userId}
+                                            productId={product._id}
+                                        />
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -293,16 +315,16 @@ function ContentCart() {
                     </div>
                 )}
 
-                {/* block right */}
+                {/* payment cart */}
                 {lengthProductInCart > 0 && (
-                    <div className=" max-md:hidden col-span-2 border  max-md:z-10 border-gray-200 rounded-md min-h-[350px] ">
-                        <div className="flex justify-between py-3 px-4 border border-gray-100 items-center">
+                    <div className="max-md:hidden col-span-2 row-span-2 max-md:z-10 rounded-md border ">
+                        <div className="flex justify-between py-3 px-4 items-center">
                             <h3 className="font-semibold ">Tạm tính</h3>
                             <span className="font-bold text-lg">
                                 {totalProductInCart.toLocaleString('vn-VN')}₫
                             </span>
                         </div>
-                        <div className="px-4 py-3 ">
+                        <div className="px-4 py-2 ">
                             <span className="text-sm text-gray-600">
                                 Nhập mã giảm giá nếu có
                             </span>
@@ -313,13 +335,107 @@ function ContentCart() {
                                     placeholder="mã giảm giá"
                                 />
                                 <span className="bg-black text-white text-sm py-3 px-3">
-                                    Apply
+                                    Sử dụng
                                 </span>
                             </div>
                         </div>
-                        <div className="flex justify-between px-4 text-gray-700 py-3  border-b border-gray-100">
-                            <span className="text-sm">Phí vận chuyển</span>
-                            <span>20.000₫</span>
+
+                        <div
+                            onClick={() => setIsShowDiscountModal(true)}
+                            className="px-4 text-sm mb-3 flex items-center gap-1 cursor-pointer"
+                        >
+                            <img src={discount_code} alt="" />
+                            <span className="text-yellow-base hover:brightness-110">
+                                Xem thêm mã giảm giá
+                            </span>
+                        </div>
+
+                        {ListDiscountCode.map((item, index) => {
+                            const result = item.code === discountCode && (
+                                <div
+                                    key={index}
+                                    className="px-5 flex flex-wrap justify-start w-full mb-5 h-8 items-center"
+                                >
+                                    <div
+                                        className="discount-code relative text-yellow-base text-sm  
+                            text-center font-semibold cursor-pointer w-[120px] h-full flex
+                            "
+                                    >
+                                        <span className="border  w-full py-1 border-yellow-base rounded-sm">
+                                            Giảm{' '}
+                                            {item.price_sale.toLocaleString(
+                                                'VN-vn'
+                                            )}
+                                            đ
+                                        </span>
+                                    </div>
+                                </div>
+                            );
+                            return result;
+                        })}
+
+                        {/* modal discount code */}
+                        {isShowDiscountModal && (
+                            <DiscountCodeModal
+                                isShowDiscountModal={isShowDiscountModal}
+                                setIsShowDiscountModal={setIsShowDiscountModal}
+                            />
+                        )}
+
+                        <div className="flex justify-between items-center px-4 text-gray-700 py-3">
+                            <div className="text-sm flex flex-col  gap-2">
+                                <span>Mã giảm giá</span>
+                                {ListDiscountCode.map((item, index) => {
+                                    const result = item.code ===
+                                        discountCode && (
+                                        <div
+                                            key={index}
+                                            className="flex items-center gap-2"
+                                        >
+                                            <img
+                                                src={discount_code_3}
+                                                alt=""
+                                                className="h-4 translate-y-[1px]"
+                                            />
+                                            <div className="text-xs text-yellow-base">
+                                                {item.code}
+                                            </div>
+                                            <img
+                                                onClick={() =>
+                                                    dispatch(
+                                                        setDiscountPrice('')
+                                                    )
+                                                }
+                                                src={close_white}
+                                                alt=""
+                                                className="bg-gray-300 h-4 rounded-full p-[1px] cursor-pointer hover:border"
+                                            />
+                                        </div>
+                                    );
+                                    return result;
+                                })}
+                            </div>
+
+                            {discountCode
+                                ? ListDiscountCode.map((item, index) => {
+                                      const result = item.code ===
+                                          discountCode && (
+                                          <span key={index}>
+                                              -{' '}
+                                              {item.price_sale.toLocaleString(
+                                                  'VN-vn'
+                                              )}
+                                              ₫
+                                          </span>
+                                      );
+
+                                      return result;
+                                  })
+                                : 0 + '₫'}
+                        </div>
+                        <div className="flex justify-between items-center text-sm px-4">
+                            <span>Phí vận chuyển</span>
+                            <span>Miễn phí</span>
                         </div>
                         <div className="flex justify-between px-3 py-5">
                             <span className="text-lg font-semibold">
@@ -344,9 +460,11 @@ function ContentCart() {
 
                 {/* payment modals */}
                 {isOpenModalsPayment && (
-                    <CartModels
+                    <PaymentCartModals
                         isOpenModalsPayment={isOpenModalsPayment}
                         setIsOpenModalsPayment={setIsOpenModalsPayment}
+                        isShowDiscountModal={isShowDiscountModal}
+                        setIsShowDiscountModal={setIsShowDiscountModal}
                     />
                 )}
             </div>

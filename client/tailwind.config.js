@@ -29,6 +29,7 @@ export default {
                 'text-first': 'var(--text-first)',
                 'text-second': 'var(--text-second)',
                 'text-third': 'var(--text-third)',
+                'text-gray-1': 'var(--text-gray)',
 
                 // user
                 'black-base': '#333436',
@@ -52,6 +53,8 @@ export default {
 
                 'bg-blue': '#e2ebf6',
                 'text-blue': '#0D5CB6',
+
+                'green-base': '#00B69B',
             },
             fontFamily: {
                 roboto: ['roboto', 'sans-serif'],
@@ -69,6 +72,8 @@ export default {
             backgroundImage: {
                 auth: "url('assets/image/bg-auth.jpg')",
                 'living-1': "url('assets/image/room-living-1.jpeg')",
+                'bedroom-1': "url('assets/image/bedroom.jpg')",
+                shelf: "url('assets/image/shelf.jpg')",
             },
             backgroundColor: {
                 models: 'rgba(0, 0, 0, 0.2)',

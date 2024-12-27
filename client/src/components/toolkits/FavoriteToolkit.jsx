@@ -9,7 +9,7 @@ function FavoriteToolkit({ isOpenTooltipHeart, isShowTooltipAnimation }) {
                 opacity: isOpenTooltipHeart && !isShowTooltipAnimation ? 1 : 0,
             }}
             transition={{ duration: 0.3 }}
-            className="absolute bottom-0 translate-y-10 right-5 text-xs z-20 bg-white shadow-model-1 
+            className="absolute bottom-6 translate-y-10 right-5 text-xs z-20 bg-white shadow-model-1 
                         text-black-second rounded-md p-2"
         >
             <div className="relative">

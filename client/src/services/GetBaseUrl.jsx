@@ -9,7 +9,6 @@ function GetBaseUrl() {
     } else if (hostname === '10.5.50.185') {
         return 'http://10.5.50.185:3000';
     }
-
     return 'http://localhost:3000';
 }
 

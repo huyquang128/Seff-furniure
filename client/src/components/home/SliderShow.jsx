@@ -73,7 +73,7 @@ function SliderShow() {
                             alt=""
                             className=" object-cover w-full h-full brightness-50 max-md:object-fill"
                         />
-                        <div className="absolute max-lg:w-9/12 max-sm:w-11/12 bottom-1/2 translate-y-1/2 left-1/2 -translate-x-1/2">
+                        <div className="absolute w-10/12 max-lg:w-9/12 max-sm:w-11/12 bottom-1/2 translate-y-1/2 left-1/2 -translate-x-1/2">
                             <motion.div
                                 initial={{ y: '50%', opacity: 0 }}
                                 animate={
@@ -82,7 +82,7 @@ function SliderShow() {
                                         : { y: '50%', opacity: 0 }
                                 }
                                 transition={{ duration: 0.5 }}
-                                className="text-white text-7xl max-lg:text-4xl max-md:text-3xl text-center 
+                                className="text-white text-6xl max-lg:text-4xl max-md:text-3xl text-center 
                                             font-light mb-5 leading-tight"
                             >
                                 {slider.description}
@@ -110,7 +110,7 @@ function SliderShow() {
                                 className="text-center"
                             >
                                 <button
-                                    className="px-12 text-center py-4 max-md:px-8 max-md:py-3 
+                                    className="px-10 text-center py-3 max-md:px-8 max-md:py-3 
                                     bg-yellow-base text-sm shadow-lg text-white hover:brightness-105
                                     rounded-sm"
                                 >

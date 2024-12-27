@@ -1,7 +1,11 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import arrRight from '@/assets/svg/arr-right.svg';
 import InfoProductPayment from './InfoProductPayment';
 function CheckOutLayout() {
+    const location = useLocation();
+    const redirectCurrent = location.pathname;
+    console.log('🚀 ~ CheckOutLayout ~ redirectCurrent:', redirectCurrent);
+
     return (
         <div className="w-[1440px] mx-auto max-lg:w-full max-md:w-11/12  max-sm:w-full">
             <div
@@ -11,17 +15,34 @@ function CheckOutLayout() {
                 {/* block left */}
                 <div className="w-7/12 pt-[56px] pr-[66px] max-lg:pr-[30px] max-md:pr-0 max-md:w-full max-md:border-t max-md:pt-5 ">
                     <h1 className="font-medium text-yellow-base mb-3 text-[28px] max-md:hidden">
-                        HOMECOR.
+                        <Link to="/">HOMECOR.</Link>
                     </h1>
-                    <div className="flex text-xs items-center mb-3 max-md:hidden">
+                    <div className="flex text-xs items-center mb-3 max-md:hidden ">
                         <Link to="/your-cart">Giỏ hàng</Link>
                         <img src={arrRight} alt="" />
                         <Link to="/cart/checkout-step-1">
-                            Thông tin giao hàng
+                            <span
+                                className={`${
+                                    redirectCurrent.includes('checkout-step-1')
+                                        ? 'text-yellow-base'
+                                        : ''
+                                }`}
+                            >
+                                Thông tin giao hàng
+                            </span>
                         </Link>
                         <img src={arrRight} alt="" />
+
                         <Link to="/cart/checkout-step-2">
-                            Phương thức thanh toán
+                            <span
+                                className={`${
+                                    redirectCurrent.includes('checkout-step-2')
+                                        ? 'text-yellow-base'
+                                        : ''
+                                } `}
+                            >
+                                Phương thức thanh toán
+                            </span>
                         </Link>
                     </div>
                     <Outlet />

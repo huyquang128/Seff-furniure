@@ -57,9 +57,15 @@ const filterSort = [
     { name: 'Theo giá Thấp tới Cao', type: 'asc' },
 ];
 
-function RoomProduct({ roomProducts }) {
+function RoomProduct({ menuAndProduct, type }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    let menuAndProducts;
+    if (type == 'children') {
+        menuAndProducts = menuAndProduct?.subChildren;
+    } else {
+        menuAndProducts = menuAndProduct?.children;
+    }
 
     //state react
     const [showMore, setShowMore] = useState(false);
@@ -95,8 +101,8 @@ function RoomProduct({ roomProducts }) {
 
     useEffect(() => {
         let filterProductColor;
-        if (roomProducts) {
-            filterProductColor = [...roomProducts];
+        if (menuAndProduct?.products) {
+            filterProductColor = [...menuAndProduct.products];
         }
 
         if (colorIds.length > 0) {
@@ -126,9 +132,11 @@ function RoomProduct({ roomProducts }) {
         }
 
         setProductFiltered(
-            filterProductColor?.length > 0 ? filterProductColor : roomProducts
+            filterProductColor?.length > 0
+                ? filterProductColor
+                : menuAndProduct?.products
         );
-    }, [colorIds, roomProducts, sortType, valueRangePrice]);
+    }, [colorIds, menuAndProduct?.products, sortType, valueRangePrice]);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
@@ -235,7 +243,7 @@ function RoomProduct({ roomProducts }) {
 
         dispatch(getProductSingleByName(productName)).then((response) => {
             if (response.data?.success) {
-                navigate(`/room/living-room/${productName}`);
+                navigate(`/${productName}`);
             }
         });
     };
@@ -268,20 +276,25 @@ function RoomProduct({ roomProducts }) {
                     }}
                     modules={[Navigation]}
                 >
-                    <SwiperSlide className=" py-1.5 pt-3 max-md:px-2   bg-bg-slider rounded-lg cursor-pointer">
-                        <Link className="flex flex-col gap-2 items-center ">
-                            <img
-                                src={bed4}
-                                alt=""
-                                className=" w-[180px] h-[124px] max-md:w-[260px]  max-md:h-[180px] max-sm:h-[100px] 
+                    {menuAndProducts?.map((item) => (
+                        <SwiperSlide
+                            key={item._id}
+                            className=" py-1.5 pt-3 max-md:px-2   bg-bg-slider rounded-lg cursor-pointer"
+                        >
+                            <Link className="flex flex-col gap-2 items-center ">
+                                <img
+                                    src={item.products[0]?.colors[0]?.images[0]}
+                                    alt=""
+                                    className=" w-[180px] h-[124px] max-md:w-[260px]  max-md:h-[180px] max-sm:h-[100px] 
                                             max-sm:w-[140px] max-lg:min-w-32 
                                             rounded-md"
-                            />
-                            <span className="font-medium text-sm text-bg-text ">
-                                Giường
-                            </span>
-                        </Link>
-                    </SwiperSlide>
+                                />
+                                <span className="font-medium text-sm text-bg-text ">
+                                    {item.title}
+                                </span>
+                            </Link>
+                        </SwiperSlide>
+                    ))}
                 </Swiper>
                 <div className="swiper-button-prev-2 max-lg:top-[70%] max-lg:-left-3 max-md:hidden">
                     <FontAwesomeIcon
@@ -413,7 +426,7 @@ function RoomProduct({ roomProducts }) {
                 <span className="text-sm font-medium">
                     {productFiltered?.length > 0
                         ? productFiltered?.length
-                        : roomProducts?.length}{' '}
+                        : menuAndProduct?.products?.length}{' '}
                     sản phẩm
                 </span>
             </div>

@@ -8,13 +8,26 @@ const getAllMenu = async (req, res) => {
     try {
         const menus = await ParentMenu.find()
             .populate({
-                path: 'children', // Populate cấp ChildMenu
-                populate: {
-                    path: 'subChildren',
-                },
+                path: 'children',
+                populate: [
+                    { path: 'products' }, // Populate các sản phẩm trong `children`
+                    { path: 'subChildren', populate: { path: 'products' } }, // Populate các sản phẩm trong `subChildren`
+                ],
             })
+            .populate({ path: 'products' })
             .exec();
         res.json({ success: true, data: menus });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
+
+const getChildMenu = async (req, res) => {
+    try {
+        const childMenu = await ChildMenu.find().populate({
+            path: 'products',
+        });
+        res.json({ success: true, data: childMenu });
     } catch (error) {
         res.status(500).json({ success: false, message: 'An error occurred!' });
     }
@@ -107,4 +120,10 @@ const addParentMenu = async (req, res) => {
     }
 };
 
-module.exports = { getAllMenu, addSubChildMenu, addParentMenu, addChildMenu };
+module.exports = {
+    getAllMenu,
+    addSubChildMenu,
+    addParentMenu,
+    addChildMenu,
+    getChildMenu,
+};

@@ -12,3 +12,15 @@ export const getMenuNavApi = async () => {
         console.error(error);
     }
 };
+
+export const getChildMenuAPi = async () => {
+    try {
+        const response = await axios.get(
+            // 'http://localhost:3000/get-child-menu'
+            `${GetBaseUrl()}/get-child-menu`
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

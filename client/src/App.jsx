@@ -16,7 +16,7 @@ import Register from './pages/auth/Register';
 import AuthLayout from './components/auth/AuthLayout';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAuth } from './redux/authSlice';
+import { checkAuth, getProfileUser } from './redux/authSlice';
 import RoomLayout from './pages/rooms/RoomLayout';
 import LivingRoom from './pages/rooms/LivingRoom';
 import BedRoom from './pages/rooms/BedRoom';
@@ -40,7 +40,15 @@ import ProcessingOrder from './pages/user/StatusOrder/ProcessingOrder';
 import Shipped from './pages/user/StatusOrder/Shipped';
 import Delivered from './pages/user/StatusOrder/Delivered';
 import Canceled from './pages/user/StatusOrder/Canceled';
-import ProductAd from './components/admin/ProductAd';
+import ProductAd from './pages/admin/ProductAd';
+import Blog from './pages/home/Blog';
+import { routeLiving } from './routes/RouteLiving';
+import { routeBedRoom } from './routes/RouteBedRoom';
+import { routeKitchen } from './routes/RouteKitchen';
+import { routeWorkplace } from './routes/RouteWorkplace';
+import Order from './pages/admin/Order';
+import SettingAd from './pages/admin/Setting';
+import Customer from './pages/admin/Customer';
 
 function App() {
     const dispatch = useDispatch();
@@ -50,6 +58,10 @@ function App() {
     useEffect(() => {
         dispatch(checkAuth());
     }, [dispatch]);
+
+    useEffect(() => {
+        if (user?.id) dispatch(getProfileUser(user?.id));
+    }, [dispatch, user?.id]);
 
     return (
         <Routes>
@@ -62,8 +74,11 @@ function App() {
                     </CheckAuth>
                 }
             >
-                <Route index path="dashboard" element={<Dashboard />} />
-                <Route index path="Product" element={<ProductAd />} />
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="Product" element={<ProductAd />} />
+                <Route path="Customer" element={<Customer />} />
+                <Route path="Order" element={<Order />} />
+                <Route path="Setting" element={<SettingAd />} />
             </Route>
 
             {/* route auth */}
@@ -88,7 +103,14 @@ function App() {
                     </CheckAuth>
                 }
             >
-                <Route path="" element={<HomePage />} />
+                <Route
+                    path=""
+                    element={
+                        <ErrorBoundary>
+                            <HomePage />
+                        </ErrorBoundary>
+                    }
+                />
                 <Route path="about" element={<AboutHome />} />
                 <Route path="service" element={<ServiceHome />} />
                 <Route
@@ -97,17 +119,53 @@ function App() {
                 />
                 <Route path="actual-product" element={<ActualProduct />} />
                 <Route path="contact" element={<Contact />} />
+                <Route path="Blog" element={<Blog />} />
             </Route>
 
             <Route path="/room" element={<RoomLayout />}>
+                {/* LIVING ROOM  */}
                 <Route path="living-room" element={<LivingRoom />} />
+
+                {routeLiving.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.component}
+                    />
+                ))}
+                {/* BED ROOM */}
                 <Route path="bed-room" element={<BedRoom />} />
+                {routeBedRoom.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.component}
+                    />
+                ))}
+                {/* KITCHEN */}
                 <Route path="kitchen" element={<KitchenRoom />} />
+                {routeKitchen.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.component}
+                    />
+                ))}
+
+                {/* WORK ROOM */}
                 <Route path="work-room" element={<WorkRoom />} />
-                <Route
+                {routeWorkplace.map((route, index) => (
+                    <Route
+                        key={index}
+                        path={route.path}
+                        element={route.component}
+                    />
+                ))}
+
+                {/* <Route
                     path="living-room/:productName"
                     element={<ProductDetail />}
-                />
+                /> */}
             </Route>
 
             <Route path="/:productName" element={<ProductDetail />} />

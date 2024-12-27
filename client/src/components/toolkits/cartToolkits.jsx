@@ -3,7 +3,7 @@ import arrowUp from '@/assets/svg/arrow-top.svg';
 import close from '@/assets/svg/close.svg';
 import cartEmpty from '@/assets/svg/cart-empty.svg';
 import recycle from '@/assets/svg/recycle.svg';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { deleteCartItem, getCartItems } from '@/redux/cartSlice';
@@ -60,8 +60,12 @@ function CartToolkit({
             onMouseEnter={() => setIsOpenToolkitCart(true)}
             onMouseLeave={handleCloseModalCart}
             // onClick={() => setIsOpenToolkitCart(true)}
-            className=" absolute bg-white  shadow-toolkit top-7
-                        -right-3 z-50 rounded-md w-96 max-sm:w-80"
+            className={`absolute bg-white  shadow-toolkit top-7
+                        -right-3 z-50 rounded-md ${
+                            cartItems && lengthProductInCart > 0
+                                ? 'w-80'
+                                : 'w-72'
+                        }  max-sm:w-80`}
         >
             <img
                 src={arrowUp}
@@ -70,7 +74,11 @@ function CartToolkit({
             />
 
             <div className="flex items-center justify-between border-b text-sm border-gray-100 py-2 px-5">
-                <h2>Danh sách sản phẩm ({lengthAllProduct})</h2>
+                {cartItems && lengthProductInCart > 0 ? (
+                    <h2>Danh sách sản phẩm ({lengthAllProduct})</h2>
+                ) : (
+                    <div></div>
+                )}
                 <img
                     src={close}
                     alt=""
@@ -121,23 +129,8 @@ function CartToolkit({
                     ))}
             </div>
 
-            {/* cart empty */}
-            {lengthProductInCart === 0 && (
-                <div className="flex flex-col justify-center items-center gap-3 px-3 mb-5">
-                    <img src={cartEmpty} alt="" />
-                    <h2 className="font-semibold">
-                        Giỏ hàng của bạn đang trống
-                    </h2>
-                    <p className="text-center text-sm">
-                        Hiện tại giỏ hàng của bạn đang trống. Hãy trải nghiệm
-                        các sản phẩm độc đáo của chúng tôi và thêm chúng vào giỏ
-                        hàng.
-                    </p>
-                </div>
-            )}
-
             {/* cart inner quantity product */}
-            {lengthProductInCart > 0 && (
+            {cartItems && lengthProductInCart > 0 ? (
                 <div className="px-5 mb-5">
                     <div className="flex justify-between mb-3 font-semibold ">
                         <span>Tổng tiền tạm tính:</span>
@@ -153,9 +146,21 @@ function CartToolkit({
                             Xem giỏ hàng
                         </button>
                         <button className="bg-black w-6/12 rounded-lg text-white px-3 py-2">
-                            Check out
+                            <Link to="/cart/checkout-step-1">Thanh toán</Link>
                         </button>
                     </div>
+                </div>
+            ) : (
+                <div className="flex flex-col justify-center items-center gap-3 px-3 mb-5">
+                    <img src={cartEmpty} alt="" className="h-20 max-xl:h-16" />
+                    <h2 className="font-semibold">
+                        Giỏ hàng của bạn đang trống
+                    </h2>
+                    <p className="text-center text-sm">
+                        Hiện tại giỏ hàng của bạn đang trống. Hãy trải nghiệm
+                        các sản phẩm độc đáo của chúng tôi và thêm chúng vào giỏ
+                        hàng.
+                    </p>
                 </div>
             )}
         </motion.div>

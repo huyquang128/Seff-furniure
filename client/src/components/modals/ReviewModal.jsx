@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import StarTooltip from '../toolkits/StarTooltip';
 import star_end from '@/assets/svg/star_end.svg';
-import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { listStar } from '../common/ListStar';
 import {
@@ -16,6 +15,7 @@ import {
 
 function ReviewModal({ isShowReviewModal, setIsShowReviewModal, productName }) {
     const dispatch = useDispatch();
+    const ref = useRef();
 
     //state react
     const [isCloseModalAnimation, setIsCloseModalAnimation] = useState(false);
@@ -29,6 +29,15 @@ function ReviewModal({ isShowReviewModal, setIsShowReviewModal, productName }) {
     );
     const userId = useSelector((state) => state?.auth.user?.id);
 
+    //hooks
+    useEffect(() => {
+        document.addEventListener('mousedown', handleOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutside);
+        };
+    }, []);
+
     //handle events
     const handleCloseModal = () => {
         setIsCloseModalAnimation(true);
@@ -36,6 +45,8 @@ function ReviewModal({ isShowReviewModal, setIsShowReviewModal, productName }) {
             setIsCloseModalAnimation(false);
             setIsShowReviewModal(false);
         }, 300);
+
+        dispatch(getReviewsByProductId(productId));
     };
 
     const handleHoverStar = (id) => {
@@ -63,6 +74,12 @@ function ReviewModal({ isShowReviewModal, setIsShowReviewModal, productName }) {
         dispatch(postReview(formData));
     };
 
+    const handleOutside = (e) => {
+        if (ref.current && !ref.current.contains(e.target)) {
+            setIsShowReviewModal(false);
+        }
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -72,7 +89,10 @@ function ReviewModal({ isShowReviewModal, setIsShowReviewModal, productName }) {
             transition={{ duration: 0.3 }}
             className="fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center bg-models z-20"
         >
-            <motion.div className="bg-white w-4/12 max-md:w-8/12 max-sm:w-11/12 px-10 py-10 rounded-md ">
+            <motion.div
+                ref={ref}
+                className="bg-white w-4/12 max-md:w-8/12 max-sm:w-11/12 px-10 py-10 rounded-md "
+            >
                 {isReviewed ? (
                     <div className="flex flex-col items-center gap-7 text-sm">
                         <img src={star_end} alt="" className="h-24" />

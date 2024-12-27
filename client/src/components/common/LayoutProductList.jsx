@@ -9,6 +9,7 @@ import star_yellow from '@/assets/svg/star_yellow.svg';
 import ActiveImgTooltip from '../toolkits/ActiveImgTooltip';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
+import ToastMessage from './ToastMessage';
 
 function LayoutProduct({ item }) {
     const dispatch = useDispatch();
@@ -49,20 +50,28 @@ function LayoutProduct({ item }) {
         formData.append('userId', userId);
         formData.append('productId', id);
 
-        dispatch(addFavoriteProduct(formData));
+        dispatch(addFavoriteProduct(formData)).then((data) => {
+            if (data.payload) {
+                ToastMessage({
+                    message: '💛 Đã thêm sản phẩm yêu thích',
+                    position: 'top-center',
+                    status: 'success',
+                });
+            }
+        });
     };
 
     return (
         <div>
-            <Link to={`${item.name}`}>
+            <Link to={`/${item.name}`}>
                 <img
                     src={
                         productIdActive === item._id
                             ? urlImgActive
-                            : item.colors[0].images[0]
+                            : item?.colors[0]?.images[0]
                     }
                     alt=""
-                    className="w-full h-[310px] max-lg:h-[250px]  max-md:h-[200px] rounded-lg mb-4 object-cover"
+                    className="w-full rounded-lg mb-4 object-cover"
                 />
                 <div className="text-xs text-gray-500 mx-2 ">
                     {item.subChildMenu}
@@ -71,11 +80,24 @@ function LayoutProduct({ item }) {
                     {item.name}
                 </div>
             </Link>
-            <div className="mx-2 font-medium mb-3">
-                {item.price.toLocaleString('VN-vn')}đ
-            </div>
+            {item.sale > 0 ? (
+                <div className="mx-2 font-medium mb-3 flex gap-3 items-center">
+                    <div>{item.sale.toLocaleString('VN-vn')}đ</div>
+                    <div className="text-text-gray font-light text-sm line-through">
+                        {item.price.toLocaleString('VN-vn')}đ
+                    </div>
+                </div>
+            ) : (
+                <div className="mx-2 font-medium mb-3 flex gap-3 items-center">
+                    {/* <div>{item.sale.toLocaleString('VN-vn')}đ</div> */}
+                    <div className=" ">
+                        {item.price.toLocaleString('VN-vn')}đ
+                    </div>
+                </div>
+            )}
+
             <div className="mx-2 mb-2 flex gap-3 relative">
-                {item.colors.map((srcImg, index) => (
+                {item?.colors.map((srcImg, index) => (
                     <img
                         key={index}
                         src={srcImg.images[0]}

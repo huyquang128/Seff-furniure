@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import discount_code from '@/assets/svg/discount-code.svg';
 
-function CartModels({ isOpenModalsPayment, setIsOpenModalsPayment }) {
+function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
@@ -53,6 +54,15 @@ function CartModels({ isOpenModalsPayment, setIsOpenModalsPayment }) {
                         </span>
                     </div>
                 </div>
+                <div
+                    onClick={() => setIsShowDiscountModal(true)}
+                    className="px-4 text-sm mb-3 flex items-center gap-1 cursor-pointer"
+                >
+                    <img src={discount_code} alt="" />
+                    <span className="text-yellow-base hover:brightness-110">
+                        Xem thêm mã giảm giá
+                    </span>
+                </div>
                 <div className="flex justify-between px-4 text-gray-700 py-3  border-b border-gray-100">
                     <span className="text-sm">Phí vận chuyển</span>
                     <span>20.000đ</span>
@@ -76,4 +86,4 @@ function CartModels({ isOpenModalsPayment, setIsOpenModalsPayment }) {
     );
 }
 
-export default CartModels;
+export default PaymentCartModals;

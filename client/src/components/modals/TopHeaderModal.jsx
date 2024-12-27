@@ -29,8 +29,8 @@ function TopHeaderModal({
             className="fixed top-0 bottom-0 right-0 left-0 flex justify-center items-center bg-models z-20 "
         >
             <motion.div
-                className="bg-white flex w-5/12 max-lg:w-7/12 max-md:w-8/12 max-sm:w-11/12 
-                  rounded-lg relative overflow-hidden h-[340px]"
+                className="bg-white flex w-[700px]  max-md:w-8/12 md:h-80 max-sm:w-11/12 
+                  rounded-lg relative overflow-hidden shadow-model-1"
             >
                 <img src={kitchen_1} alt="" className="w-full object-cover " />
                 <div className="w-6/12 pb-7 absolute bg-white h-full right-0 rounded-l-2xl">

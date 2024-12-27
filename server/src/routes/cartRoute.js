@@ -6,6 +6,7 @@ const {
     getCartItemsById,
     deleteCartItem,
     updateQuantityAndTotalPiceProductInCart,
+    updateTotalPriceById,
 } = require('../controllers/CartController');
 
 router.post('/add-to-cart', addToCart);
@@ -15,4 +16,5 @@ router.post(
     updateQuantityAndTotalPiceProductInCart
 );
 router.delete('/delete-cart-item/:userId', deleteCartItem);
+router.patch('/put-totalPrice-Cart/:cartId', updateTotalPriceById);
 module.exports = router;

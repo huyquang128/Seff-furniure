@@ -1,5 +1,6 @@
 import {
     addFavoriteProductApi,
+    deleteAllFavoriteProductApi,
     deleteFavoriteProductApi,
     getFavoriteProductApi,
 } from '@/services/favoriteApi';
@@ -47,6 +48,18 @@ export const deleteFavoriteProduct = createAsyncThunk(
     }
 );
 
+export const deleteAllFavoriteProduct = createAsyncThunk(
+    'favorite/delete-all-favorite-product',
+    async (userId) => {
+        try {
+            const response = await deleteAllFavoriteProductApi(userId);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 const favoriteProductSlice = createSlice({
     name: 'favoriteProduct',
     initialState,
@@ -66,11 +79,6 @@ const favoriteProductSlice = createSlice({
             let arr = state.productFavoriteActive || [];
             const filterArr = arr.filter((id) => id !== action.payload);
             state.productFavoriteActive = filterArr;
-
-            // let arrs = state.favoriteProduct.products.filter(
-            //     (item) => item._id !== action.payload
-            // );
-            // state.favoriteProduct = arrs;
         },
     },
     extraReducers: (builder) => {
@@ -98,6 +106,10 @@ const favoriteProductSlice = createSlice({
             })
             .addCase(deleteFavoriteProduct.fulfilled, (state) => {
                 state.isLoading = false;
+            })
+            .addCase(deleteAllFavoriteProduct.fulfilled, (state) => {
+                state.favoriteProduct = [];
+                state.productFavoriteActive = [];
             });
     },
 });

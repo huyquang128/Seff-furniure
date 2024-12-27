@@ -1,10 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 import {
+    addAddressUserApi,
+    addUserApi,
     checkAuthApi,
+    getAllUserApi,
+    getProfileUserApi,
     loginApi,
     logoutApi,
     registerApi,
+    removeAddressUserApi,
+    updateAddressUserApi,
     updateProfileApi,
     uploadAvatarApi,
 } from '@/services/authApi';
@@ -13,12 +19,12 @@ const initialState = {
     isLoading: true,
     isAuthenticated: false,
     user: null,
+    allUser: null,
     formInfoUser: {
         firstName: '',
         lastName: '',
         phone: '',
         email: '',
-        detailAddress: '',
     },
     formValueLogin: {
         email: '',
@@ -30,17 +36,39 @@ const initialState = {
         password: '',
     },
     formAddAddressNew: {
-        name: '',
+        firstName: '',
+        lastName: '',
         phone: '',
         detailAddress: '',
-        province: '',
-        district: '',
-        ward: '',
+    },
+    formAddUser: {
+        username: '',
+        email: '',
+        password: '',
+        phone: '',
+    },
+    filterDistrictsToProvince: null,
+    filterWardsToDistrict: null,
+    temporary: {
+        valueProvince: {
+            value: '',
+            code: null,
+        },
+        valueDistrict: {
+            value: '',
+            code: null,
+        },
+        valueWard: {
+            value: '',
+            code: null,
+        },
     },
     urlImgAvatar: null,
     isActiveCategoryUserInfoTitle: 'Personal-Information',
     addressStore: 'hn',
     theme: 'light',
+    isLabelSelectProvince: false,
+    addressDefault: null,
 };
 
 export const register = createAsyncThunk('auth/register', async (formData) => {
@@ -103,6 +131,70 @@ export const updateProfile = createAsyncThunk(
     }
 );
 
+export const getProfileUser = createAsyncThunk(
+    'auth/getProfileUser',
+    async (userId) => {
+        try {
+            const response = await getProfileUserApi(userId);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const addAddressUser = createAsyncThunk(
+    'auth/add-address-user',
+    async (formData) => {
+        try {
+            const response = await addAddressUserApi(formData);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+export const updateAddressUser = createAsyncThunk(
+    'auth/update-address-user',
+    async (formData) => {
+        try {
+            const response = await updateAddressUserApi(formData);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+export const removeAddressUser = createAsyncThunk(
+    'auth/remove-address-user',
+    async (formData) => {
+        try {
+            const response = await removeAddressUserApi(formData);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const getAllUsers = createAsyncThunk('auth/get-all-users', async () => {
+    try {
+        const response = await getAllUserApi();
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+export const addUser = createAsyncThunk('auth/add-user', async (formData) => {
+    try {
+        const response = await addUserApi(formData);
+        return response;
+    } catch (error) {
+        console.error(error);
+    }
+});
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -133,6 +225,45 @@ const authSlice = createSlice({
         },
         setTheme: (state, action) => {
             state.theme = action.payload; // Cập nhật theme theo giá trị được truyền vào
+        },
+        setDistricts: (state, action) => {
+            state.filterDistrictsToProvince = action.payload;
+        },
+        setWards: (state, action) => {
+            state.filterWardsToDistrict = action.payload;
+        },
+        setValueProvince: (state, action) => {
+            state.temporary.valueProvince.value = action.payload.value;
+            state.temporary.valueProvince.code = action.payload.code;
+        },
+        setValueDistrict: (state, action) => {
+            state.temporary.valueDistrict.value = action.payload.value;
+            state.temporary.valueDistrict.code = action.payload.code;
+        },
+        setValueWard: (state, action) => {
+            state.temporary.valueWard.value = action.payload.value;
+            state.temporary.valueWard.code = action.payload.code;
+        },
+        setUpdateAddressContent: (state, action) => {
+            action.payload.type === 'update address'
+                ? (state.isLabelSelectProvince = true)
+                : (state.isLabelSelectProvince = false);
+            console.log(action.payload);
+            state.formAddAddressNew.firstName = action.payload.firstName;
+            state.formAddAddressNew.lastName = action.payload.lastName;
+            state.formAddAddressNew.phone = action.payload.phone;
+            state.formAddAddressNew.detailAddress = action.payload.detailed;
+
+            state.temporary.valueProvince.value = action.payload.province;
+            state.temporary.valueDistrict.value = action.payload.district;
+            state.temporary.valueWard.value = action.payload.ward;
+        },
+        setAddressDefault: (state, action) => {
+            state.addressDefault = action.payload;
+        },
+        setAddUser: (state, action) => {
+            console.log(action.payload);
+            state.formAddUser[action.payload.name] = action.payload.value;
         },
     },
     extraReducers: (builder) => {
@@ -165,9 +296,9 @@ const authSlice = createSlice({
             .addCase(login.fulfilled, (state, action) => {
                 console.log('user from sever: ', action.payload);
                 state.isLoading = false;
-                state.isAuthenticated = action.payload.success;
-                state.user = action.payload.success
-                    ? action.payload.user
+                state.isAuthenticated = action.payload?.success;
+                state.user = action.payload?.success
+                    ? action.payload?.user
                     : null;
                 state.formValueLogin = {
                     email: '',
@@ -223,6 +354,45 @@ const authSlice = createSlice({
             })
             .addCase(uploadAvatar.rejected, (state) => {
                 state.isLoading = false;
+            })
+            .addCase(getProfileUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getProfileUser.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.urlImgAvatar = action.payload?.data.urlImgAvatar;
+                state.user = action.payload?.data;
+                state.formInfoUser = {
+                    firstName: action.payload?.data.firstName,
+                    lastName: action.payload?.data.lastName,
+                    phone: action.payload?.data.phone,
+                    email: action.payload?.data.email,
+                };
+            })
+            .addCase(getProfileUser.rejected, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(removeAddressUser.fulfilled, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(getAllUsers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getAllUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.allUser = action.payload?.data;
+            })
+            .addCase(getAllUsers.rejected, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(addUser.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(addUser.fulfilled, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(addUser.rejected, (state) => {
+                state.isLoading = false;
             });
     },
 });
@@ -236,5 +406,13 @@ export const {
     setAddressStore,
     setTheme,
     toggleTheme,
+    setDistricts,
+    setWards,
+    setValueProvince,
+    setValueDistrict,
+    setValueWard,
+    setUpdateAddressContent,
+    setAddressDefault,
+    setAddUser,
 } = authSlice.actions;
 export default authSlice.reducer;

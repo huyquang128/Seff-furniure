@@ -30,7 +30,6 @@ const addProductsAndAddAllMenu = async (req, res) => {
             parentMenu,
             childMenu,
             subChildMenu,
-            isFeatured,
             sale,
         } = req.body;
 
@@ -163,7 +162,6 @@ const addProductsAndAddAllMenu = async (req, res) => {
                 Safety_Standards: infoProduct.Safety_Standards,
                 Product_Features: infoProduct.Product_Features,
             },
-            isFeatured,
             sale,
             parentMenu,
             childMenu,
