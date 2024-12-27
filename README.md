@@ -1,7 +1,8 @@
 1.Project trang web bán đồ nội thất
 - Mục tiêu là tạo trang web bán các sản phẩm nột thất cao cấp.
 - Sử dụng react, redux, mongodb và postman để test api
-- Trang web có các chức năng:
+  
+### Trang web có các chức năng:
 - Reponsive trên nhiều thiết bị.
 - Đăng nhập, đăng ký.
 - Chỉnh sửa thêm tin người dùng, upload avatar, tìm kiếm sản phẩm(chưa tối ưu tốt).
