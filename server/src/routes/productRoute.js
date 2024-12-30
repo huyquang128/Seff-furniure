@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 const {
-    getALLProduct,
     addProductsAndAddAllMenu,
     getAllProductFromLivingRoom,
     getSingleProductByName,
     searchProductByKeyword,
     recommendProducts,
     getProductPage,
+    getProductTopSelling,
 } = require('../controllers/ProductController');
 const { upload } = require('../helper/cloudinary');
 
@@ -33,5 +33,6 @@ router.get('/get-single-product/:productName', getSingleProductByName);
 router.get('/search-products', searchProductByKeyword);
 router.get('/recommend-products/:productId', recommendProducts);
 router.get('/get-products-page', getProductPage);
+router.get('/get-products-top-selling', getProductTopSelling);
 
 module.exports = router;

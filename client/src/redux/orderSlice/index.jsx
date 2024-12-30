@@ -3,6 +3,7 @@ import {
     createQrOrderZaloApi,
     deleteOrderApi,
     getAllOrderApi,
+    getOrdersApi,
     updateOrderApi,
 } from '@/services/orderApi';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
@@ -28,6 +29,15 @@ export const getAllOrder = createAsyncThunk(
         }
     }
 );
+
+export const getOrders = createAsyncThunk('order/getOrders', async () => {
+    try {
+        const response = await getOrdersApi();
+        return response;
+    } catch (error) {
+        console.error('Error fetching order:', error);
+    }
+});
 
 export const addOrder = createAsyncThunk('order/addOrder', async (formData) => {
     try {
@@ -89,6 +99,16 @@ const orderSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(getAllOrder.rejected, (state) => {
+                state.isLoading = false;
+            })
+            .addCase(getOrders.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getOrders.fulfilled, (state, action) => {
+                state.orders = action.payload?.data;
+                state.isLoading = false;
+            })
+            .addCase(getOrders.rejected, (state) => {
                 state.isLoading = false;
             })
             .addCase(addOrder.pending, (state) => {

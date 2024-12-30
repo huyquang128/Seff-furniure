@@ -274,6 +274,18 @@ const getProductPage = async (req, res) => {
     }
 };
 
+const getProductTopSelling = async (req, res) => {
+    try {
+        const products = await Product.find().sort({ sold: -1 }).limit(8);
+        res.status(200).json({ success: true, data: products });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
+
+
+
 module.exports = {
     getAllProductFromLivingRoom,
     addProductsAndAddAllMenu,
@@ -281,4 +293,5 @@ module.exports = {
     searchProductByKeyword,
     recommendProducts,
     getProductPage,
+    getProductTopSelling,
 };

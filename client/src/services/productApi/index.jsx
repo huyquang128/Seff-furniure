@@ -66,3 +66,14 @@ export const getProductsPageApi = async (page) => {
         console.error(error);
     }
 };
+
+export const getProductTopSellingApi = async () => {
+    try {
+        const response = await axios.get(
+            `${GetBaseUrl()}/product/get-products-top-selling`
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

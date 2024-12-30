@@ -64,7 +64,7 @@ function ProductAd() {
         setColorIdActive(null);
     };
     return (
-        <div className="px-10 py-5 ">
+        <div className="px-5 py-5 ">
             <div className="flex justify-between items-center mb-10">
                 <div className="text-xl text-text-first font-medium">
                     Danh sách sản phẩm
@@ -81,7 +81,8 @@ function ProductAd() {
             </div>
 
             {/* products */}
-            <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-2  mb-10 text-text-first ">
+            <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-2 
+                             mb-10 text-text-first max-sm:grid-cols-1">
                 {productPageList?.products?.map((item) => (
                     <div
                         key={item._id}
@@ -94,7 +95,7 @@ function ProductAd() {
                                     : item.colors[0].images[0]
                             }
                             alt=""
-                            className="w-full rounded-lg mb-4 object-cover"
+                            className="w-full rounded-lg mb-4 object-cover max-sm:h-[300px] max-sm:object-cover"
                         />
                         <div className="text-xs text-text-first mx-2 ">
                             {item.subChildMenu}

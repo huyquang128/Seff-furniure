@@ -26,7 +26,7 @@ function AdminLayout() {
             <SidebarAd />
             <div className={`ml-48 max-md:w-full max-md:ml-0`}>
                 <HeaderAdmin />
-                <div className=" bg-foreground transition-all ease-in-out duration-500 min-h-screen">
+                <div className="bg-foreground transition-all ease-in-out duration-500 min-h-screen">
                     <Outlet />
                 </div>
             </div>

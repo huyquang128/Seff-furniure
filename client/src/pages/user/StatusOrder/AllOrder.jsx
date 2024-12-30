@@ -6,9 +6,6 @@ import { motion } from 'framer-motion';
 import ConfirmRemoveOrder from '@/components/modals/ConfirmRemoveOrder';
 
 function AllOrder() {
-    const dispatch = useDispatch();
-
-    //
     const [isShowDetailOrder, setIsShowDetailOrder] = useState(null);
     const [isAnimation, setIsAnimation] = useState(false);
     const [isShowModalConfirmRemoveOrder, setIsShowModalConfirmRemoveOrder] =
@@ -18,10 +15,10 @@ function AllOrder() {
     const orderRedux = useSelector((state) => state?.order);
 
     //handle events
-    const handleRemoveOrder = (orderId) => {
-        // dispatch(removeOrder(orderId));
-        // dispatch(getAllOrder());
-    };
+    // const handleRemoveOrder = (orderId) => {
+    // dispatch(removeOrder(orderId));
+    // dispatch(getAllOrder());
+    // };
 
     const handleHideDetailOrder = () => {
         setIsAnimation(true);

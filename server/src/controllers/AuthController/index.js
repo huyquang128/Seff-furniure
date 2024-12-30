@@ -113,7 +113,6 @@ const uploadAvatar = async (req, res) => {
     const { userId } = req.params;
     try {
         const avatar = req.file;
-        console.log('🚀 ~ uploadAvatar ~ avatar:', avatar);
 
         const imageUploaded = await uploadImage(avatar);
 

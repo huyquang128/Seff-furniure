@@ -6,25 +6,35 @@ import dark_mode from '@/assets/svg/admin/dark_mode.svg';
 import light_mode from '@/assets/svg/admin/light_mode.svg';
 import { useEffect, useState } from 'react';
 import menu_black from '@/assets/svg/admin/menu_black.svg';
+import menu_white from '@/assets/svg/admin/menu_white.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, toggleTheme } from '@/redux/authSlice';
+import CategorySidebarAdmin from '../modals/CategorySidebarAdmin';
 
 function HeaderAdmin() {
+    const [isOpenModal, setIsOpenModal] = useState(false);
+
     const theme = useSelector((state) => state?.auth.theme);
+
     const dispatch = useDispatch();
 
     return (
         <div
-            className="flex justify-between items-center bg-background py-4 px-5
+            className="flex justify-between gap-3 items-center bg-background py-4 px-5
                          transition-colors ease-in-out duration-500"
         >
             <div className="md:hidden">
-                <img src={menu_black} alt="" />
+                <img
+                    onClick={() => setIsOpenModal(true)}
+                    src={theme === 'light' ? menu_black : menu_white}
+                    alt=""
+                    className="cursor-pointer"
+                />
             </div>
             <div
                 className="border text-sm border-background flex gap-2 px-4 
                          w-4/12 max-lg:w-7/12 py-3 rounded-full items-center bg-foreground 
-                         transition-colors ease-in-out duration-500"
+                         transition-colors ease-in-out duration-500 overflow-hidden"
             >
                 <img src={search_gray} alt="" className="h-5" />
                 <input
@@ -35,7 +45,7 @@ function HeaderAdmin() {
                     placeholder="Tìm Kiếm..."
                 />
             </div>
-            <div className="flex gap-6 items-center">
+            <div className="flex gap-6 max-md:gap-3 items-center">
                 <img
                     src={theme === 'dark' ? bell_white : bell}
                     alt=""
@@ -51,9 +61,17 @@ function HeaderAdmin() {
                     <div className="h-10 w-10 flex items-center justify-center text-sm bg-yellow-600 rounded-full">
                         A
                     </div>
-                    <div className="text-text-first">Admin</div>
+                    <div className="text-text-first max-md:hidden">Admin</div>
                 </div>
             </div>
+
+            {/* modal */}
+            {isOpenModal && (
+                <CategorySidebarAdmin
+                    isOpenModal={isOpenModal}
+                    setIsOpenModal={setIsOpenModal}
+                />
+            )}
         </div>
     );
 }

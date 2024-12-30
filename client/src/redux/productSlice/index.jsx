@@ -2,6 +2,7 @@ import {
     getAllProductFromLivingRoomApi,
     getProductSingleByNameApi,
     getProductsPageApi,
+    getProductTopSellingApi,
     recommendProductApi,
     searchProductsByKeywordApi,
 } from '@/services/productApi';
@@ -29,6 +30,7 @@ const initialState = {
         infoSafetyStandards: '',
         infoFeatures: '',
     },
+    productTopSelling: null,
 };
 
 export const getAllProductFromLivingRoom = createAsyncThunk(
@@ -83,6 +85,18 @@ export const getProductsPage = createAsyncThunk(
     async (pageNumber) => {
         try {
             const response = await getProductsPageApi(pageNumber);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
+export const getProductTopSelling = createAsyncThunk(
+    'product/getProductTopSelling',
+    async () => {
+        try {
+            const response = await getProductTopSellingApi();
             return response;
         } catch (error) {
             console.error(error);
@@ -154,6 +168,16 @@ const productsSlice = createSlice({
                 state.productPageList = action.payload?.data;
             })
             .addCase(getProductsPage.rejected, (state) => {
+                state.isLivingRoomLoading = false;
+            })
+            .addCase(getProductTopSelling.pending, (state) => {
+                state.isLivingRoomLoading = true;
+            })
+            .addCase(getProductTopSelling.fulfilled, (state, action) => {
+                state.isLivingRoomLoading = false;
+                state.productTopSelling = action.payload?.data;
+            })
+            .addCase(getProductTopSelling.rejected, (state) => {
                 state.isLivingRoomLoading = false;
             });
     },

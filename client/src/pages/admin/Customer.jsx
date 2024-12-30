@@ -28,7 +28,7 @@ function Customer() {
         setIsShowModalAddUser(true);
     };
     return (
-        <div className="px-10 py-5">
+        <div className="px-5 py-5">
             <div className="flex justify-between items-center">
                 <div className="text-xl text-text-first font-medium">
                     Danh sách khách hàng
@@ -63,10 +63,12 @@ function Customer() {
                         <div
                             key={index}
                             className={`${
-                                (index === 0 && 'col-span-3') ||
-                                (index === 1 && 'col-span-3') ||
-                                (index === 2 && 'col-span-2') ||
-                                (index === 2 && 'col-span-1')
+                                (index === 0 &&
+                                    'col-span-3 max-md:col-span-4') ||
+                                (index === 1 &&
+                                    'col-span-3 max-md:col-span-5') ||
+                                (index === 2 && 'col-span-2 max-md:hidden') ||
+                                (index === 3 && 'col-span-1 max-md:hidden')
                             } flex gap-1.5 items-center`}
                         >
                             <span>{item.name}</span>
@@ -97,10 +99,10 @@ function Customer() {
                         <div
                             key={item._id}
                             className="grid grid-cols-12 py-4 items-center text-text-first
-                                        bg-background rounded-lg mb-4"
+                                        bg-background rounded-lg mb-4 "
                         >
                             <input type="checkbox" className="h-4" />
-                            <div className="flex items-center gap-2 col-span-3">
+                            <div className="flex items-center gap-2 col-span-3 max-md:col-span-4">
                                 <img
                                     src={
                                         item.urlImgAvatar
@@ -116,12 +118,14 @@ function Customer() {
                                         : item.username}
                                 </div>
                             </div>
-                            <div className="flex col-span-3 gap-2">
+                            <div className="flex col-span-3 gap-2 max-md:col-span-5">
                                 <img src={email} alt="" />
                                 <div>{item.email}</div>
                             </div>
-                            <div className="col-span-2">{item.phone}</div>
-                            <div className="col-span-1">
+                            <div className="col-span-2 max-md:hidden">
+                                {item.phone}
+                            </div>
+                            <div className="col-span-1 max-md:hidden">
                                 {new Date(item.createdAt).toLocaleDateString()}
                             </div>
                             <div className="col-span-2 flex justify-center items-center gap-5">

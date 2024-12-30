@@ -6,6 +6,16 @@ const CryptoJS = require('crypto-js');
 const { v1: uuidv1 } = require('uuid');
 const moment = require('moment');
 
+const getOrders = async (req, res) => {
+    try {
+        const orders = await Order.find();
+        res.json({ success: true, data: orders });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
+
 const getAllOrder = async (req, res) => {
     const { userId } = req.params;
     try {
@@ -184,4 +194,5 @@ module.exports = {
     updateStatusOrder,
     deleteOrder,
     createQrOrderZalo,
+    getOrders,
 };

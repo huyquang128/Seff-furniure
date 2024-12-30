@@ -20,6 +20,7 @@ import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '@/redux/authSlice';
+import { motion } from 'framer-motion';
 
 const listCategoryAd = [
     {

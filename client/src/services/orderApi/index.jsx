@@ -16,6 +16,21 @@ export const getAllOrderApi = async (userId) => {
         console.error(error);
     }
 };
+export const getOrdersApi = async () => {
+    try {
+        const response = await axios.get(
+            `
+            ${GetBaseUrl()}/order/get-orders`,
+            {
+                withCredentials: true,
+            }
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 export const addIOrderApi = async (formData) => {
     try {
