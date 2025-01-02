@@ -231,3 +231,21 @@ export const addUserApi = async (formData) => {
         console.error(error);
     }
 };
+
+export const removeUserApi = async (formData) => {
+    try {
+        const response = await axios.post(
+            `${GetBaseUrl()}/auth/remove-user`,
+            formData,
+            {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error(error);
+    }
+};

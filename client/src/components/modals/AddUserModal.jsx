@@ -8,13 +8,13 @@ import { addUser, getAllUsers, setAddUser } from '@/redux/authSlice';
 import { formAddUser } from '../config/formConfig';
 import ToastMessage from '../common/ToastMessage';
 
-function AddUserModal({ isShowModalAddUser, setIsShowModalAddUser }) {
+function AddUserModal({ isShowModalAddUser, setIsShowModalAddUser, title }) {
     const dispatch = useDispatch();
     const [isCloseModalAnimation, setIsCloseModalAnimation] = useState(false);
 
     //
     const authRedux = useSelector((state) => state?.auth);
-    
+
     //
     const closeModal = () => {
         setIsCloseModalAnimation(true);
@@ -32,7 +32,7 @@ function AddUserModal({ isShowModalAddUser, setIsShowModalAddUser }) {
         formData.append('email', authRedux?.formAddUser.email);
         formData.append('password', authRedux?.formAddUser.password);
         formData.append('phone', authRedux?.formAddUser.phone);
-
+       
         dispatch(addUser(formData)).then((data) => {
             if (data.payload.success) {
                 setIsCloseModalAnimation(true);
@@ -72,9 +72,7 @@ function AddUserModal({ isShowModalAddUser, setIsShowModalAddUser }) {
                 className="bg-background w-5/12 h-full overflow-y-scroll max-lg:w-9/12 max-sm:w-11/12 px-5 py-4 rounded-md "
             >
                 <div className="flex justify-between mb-5 ">
-                    <div className="text-xl text-text-first">
-                        Thêm khách hàng
-                    </div>
+                    <div className="text-xl text-text-first">{title}</div>
                     <img
                         onClick={closeModal}
                         src={authRedux.theme === 'light' ? close : close_white}

@@ -31,11 +31,11 @@ const listStatistics = [
     },
 ];
 const categoryOrder = [
-    { name: 'Mã đơn hàng', img_white: arr_sort_white, img_black: arr_sort },
+    { name: 'Mã ĐH', img_white: arr_sort_white, img_black: arr_sort },
     { name: 'Sản phẩm', img_white: arr_sort_white, img_black: arr_sort },
     { name: 'Giá', img_white: arr_sort_white, img_black: arr_sort },
-    { name: 'Tổng đơn hàng', img_white: arr_sort_white, img_black: arr_sort },
-    { name: 'Tổng số tiền', img_white: arr_sort_white, img_black: arr_sort },
+    { name: 'Tổng ĐH', img_white: arr_sort_white, img_black: arr_sort },
+    { name: 'Tổng', img_white: arr_sort_white, img_black: arr_sort },
 ];
 
 function Dashboard() {
@@ -143,15 +143,19 @@ function Dashboard() {
                                 <div
                                     key={index}
                                     className={`${
-                                        (index === 0 && 'col-span-2') ||
-                                        (index === 1 && 'col-span-3 max-md:col-span-5') ||
-                                        (index === 2 && 'col-span-2 max-md:hidden') ||
-                                        (index === 3 && 'col-span-3 justify-center max-md:hidden') ||
+                                        (index === 0 &&
+                                            'col-span-2 max-md:col-span-2 max-sm:col-span-3') ||
+                                        (index === 1 &&
+                                            'col-span-4 max-md:col-span-6 max-md:justify-center') ||
+                                        (index === 2 &&
+                                            'col-span-2 max-md:hidden') ||
+                                        (index === 3 &&
+                                            'col-span-2 justify-center max-md:hidden') ||
                                         (index === 4 &&
-                                            'col-span-2 justify-center')
+                                            'col-span-2 justify-center max-md:col-span-3 max-sm:hidden')
                                     } flex gap-1.5 items-center text-center`}
                                 >
-                                    <span>{item.name}</span>
+                                    <div>{item.name}</div>
                                     <img
                                         src={
                                             authRedux.theme === 'light'
@@ -170,12 +174,13 @@ function Dashboard() {
                                 <div
                                     key={item._id}
                                     className="grid grid-cols-12 py-4 items-center text-sm text-text-gray-1
-                                                gap-3"
+                                                gap-2"
                                 >
                                     <div className="col-span-2">
-                                        #{item._id.slice(0, 8)}
+                                        #{item._id.slice(0, 6).toUpperCase()}
                                     </div>
-                                    <div className="col-span-3 flex items-center gap-2 max-md:col-span-5">
+                                    <div className="col-span-4 flex items-center max-md:justify-center gap-2 
+                                                    max-md:col-span-6 max-sm:col-span-9">
                                         <img
                                             src={item.products[0].imageUrl}
                                             alt=""
@@ -191,16 +196,27 @@ function Dashboard() {
                                         )}
                                         đ
                                     </div>
-                                    <div className="col-span-3 text-center max-md:hidden">
-                                        <span className="bg-blue-700 px-8 py-1.5 text-white rounded-md">
+                                    <div className="col-span-2 text-center max-md:hidden w-full">
+                                        <span className="bg-blue-700  px-7 max-w-10 py-2.5 text-white rounded-md">
                                             {item.products[0].quantity}
                                         </span>
                                     </div>
-                                    <div className="col-span-2 text-center">
+                                    <div className="col-span-2 text-center max-md:col-span-3 max-sm:hidden">
                                         {item.products[0].totalPriceProduct.toLocaleString(
                                             'VN-vn'
                                         )}
                                         đ
+                                    </div>
+                                    <div className="md:hidden max-md:col-span-1 flex justify-center ">
+                                        <img
+                                            src={
+                                                authRedux.theme == 'light'
+                                                    ? more_black
+                                                    : more
+                                            }
+                                            alt=""
+                                            className=""
+                                        />
                                     </div>
                                 </div>
                             ))}

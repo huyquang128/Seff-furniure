@@ -13,7 +13,7 @@ import setting from '@/assets/svg/admin/setting.svg';
 import dashboard_black from '@/assets/svg/admin/dashboard_black.svg';
 import dashboard_white from '@/assets/svg/admin/dashboard_white.svg';
 import dashboard_yellow from '@/assets/svg/admin/dashboard_yellow.svg';
-import user2 from '@/assets/svg/user2.svg';
+import user2_black from '@/assets/svg/user2_black.svg';
 import user2_white from '@/assets/svg/user2_white.svg';
 import user2_yellow from '@/assets/svg/user2_yellow.svg';
 import { Link } from 'react-router-dom';
@@ -42,7 +42,7 @@ const listCategoryAd = [
     {
         name: 'User',
         link: 'Customer',
-        svg: user2,
+        svg: user2_black,
         svg_white: user2_white,
         svg_yellow: user2_yellow,
     },
@@ -79,14 +79,7 @@ function CategorySidebarAdmin({ isOpenModal, setIsOpenModal }) {
     };
 
     return (
-        <motion.div
-            // initial={{ x: '-100%' }}
-            // animate={{
-            //     opacity: isOpenModal && !isCloseModalAnimation ? '0%' : '-100%',
-            // }}
-            // transition={{ duration: 0.3 }}
-            className="fixed top-0 bottom-0 right-0 left-0 flex justify-start  bg-models z-20  "
-        >
+        <motion.div className="fixed top-0 bottom-0 right-0 left-0 flex justify-start  bg-models z-20  ">
             <motion.div
                 initial={{ x: '-100%' }}
                 animate={{

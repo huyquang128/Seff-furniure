@@ -59,9 +59,9 @@ export const updateOrder = createAsyncThunk('order/updateOrder', async () => {
 
 export const removeOrder = createAsyncThunk(
     'order/removeOrder',
-    async (orderId) => {
+    async (formData) => {
         try {
-            const response = await deleteOrderApi(orderId);
+            const response = await deleteOrderApi(formData);
             return response;
         } catch (error) {
             console.error('Error removing order:', error);
@@ -129,12 +129,8 @@ const orderSlice = createSlice({
             .addCase(updateOrder.rejected, (state) => {
                 state.isLoading = false;
             })
-            .addCase(removeOrder.fulfilled, (state, action) => {
+            .addCase(removeOrder.fulfilled, (state) => {
                 state.isLoading = false;
-                state.ordersDeleted = [
-                    ...state.ordersDeleted,
-                    action.payload.data,
-                ];
             })
             .addCase(createQrOrderZalo.pending, (state) => {
                 state.isLoading = true;

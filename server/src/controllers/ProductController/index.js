@@ -251,8 +251,10 @@ const getProductPage = async (req, res) => {
     const pageSize = 8;
     try {
         const products = await Product.find()
+            .sort({ createAt: -1 })
             .skip((page - 1) * pageSize)
             .limit(pageSize);
+
         // Tổng số sản phẩm
         const totalProducts = await Product.countDocuments();
 
@@ -283,8 +285,6 @@ const getProductTopSelling = async (req, res) => {
         res.status(500).json({ success: false, message: 'An error occurred!' });
     }
 };
-
-
 
 module.exports = {
     getAllProductFromLivingRoom,

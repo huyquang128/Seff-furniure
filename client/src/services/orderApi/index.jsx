@@ -58,10 +58,14 @@ export const updateOrderApi = async () => {
     }
 };
 
-export const deleteOrderApi = async (orderId) => {
+export const deleteOrderApi = async (formData) => {
     try {
-        const response = await axios.delete(
-            `${GetBaseUrl()}/order/delete-order/${orderId}`
+        const response = await axios.post(
+            `${GetBaseUrl()}/order/delete-order`,
+            formData,
+            {
+                headers: { 'Content-Type': 'application/json' },
+            }
         );
         return response.data;
     } catch (error) {

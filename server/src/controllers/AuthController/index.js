@@ -341,7 +341,9 @@ const removeAddressUser = async (req, res) => {
 
 const getAllUser = async (req, res) => {
     try {
-        const user = await User.find({ role: { $ne: 'admin' } });
+        const user = await User.find({ role: { $ne: 'admin' } }).sort({
+            createdAt: -1,
+        });
 
         res.json({ success: true, data: user });
     } catch (error) {
@@ -376,18 +378,44 @@ const addUser = async (req, res) => {
     }
 };
 
-const removeSingleUser = async (req, res) => {
-    const { userId } = req.params;
+const removeUser = async (req, res) => {
+    const { userId } = req.body;
     try {
-        const user = await User.findByIdAndDelete(userId);
-        if (!user) {
-            return res
-                .status(404)
-                .json({ success: false, message: 'User not found!' });
-        }
-        res.json({ success: true, message: 'remove user successfully!!' });
+        const userIds = Array.isArray(userId) ? userId : [userId];
+        const objectIds = userIds.map((id) => new mongoose.Types.ObjectId(id));
+        const deletedUsers = await User.deleteMany({ _id: { $in: objectIds } });
+
+        res.json({
+            success: true,
+            message: `Đã xóa ${deletedUsers.deletedCount} khách hàng.`,
+        });
     } catch (error) {
         console.log(error);
+        res.status(500).json({ success: false, message: 'An error occurred!' });
+    }
+};
+
+const updateUser = async (req, res) => {
+    const { userId } = req.params;
+    const { username, email, password, phone } = req.body;
+    try {
+        await User.findOneAndUpdate(
+            { id: userId },
+            {
+                $set: {
+                    username,
+                    email,
+                    password,
+                    phone,
+                },
+            }
+        );
+        res.json({
+            success: true,
+            message: 'Cập nhật thông tin thàng công!!',
+        });
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ success: false, message: 'An error occurred!' });
     }
 };
@@ -405,4 +433,6 @@ module.exports = {
     removeAddressUser,
     getAllUser,
     addUser,
+    removeUser,
+    updateUser,
 };

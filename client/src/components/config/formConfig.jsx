@@ -271,3 +271,41 @@ export const formAddUser = [
         errorMessage2: 'trường này là bắt buộc',
     },
 ];
+
+export const formSettingAdmins = [
+    {
+        name: 'siteName',
+        label: 'Tên website',
+        type: 'text',
+        placeholder: 'Nhập tên tên website',
+        componentType: 'input',
+    },
+    {
+        name: 'copyRight',
+        label: 'Bản quyền',
+        type: 'text',
+        placeholder: 'Nhập tên bản quyền',
+        componentType: 'input',
+    },
+    {
+        name: 'seoTitle',
+        label: 'Tiêu đề Seo',
+        type: 'text',
+        placeholder: 'Nhập tiêu đề Seo',
+        componentType: 'input',
+    },
+    {
+        name: 'seoDescription',
+        label: 'Mô tả Seo',
+        type: 'text',
+        placeholder: 'Nhập Mô tả Seo',
+        componentType: 'textarea',
+    },
+    {
+        name: 'seoKeyword',
+        label: 'Từ khóa Seo',
+        type: 'text',
+        placeholder: 'Nhập Từ khóa Seo',
+        componentType: 'input',
+    },
+];

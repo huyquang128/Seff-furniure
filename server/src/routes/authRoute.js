@@ -14,6 +14,8 @@ const {
     updateAddressUser,
     getAllUser,
     addUser,
+    removeUser,
+    updateUser,
 } = require('../controllers/AuthController');
 const { upload } = require('../helper/cloudinary');
 
@@ -36,5 +38,7 @@ router.post('/update-address-user/:userId', updateAddressUser);
 router.delete('/remove-address-user/:userId', removeAddressUser);
 router.get('/get-all-user', getAllUser);
 router.post('/add-user', addUser);
+router.post('/remove-user', removeUser);
+router.post('/update-user/:userId', updateUser);
 
 module.exports = router;

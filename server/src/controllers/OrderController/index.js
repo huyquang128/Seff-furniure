@@ -5,6 +5,7 @@ const axios = require('axios');
 const CryptoJS = require('crypto-js');
 const { v1: uuidv1 } = require('uuid');
 const moment = require('moment');
+const { default: mongoose } = require('mongoose');
 
 const getOrders = async (req, res) => {
     try {
@@ -111,14 +112,18 @@ const updateStatusOrder = async (req, res) => {
 };
 
 const deleteOrder = async (req, res) => {
-    const { orderId } = req.params;
+    const { orderId } = req.body;
     try {
-        const result = await Order.findByIdAndDelete(orderId);
-        console.log('🚀 ~ deleteOrder ~ result:', result);
+        const orderIds = Array.isArray(orderId) ? orderId : [orderId];
+        const convertObjectId = orderIds.map(
+            (id) => new mongoose.Types.ObjectId(id)
+        );
+        await Order.deleteMany({
+            _id: { $in: convertObjectId },
+        });
         res.json({
             success: true,
             message: 'Xóa đơn hàng thành công!',
-            data: result,
         });
     } catch (error) {
         console.error(error);

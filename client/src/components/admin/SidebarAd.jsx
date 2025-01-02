@@ -13,8 +13,8 @@ import setting from '@/assets/svg/admin/setting.svg';
 import dashboard_black from '@/assets/svg/admin/dashboard_black.svg';
 import dashboard_white from '@/assets/svg/admin/dashboard_white.svg';
 import dashboard_yellow from '@/assets/svg/admin/dashboard_yellow.svg';
-import user2 from '@/assets/svg/user2.svg';
 import user2_white from '@/assets/svg/user2_white.svg';
+import user2_black from '@/assets/svg/user2_black.svg';
 import user2_yellow from '@/assets/svg/user2_yellow.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
@@ -40,7 +40,7 @@ const listCategoryAd = [
     {
         name: 'User',
         link: 'Customer',
-        svg: user2,
+        svg: user2_black,
         svg_white: user2_white,
         svg_yellow: user2_yellow,
     },

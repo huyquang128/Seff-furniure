@@ -10,6 +10,7 @@ import {
     logoutApi,
     registerApi,
     removeAddressUserApi,
+    removeUserApi,
     updateAddressUserApi,
     updateProfileApi,
     uploadAvatarApi,
@@ -63,12 +64,20 @@ const initialState = {
             code: null,
         },
     },
+    formSettingAdmin: {
+        siteName: '',
+        copyRight: '',
+        seoTitle: '',
+        seoDescription: '',
+        seoKeyword: '',
+    },
     urlImgAvatar: null,
     isActiveCategoryUserInfoTitle: 'Personal-Information',
     addressStore: 'hn',
     theme: 'light',
     isLabelSelectProvince: false,
     addressDefault: null,
+    typeAddOrUpdateUser: false,
 };
 
 export const register = createAsyncThunk('auth/register', async (formData) => {
@@ -195,6 +204,18 @@ export const addUser = createAsyncThunk('auth/add-user', async (formData) => {
     }
 });
 
+export const removeUser = createAsyncThunk(
+    'auth/remove-user',
+    async (formData) => {
+        try {
+            const response = await removeUserApi(formData);
+            return response;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+);
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -261,9 +282,15 @@ const authSlice = createSlice({
         setAddressDefault: (state, action) => {
             state.addressDefault = action.payload;
         },
+        setTypeUser: (state, action) => {
+            state.typeAddOrUpdateUser = action.payload.type;
+            state.formAddUser = action.payload.form;
+        },
         setAddUser: (state, action) => {
-            console.log(action.payload);
             state.formAddUser[action.payload.name] = action.payload.value;
+        },
+        setFormSettingAdmin: (state, action) => {
+            state.formSettingAdmin[action.payload.name] = action.payload.value;
         },
     },
     extraReducers: (builder) => {
@@ -393,6 +420,9 @@ const authSlice = createSlice({
             })
             .addCase(addUser.rejected, (state) => {
                 state.isLoading = false;
+            })
+            .addCase(removeUser.fulfilled, (state) => {
+                state.isLoading = false;
             });
     },
 });
@@ -414,5 +444,7 @@ export const {
     setUpdateAddressContent,
     setAddressDefault,
     setAddUser,
+    setTypeUser,
+    setFormSettingAdmin,
 } = authSlice.actions;
 export default authSlice.reducer;

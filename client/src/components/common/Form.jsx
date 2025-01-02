@@ -22,6 +22,7 @@ function FormCommon({
     setIsValidForm,
     addressId,
 }) {
+    console.log('🚀 ~ type:', type);
     const dispatch = useDispatch();
     const [isShowPass, setIsShowPass] = useState(false);
     const [isAnimationValid, setAnimationValid] = useState(false);
@@ -86,7 +87,12 @@ function FormCommon({
                             (type === 'form-info-user' &&
                                 'border-none outline outline-1 outline-gray-200 hover:outline-yellow-base hover:outline-2 ')
                         } text-sm p-3 w-full outline outline-1 outline-background rounded-md transition-all ease-linear duration-75
-                            hover:outline-2 hover:outline-yellow-base  focus:outline-2 focus:outline-yellow-base  bg-foreground text-text-first
+                          hover:outline-2 hover:outline-yellow-base focus:outline-2 focus:outline-yellow-base ${
+                              type === 'setting-admin'
+                                  ? 'bg-background'
+                                  : 'bg-foreground'
+                          } text-text-first
+                         
                         `}
                         value={value}
                         onChange={(e) =>
@@ -129,9 +135,13 @@ function FormCommon({
                                 })
                             )
                         }
-                        className="p-2 rounded-md text-sm h-40 outline outline-1 outline-background
+                        className={`p-2 rounded-md text-sm h-40 outline outline-1 outline-background
                                   hover:outline-2  hover:outline-yellow-base transition-all 
-                                  ease-in-out duration-75 bg-foreground text-text-first"
+                                  ease-in-out duration-75 ${
+                                      type === 'setting-admin'
+                                          ? 'bg-background'
+                                          : 'bg-foreground'
+                                  } text-text-first`}
                     ></textarea>
                 );
                 break;
@@ -191,7 +201,11 @@ function FormCommon({
                             (type === 'form-info-user' &&
                                 'border-none outline outline-1 outline-gray-200 hover:outline-yellow-base hover:outline-2 ')
                         } text-sm p-3 w-full outline outline-1 outline-background rounded-md transition-all ease-linear duration-75
-                            hover:outline-2 hover:outline-yellow-base bg-foreground text-text-first
+                            hover:outline-2 hover:outline-yellow-base ${
+                                type === 'setting-admin'
+                                    ? 'bg-background'
+                                    : 'bg-foreground'
+                            } text-text-first
                         `}
                         value={value}
                         onChange={(e) =>
