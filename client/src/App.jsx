@@ -22,7 +22,6 @@ import LivingRoom from './pages/rooms/LivingRoom';
 import BedRoom from './pages/rooms/BedRoom';
 import KitchenRoom from './pages/rooms/KitchenRoom';
 import WorkRoom from './pages/rooms/WorkRoom';
-import ProductDetail from './pages/product/productDetail';
 import Cart from './pages/carts';
 import DeliveryInformation from './pages/checkout/DeliveryInformation';
 import ErrorBoundary from './ErrorBoundary';
@@ -50,6 +49,7 @@ import Order from './pages/admin/Order';
 import SettingAd from './pages/admin/Setting';
 import Customer from './pages/admin/Customer';
 import BlogAd from './pages/admin/BlogAd';
+import ProductDetail from './pages/product/ProductDetail';
 
 function App() {
     const dispatch = useDispatch();
