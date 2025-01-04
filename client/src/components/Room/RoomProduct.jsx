@@ -18,7 +18,7 @@ import arr_down from '@/assets/svg/arr-down.svg';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import FilterModals from '../modals/filterModals';
+import FilterModals from '';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useDispatch } from 'react-redux';

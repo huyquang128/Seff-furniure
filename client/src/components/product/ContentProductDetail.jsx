@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { FreeMode, Thumbs } from 'swiper/modules';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     addToCart,
     decreaseQuantity,
@@ -18,8 +18,6 @@ import {
     updateColor,
     updateQuantity,
 } from '@/redux/cartSlice';
-import { Bounce, toast } from 'react-toastify';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 import { getProductSingleByName, recommendProduct } from '@/redux/productSlice';
 import note_edit from '@/assets/svg/note-edit.svg';
@@ -547,26 +545,6 @@ function ContentProductDetail({ productName }) {
                                                 ({reviewStore?.length} Đánh giá)
                                             </div>
                                         </div>
-
-                                        {/*  */}
-                                        {/* <div className="w-6/12">
-                                            <div className="text-sm font-medium flex justify-center gap-3 items-center mb-2">
-                                                <span className="w-11 text-center">
-                                                    5 sao
-                                                </span>
-                                                <input
-                                                    type="range"
-                                                    min={0}
-                                                    max={5}
-                                                    step={0.1}
-                                                    // value="3"
-                                                    name=""
-                                                    id=""
-                                                    className="range-star"
-                                                />
-                                                <span>30</span>
-                                            </div>
-                                        </div> */}
                                     </div>
                                 </div>
 
