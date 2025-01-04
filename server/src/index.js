@@ -64,6 +64,9 @@ app.use('/order', orderRouter);
 app.use('/review', reviewRouter);
 app.use('/favorite', favoriteRouter);
 app.use('/blog', blogRouter);
+app.use('/user', (req, res) => {
+    res.json({ message: 'User route' });
+});
 
 app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on port ${PORT}`);
