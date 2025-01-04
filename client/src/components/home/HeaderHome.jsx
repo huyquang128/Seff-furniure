@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import MenuNavModel from '../modals/menuNavModals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFloating } from '@floating-ui/react';
-import CartToolkit from '../toolkits/cartToolkits';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { getCartItems, setTotalQuantityInCart } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
@@ -32,6 +31,7 @@ import search from '@/assets/svg/search.svg';
 import menu from '@/assets/svg/menu.svg';
 import arrowUp from '@/assets/svg/arrow-top.svg';
 import avatar from '@/assets/image/avatar.jpg';
+import CartToolkit from '../toolkits/cartToolkits';
 
 function HeaderHome() {
     const navigate = useNavigate();
