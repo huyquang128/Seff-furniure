@@ -6,17 +6,14 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import recycle from '@/assets/svg/recycle.svg';
-import CartModels from '../modals/PaymentCartModals';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     decreaseQuantityInCart,
-    deleteCartItem,
     getCartItems,
     increaseQuantityInCart,
     inputQuantityAndTotalPrice,
     setDiscountPrice,
     updateCartItemQuantityAndTotalPrice,
-    updateQuantity,
 } from '@/redux/cartSlice';
 import { useNavigate } from 'react-router-dom';
 import cartEmpty from '@/assets/svg/cart-empty.svg';
