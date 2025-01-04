@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductFromLivingRoom } from '@/redux/productSlice';
 import RoomLayoutCommon from '@/components/Room/RoomLayoutCommon';
-import sofa from '@/assets/image/sofa.jpg';
+import living_1 from '@/assets/image/room-living-1.jpeg';
 
 function Sofa() {
     const location = useLocation();
@@ -18,7 +18,7 @@ function Sofa() {
     return (
         <>
             <RoomLayoutCommon
-                background={sofa}
+                background={living_1}
                 menuAndProduct={menuWorkplace && menuWorkplace[0].children[1]}
                 type={'children'}
                 name={'SOFA'}

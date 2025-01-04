@@ -1,30 +1,29 @@
-import Banner_2 from '@/assets/image/Banner_2.jpeg';
-import arr_right_red from '@/assets/svg/arr_right_red.svg';
-import arr_right_black from '@/assets/svg/arr_right_black.svg';
-import search from '@/assets/svg/search.svg';
-import { useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import note_edit from '@/assets/svg/note-edit.svg';
 import PaginationCommon from '@/components/common/Pagination';
 import { getBlogPage } from '@/redux/blogSlice';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
 
-function Blog() {
+function BlogAd() {
     const blogRedux = useSelector((state) => state?.blog);
 
+    const setIsShowProductModal = () => {};
+
     return (
-        <div
-            className="mt-[180px] max-w-[1440px] mx-auto px-[68px] gap-5
-                        max-lg:px-3 max-md:mt-28"
-        >
-            <div className="flex text-sm col-span-3">
-                <div>Trang chủ</div>
-                <img src={arr_right_black} alt="" />
-                <div className="font-medium">Blog</div>
+        <div className="p-5">
+            <div className="flex justify-between items-center mb-10">
+                <div className="text-xl text-text-first font-medium">Blog</div>
+                <button className="flex py-3.5 px-8 bg-black text-white rounded-lg text-sm gap-2">
+                    <img src={note_edit} alt="" className="h-5" />
+                    <div onClick={() => setIsShowProductModal(true)}>
+                        Viết Blog
+                    </div>
+                </button>
             </div>
-            <div
-                className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1
-                            max-md:gap-10 gap-4 mb-10"
-            >
+
+            <div className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1
+                            max-md:gap-10 gap-4 mb-10">
                 {blogRedux?.blogs?.map((item) => (
                     <div key={item._id}>
                         <img
@@ -49,8 +48,14 @@ function Blog() {
                     </div>
                 ))}
             </div>
+
+            <PaginationCommon
+                totalPage={blogRedux.blogs?.totalBlog}
+                getPageFunc={getBlogPage}
+                pageSize={6}
+            />
         </div>
     );
 }
 
-export default Blog;
+export default BlogAd;

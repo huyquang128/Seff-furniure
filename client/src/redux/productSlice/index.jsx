@@ -10,7 +10,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
     livingRoomAllProd: null,
-    isLivingRoomLoading: true,
+    isLivingRoomLoading: false,
     singleProductDetail: null,
     productsSearchByKeyword: null,
     productsRecommended: null,

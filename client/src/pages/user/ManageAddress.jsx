@@ -131,7 +131,13 @@ function ManageAddress() {
                                         alt=""
                                         className="h-4 px-1"
                                     />
-                                    <span>(+84) {items.phone}</span>
+                                    <span>
+                                        (+84){' '}
+                                        {items.phone?.replace(
+                                            /(\d{3})\d{4}(\d{3})/,
+                                            '$1****$2'
+                                        )}
+                                    </span>
                                 </div>
                             </div>
                             <div className="flex flex-col gap-3">

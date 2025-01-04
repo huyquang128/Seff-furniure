@@ -11,7 +11,6 @@ const categoryListUser = [
     { name: 'Ngày', img_white: arr_sort_white, img_black: arr_sort },
 ];
 function Customer() {
-    //state redux
     const authRedux = useSelector((state) => state?.auth);
 
     return (
@@ -20,7 +19,7 @@ function Customer() {
                 type={'customer'}
                 categoryList={categoryListUser}
                 stateStore={authRedux}
-                stateArr={authRedux.allUser}
+                stateArr={authRedux?.allUser}
             />
         </>
     );

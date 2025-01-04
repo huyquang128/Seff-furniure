@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getChildMenu } from '@/redux/menuNav';
 
 function ProductDiscovery() {
-    const [ref, inView] = useInView({ threshold: 1, triggerOnce: true });
+    const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: true });
     const dispatch = useDispatch();
 
     //state redux
@@ -52,10 +52,13 @@ function ProductDiscovery() {
                             slidesPerView: 4,
                         },
                         768: {
-                            slidesPerView: 6,
+                            slidesPerView: 5,
                         },
                         1024: {
-                            slidesPerView: 8,
+                            slidesPerView: 6,
+                        },
+                        1400: {
+                            slidesPerView: 7,
                         },
                     }}
                     spaceBetween={20}

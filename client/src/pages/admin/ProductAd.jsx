@@ -1,14 +1,6 @@
-import note_edit_black from '@/assets/svg/note_edit_black.svg';
 import note_edit from '@/assets/svg/note-edit.svg';
-import Pagination from 'rc-pagination';
-import { useEffect, useState } from 'react';
-import arr_right_black from '@/assets/svg/admin/arr_right_black.svg';
-import arr_right_white from '@/assets/svg/admin/arr_right_white.svg';
-import arr_right_gray from '@/assets/svg/admin/arr_right_gray.svg';
-import arr_left_gray from '@/assets/svg/admin/arr_left_gray.svg';
-import arr_left_white from '@/assets/svg/admin/arr_left_white.svg';
-import arr_left_black from '@/assets/svg/admin/arr_left_black.svg';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { getProductsPage } from '@/redux/productSlice';
 import ActiveImgTooltip from '../../components/toolkits/ActiveImgTooltip';
 import heart from '@/assets/svg/heart.svg';
@@ -17,18 +9,15 @@ import star from '@/assets/svg/star.svg';
 import star_yellow from '@/assets/svg/star_yellow.svg';
 import AddProductAd from '../../components/modals/AddProductAdModal';
 import AddProductAdModal from '../../components/modals/AddProductAdModal';
+import PaginationCommon from '@/components/common/Pagination';
 
 function ProductAd() {
-    const dispatch = useDispatch();
-
     //state redux
     const productPageList = useSelector(
         (state) => state?.products?.productPageList
     );
-    const themeRedux = useSelector((state) => state.auth.theme);
 
     //state react
-    const [currentPage, setCurrentPage] = useState(1);
     const [isShowAddProductModal, setIsShowProductModal] = useState(false);
 
     const [urlImgActive, setUrlImgActive] = useState(null);
@@ -36,15 +25,6 @@ function ProductAd() {
     const [productIdActive, setProductIdActive] = useState(null);
     const [colorIdActive, setColorIdActive] = useState(null);
     const [productIdActiveModal, setProductIdActiveModal] = useState(null);
-
-    const onChangePage = (page) => {
-        setCurrentPage(page);
-    };
-
-    //hook
-    useEffect(() => {
-        dispatch(getProductsPage(currentPage));
-    }, [dispatch, currentPage]);
 
     //handle Events
     const handleActiveImg = (urlImg, id, colorId) => {
@@ -69,7 +49,7 @@ function ProductAd() {
                 <div className="text-xl text-text-first font-medium">
                     Danh sách sản phẩm
                 </div>
-                <button className="flex p-4 bg-black text-white rounded-lg text-sm gap-2">
+                <button className="flex py-3.5 px-4 bg-black text-white rounded-lg text-sm gap-2">
                     <img src={note_edit} alt="" className="h-5" />
                     <div onClick={() => setIsShowProductModal(true)}>
                         Thêm sản phẩm
@@ -81,8 +61,10 @@ function ProductAd() {
             </div>
 
             {/* products */}
-            <div className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-2 
-                             mb-10 text-text-first max-sm:grid-cols-1">
+            <div
+                className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-2 
+                             mb-10 text-text-first max-sm:grid-cols-1"
+            >
                 {productPageList?.products?.map((item) => (
                     <div
                         key={item._id}
@@ -171,64 +153,11 @@ function ProductAd() {
             )}
 
             {/* pagination */}
-            <div className="flex justify-center cursor-pointer mb-10">
-                <Pagination
-                    current={currentPage} // Trang hiện tại
-                    total={productPageList?.totalProducts} // Tổng số mục
-                    pageSize={8} // Số mục trên mỗi trang
-                    onChange={onChangePage} // Hàm xử lý khi chuyển trang
-                    className="flex gap-3 items-center"
-                    showLessItems
-                    itemRender={(page, type, originalElement) => {
-                        if (type === 'prev') {
-                            return (
-                                <button className="border border-gray-200 px-4 py-3.5 rounded-md">
-                                    <img
-                                        src={
-                                            themeRedux === 'light'
-                                                ? arr_left_black
-                                                : arr_left_white
-                                        }
-                                        alt=""
-                                    />
-                                </button>
-                            );
-                        }
-                        if (type === 'next') {
-                            return (
-                                <button className="border border-gray-200 px-4 py-3.5 rounded-md">
-                                    <img
-                                        src={
-                                            themeRedux === 'light'
-                                                ? arr_right_black
-                                                : arr_right_white
-                                        }
-                                        alt=""
-                                    />
-                                </button>
-                            );
-                        }
-                        if (type === 'jump-prev' || type === 'jump-next') {
-                            return <span className='text-text-first'>...</span>;
-                        }
-                        return (
-                            <button
-                                className={`px-4 py-2 border ${
-                                    themeRedux === 'light'
-                                        ? 'text-black-base'
-                                        : 'text-white'
-                                } border-gray-300 rounded-md ${
-                                    currentPage === page
-                                        ? 'bg-orange-200 text-yellow-600'
-                                        : ''
-                                }`}
-                            >
-                                {page}
-                            </button>
-                        );
-                    }}
-                />
-            </div>
+            <PaginationCommon
+                totalPage={productPageList?.totalProducts}
+                getPageFunc={getProductsPage}
+                pageSize={8}
+            />
         </div>
     );
 }

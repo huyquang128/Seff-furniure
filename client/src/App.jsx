@@ -49,6 +49,7 @@ import { routeWorkplace } from './routes/RouteWorkplace';
 import Order from './pages/admin/Order';
 import SettingAd from './pages/admin/Setting';
 import Customer from './pages/admin/Customer';
+import BlogAd from './pages/admin/BlogAd';
 
 function App() {
     const dispatch = useDispatch();
@@ -70,7 +71,9 @@ function App() {
                 path="/admin"
                 element={
                     <CheckAuth user={user} isAuthenticated={isAuthenticated}>
-                        <AdminLayout />
+                        <ErrorBoundary>
+                            <AdminLayout />
+                        </ErrorBoundary>
                     </CheckAuth>
                 }
             >
@@ -78,6 +81,7 @@ function App() {
                 <Route path="Product" element={<ProductAd />} />
                 <Route path="Customer" element={<Customer />} />
                 <Route path="Order" element={<Order />} />
+                <Route path="Blog" element={<BlogAd />} />
                 <Route path="Setting" element={<SettingAd />} />
             </Route>
 

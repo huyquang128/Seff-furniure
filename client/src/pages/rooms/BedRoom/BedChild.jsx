@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductFromLivingRoom } from '@/redux/productSlice';
 import RoomLayoutCommon from '@/components/Room/RoomLayoutCommon';
-import shelf from '@/assets/image/shelf.jpg';
+import bedroom_1 from '@/assets/image/bedroom.jpg';
+
 
 function BedChild() {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function BedChild() {
 
     return (
         <RoomLayoutCommon
-            background={shelf}
+            background={bedroom_1}
             menuAndProduct={menuBed && menuBed[1].children[0]}
             type={'children'}
             name={'GIƯỜNG'}

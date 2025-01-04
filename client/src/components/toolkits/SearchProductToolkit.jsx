@@ -2,35 +2,9 @@
 import { setIdProduct } from '@/redux/cartSlice';
 import { getProductSingleByName, recommendProduct } from '@/redux/productSlice';
 import { useEffect, useRef, useState } from 'react';
+import { RotatingLines } from 'react-loader-spinner';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-
-const listProducts = [
-    {
-        name: 'sản phẩm 1',
-        material: 'gỗ',
-        color: 'xanh',
-        size: '133x123x123cm',
-        price: 19123100,
-        src: 'https://res.cloudinary.com/dgm8gio7e/image/upload/v1729255224/bdwhdk8jf2jflioujg71.jpg',
-    },
-    {
-        name: 'sản phẩm 1',
-        material: 'gỗ',
-        color: 'xanh',
-        size: '133x123x123cm',
-        price: 19123100,
-        src: 'https://res.cloudinary.com/dgm8gio7e/image/upload/v1729255224/bdwhdk8jf2jflioujg71.jpg',
-    },
-    {
-        name: 'sản phẩm 1',
-        material: 'gỗ',
-        color: 'xanh',
-        size: '133x123x123cm',
-        price: 19123100,
-        src: 'https://res.cloudinary.com/dgm8gio7e/image/upload/v1729255224/bdwhdk8jf2jflioujg71.jpg',
-    },
-];
 
 function SearchProductToolkit({
     isShowSearchProductsToolkit,
@@ -47,6 +21,10 @@ function SearchProductToolkit({
     //state redux
     const productsSearchByKeywords = useSelector(
         (state) => state?.products.productsSearchByKeyword
+    );
+
+    const isLivingRoomLoading = useSelector(
+        (state) => state?.products.isLivingRoomLoading
     );
 
     //
@@ -66,8 +44,6 @@ function SearchProductToolkit({
     };
 
     const handleRedirectToDetail = (productName, productId) => {
-        console.log('🚀 ~ handleRedirectToDetail ~ productId:', productId);
-
         dispatch(setIdProduct(productId));
         dispatch(recommendProduct(productId));
         dispatch(getProductSingleByName(productName)).then((response) => {
@@ -96,7 +72,6 @@ function SearchProductToolkit({
                     </div>
                 </div>
             )}
-
             <div className="flex justify-between text-sm py-4">
                 <div className=" font-medium ">Sản phẩm liên quan</div>
                 <div className="underline text-red-800 hover:brightness-110">
@@ -104,14 +79,86 @@ function SearchProductToolkit({
                 </div>
             </div>
 
-            {productsSearchByKeywords?.length <= 0 && (
+            {isLivingRoomLoading ? (
+                <div className="mb-10 flex justify-center">
+                    <RotatingLines
+                        visible={true}
+                        height="20"
+                        width="20"
+                        color="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
+            ) : productsSearchByKeywords?.length <= 0 ? (
                 <div className="text-center mb-5 text-xs">
                     Không có kết quả tìm kiếm{' '}
                 </div>
+            ) : (
+                <div className="flex flex-col">
+                    {sliceProductsSearchByKeywords ? (
+                        sliceProductsSearchByKeywords.map((product) => (
+                            <Link key={product._id} to={`/${product.name}`}>
+                                <div
+                                    key={product._id}
+                                    onClick={() =>
+                                        handleRedirectToDetail(
+                                            product.name,
+                                            product._id
+                                        )
+                                    }
+                                    className="flex gap-2 py-3"
+                                >
+                                    <img
+                                        src={product.colors[0].images[0]}
+                                        alt=""
+                                        className="h-20 rounded-md"
+                                    />
+                                    <div className="flex flex-col gap-2">
+                                        <div className="font-medium">
+                                            {product.name}
+                                        </div>
+                                        <div className="flex text-xs text-text-gray gap-1 items-center flex-wrap">
+                                            <div className="">
+                                                {product.material}
+                                            </div>
+                                            <div className="w-[1px] h-3.5 bg-gray-400"></div>
+                                            <div className="">
+                                                {product.colors
+                                                    .map(
+                                                        (color) => color.colorId
+                                                    )
+                                                    .join(', ')}
+                                            </div>
+                                            <div className="w-[1px] h-3.5 bg-gray-400"></div>
+                                            <div>
+                                                {product.size.width}x
+                                                {product.size.height}x
+                                                {product.size.length}centimetre
+                                            </div>
+                                        </div>
+                                        <div className="text-red-700 text-sm font-medium">
+                                            {product.price.toLocaleString(
+                                                'VN-vn'
+                                            )}
+                                            đ
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        ))
+                    ) : (
+                        <div className="text-center mb-5 text-xs">
+                            Không có kết quả tìm kiếm{' '}
+                        </div>
+                    )}
+                </div>
             )}
-
             {/* list products */}
-            <div className="flex flex-col">
+            {/* <div className="flex flex-col">
                 {sliceProductsSearchByKeywords ? (
                     sliceProductsSearchByKeywords.map((product) => (
                         <Link key={product._id} to={`/${product.name}`}>
@@ -163,7 +210,7 @@ function SearchProductToolkit({
                         Không có kết quả tìm kiếm{' '}
                     </div>
                 )}
-            </div>
+            </div> */}
         </div>
     );
 }

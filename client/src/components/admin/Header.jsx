@@ -10,6 +10,7 @@ import menu_white from '@/assets/svg/admin/menu_white.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { setTheme, toggleTheme } from '@/redux/authSlice';
 import CategorySidebarAdmin from '../modals/CategorySidebarAdmin';
+import NotifyTooltip from '../toolkits/NotifyTooltip';
 
 function HeaderAdmin() {
     const [isOpenModal, setIsOpenModal] = useState(false);
@@ -46,11 +47,14 @@ function HeaderAdmin() {
                 />
             </div>
             <div className="flex gap-6 max-md:gap-3 items-center">
-                <img
-                    src={theme === 'dark' ? bell_white : bell}
-                    alt=""
-                    className="h-6 cursor-pointer"
-                />
+                <div className="relative">
+                    <img
+                        src={theme === 'dark' ? bell_white : bell}
+                        alt=""
+                        className="h-6 cursor-pointer"
+                    />
+                    <NotifyTooltip />
+                </div>
                 <img
                     onClick={() => dispatch(toggleTheme())}
                     src={theme === 'dark' ? light_mode : dark_mode}

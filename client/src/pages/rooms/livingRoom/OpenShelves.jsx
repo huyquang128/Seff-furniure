@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllProductFromLivingRoom } from '@/redux/productSlice';
 import RoomLayoutCommon from '@/components/Room/RoomLayoutCommon';
 import shelf from '@/assets/image/shelf.jpg';
+import living_1 from '@/assets/image/room-living-1.jpeg';
 
 function OpenShelves() {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ function OpenShelves() {
 
     return (
         <RoomLayoutCommon
-            background={shelf}
+            background={living_1}
             menuAndProduct={
                 menuShelf && menuShelf[0].children[2].subChildren[2]
             }

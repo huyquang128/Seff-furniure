@@ -66,6 +66,7 @@ function MethodPayment() {
     const valueMethodPayment = useSelector(
         (state) => state.order?.methodPayment
     );
+    console.log('🚀 ~ MethodPayment ~ valueMethodPayment:', valueMethodPayment);
     const userId = useSelector((state) => state?.auth?.user?.id);
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
@@ -75,7 +76,6 @@ function MethodPayment() {
     const getAddressDefault = authRedux?.user.address?.find(
         (address) => address._id === authRedux.addressDefault
     );
-    console.log('🚀 ~ MethodPayment ~ getAddressDefault:', getAddressDefault);
 
     //handle events
     const handleShowModalCredit = () => {
@@ -83,7 +83,6 @@ function MethodPayment() {
     };
 
     const handleChangePaymentMethod = (e, index, typeMethod) => {
-        console.log(e.target.value);
         if (typeMethod === 'qr') {
             const formData = new FormData();
             formData.append(

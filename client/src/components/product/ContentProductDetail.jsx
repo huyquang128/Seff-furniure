@@ -549,7 +549,7 @@ function ContentProductDetail({ productName }) {
                                         </div>
 
                                         {/*  */}
-                                        <div className="w-6/12">
+                                        {/* <div className="w-6/12">
                                             <div className="text-sm font-medium flex justify-center gap-3 items-center mb-2">
                                                 <span className="w-11 text-center">
                                                     5 sao
@@ -566,7 +566,7 @@ function ContentProductDetail({ productName }) {
                                                 />
                                                 <span>30</span>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
 
@@ -643,9 +643,6 @@ function ContentProductDetail({ productName }) {
                     </div>
                 </div>
             </div>
-
-            {/* Product for  you */}
-            <div></div>
         </div>
     );
 }

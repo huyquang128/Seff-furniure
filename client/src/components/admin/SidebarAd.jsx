@@ -16,6 +16,9 @@ import dashboard_yellow from '@/assets/svg/admin/dashboard_yellow.svg';
 import user2_white from '@/assets/svg/user2_white.svg';
 import user2_black from '@/assets/svg/user2_black.svg';
 import user2_yellow from '@/assets/svg/user2_yellow.svg';
+import blog from '@/assets/svg/blog.svg';
+import blog_white from '@/assets/svg/blog_white.svg';
+import blog_yellow from '@/assets/svg/blog_yellow.svg';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -50,6 +53,13 @@ const listCategoryAd = [
         svg: cart_black,
         svg_white: cart_white,
         svg_yellow: cart_yellow,
+    },
+    {
+        name: 'Blog',
+        link: 'Blog',
+        svg: blog,
+        svg_white: blog_white,
+        svg_yellow: blog_yellow,
     },
     {
         name: 'Setting',
@@ -110,8 +120,9 @@ function SidebarAd() {
                         src={theme === 'light' ? logout_black : logout_white}
                         alt=""
                         className="-translate-y-[2px] h-[17px]"
+                        onMouseEnter={() => {}}
                     />
-                    <div className="text-text-first">Đăng xuất</div>
+                    <div className={`text-first cursor-pointer`}>Đăng xuất</div>
                 </div>
             </div>
         </div>

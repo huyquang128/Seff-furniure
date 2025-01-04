@@ -29,7 +29,12 @@ function RoomLayoutCommon({
                             <Link to="/">Trang Chủ</Link>
                         </span>
                         <img src={link_arr_right} alt="" className="h-4" />
-                        <Link>{path[2]}</Link>
+                        <Link>
+                            {(path[2] === 'living-room' && 'Phòng khách') ||
+                                (path[2] === 'bed-room' && 'Phòng ngủ') ||
+                                (path[2] === 'kitchen' && 'Bếp & phòng ăn') ||
+                                (path[2] === 'work-room' && 'Phòng làm việc')}
+                        </Link>
                     </div>
                     <h1
                         className=" max-md:text-3xl

@@ -7,6 +7,7 @@ import provinceReducer from '@/redux/provinceSlice/index';
 import orderReducer from '@/redux/orderSlice/index';
 import reviewReducer from '@/redux/reviewSlice/index';
 import favoriteReducer from '@/redux/favorite/index';
+import blogReducer from '@/redux/blogSlice/index';
 import {
     persistStore,
     persistReducer,
@@ -33,6 +34,7 @@ const rootReducer = {
     order: persistReducer(persistConfig, orderReducer),
     review: persistReducer(persistConfig, reviewReducer),
     favoriteProducts: persistReducer(persistConfig, favoriteReducer),
+    blog: blogReducer,
 };
 
 const store = configureStore({

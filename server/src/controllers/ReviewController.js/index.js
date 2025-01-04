@@ -23,31 +23,17 @@ const postReviews = async (req, res) => {
         author
     );
     try {
-        const checkUser = await Review.findOne({ userId, productId });
+        const newReview = await Review.findOneAndUpdate(
+            { userId, productId },
+            { $set: { comment, author, rating } },
+            { new: true, upsert: true } // upsert tạo mới nếu không tìm thấy
+        );
 
-        let newReview = null;
-        if (checkUser) {
-            newReview = await Review.findOneAndUpdate(
-                { userId, productId },
-                { $set: { comment, author, rating } },
-                { new: true }
-            );
-        } else {
-            newReview = new Review({
-                userId,
-                productId,
-                comment,
-                rating,
-                author,
-            });
-
-            await newReview.save();
-        }
-
-        const updateUserAndProduct = async (Model, idField, reviewId) => {
+        // Hàm cập nhật User và Product
+        const updateUserAndProduct = async (Model, modelId, reviewId) => {
             await Model.findByIdAndUpdate(
-                idField,
-                { $push: { reviewers: reviewId } },
+                modelId,
+                { $addToSet: { reviewers: reviewId } }, // $addToSet tránh trùng lặp reviewId
                 { new: true }
             );
         };

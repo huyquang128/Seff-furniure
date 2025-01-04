@@ -5,8 +5,7 @@ import cartEmpty from '@/assets/svg/cart-empty.svg';
 import recycle from '@/assets/svg/recycle.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { deleteCartItem, getCartItems } from '@/redux/cartSlice';
+import { deleteCartItem } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
 
 function CartToolkit({

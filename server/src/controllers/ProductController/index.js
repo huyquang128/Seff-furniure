@@ -251,9 +251,9 @@ const getProductPage = async (req, res) => {
     const pageSize = 8;
     try {
         const products = await Product.find()
-            .sort({ createAt: -1 })
             .skip((page - 1) * pageSize)
-            .limit(pageSize);
+            .limit(pageSize)
+            .sort({ _id: -1 });
 
         // Tổng số sản phẩm
         const totalProducts = await Product.countDocuments();

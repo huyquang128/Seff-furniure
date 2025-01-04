@@ -120,263 +120,274 @@ function FormList({ type, categoryList, stateStore, stateArr }) {
             )}
 
             {/*  */}
-            <div>
-                {/* category */}
-                <div
-                    className="grid grid-cols-12 items-center text-sm font-medium 
-                            text-text-first py-4"
-                >
-                    <div
-                        className={`${
-                            type === 'orders' && 'col-span-2'
-                        } col-span-1 max-sm:col-span-2 px-4 flex gap-2`}
-                    >
-                        <input
-                            type="checkbox"
-                            checked={isCheckboxAllRemoveUser}
-                            className="w-4 h-4 cursor-pointer"
-                            onChange={handleCheckAll}
-                        />
-                        {type === 'orders' && <div>Mã ĐH</div>}
-                    </div>
-                    {categoryList.map((item, index) => (
-                        <div
-                            key={index}
-                            className={`${
-                                (type === 'customer' &&
-                                    index === 0 &&
-                                    'col-span-3 max-lg:col-span-4 max-sm:col-span-7') ||
-                                (type === 'orders' &&
-                                    index === 0 &&
-                                    'hidden') ||
-                                (index === 1 &&
-                                    'col-span-3 max-lg:col-span-4 max-sm:hidden') ||
-                                (type === 'customer' &&
-                                    index === 2 &&
-                                    'col-span-2 max-lg:hidden') ||
-                                (type === 'orders' &&
-                                    index === 2 &&
-                                    'col-span-3 max-lg:hidden') ||
-                                (index === 3 &&
-                                    type === 'orders' &&
-                                    'col-span-2 max-lg:hidden')
-                            } flex gap-1.5 items-center  col-span-1 `}
-                        >
-                            <span>{item.name}</span>
-                            <img
-                                src={
-                                    authRedux.theme === 'light'
-                                        ? arr_sort
-                                        : arr_sort_white
-                                }
-                                alt=""
-                                className="h-[7px] translate-y-0.5"
-                            />
-                        </div>
-                    ))}
-                    {arrCheckboxAllRemove.length > 0 && (
-                        <motion.div
-                            initial={{ y: '-50%', opacity: '0' }}
-                            animate={{
-                                y:
-                                    arrCheckboxAllRemove.length > 0 &&
-                                    !isAnimationRemoveBtn
-                                        ? '0%'
-                                        : '-50%',
-                                opacity:
-                                    arrCheckboxAllRemove.length > 0 &&
-                                    !isAnimationRemoveBtn
-                                        ? '1'
-                                        : '0',
-                            }}
-                            transition={{ duration: 0.3 }}
-                            className={`${
-                                type === 'orders' ? 'col-span-1' : ''
-                            }col-span-2 max-lg:col-span-3 max-md:col-span-3 text-end`}
-                        >
-                            <button
-                                onClick={handleRemoveUserChecked}
-                                className=" px-4 py-1.5 rounded-md border border-gray-500
-                            hover:bg-black hover:text-white transition-all ease-linear duration-300"
-                            >
-                                Xóa
-                            </button>
-                        </motion.div>
-                    )}
+            {stateArr.length <= 0 ? (
+                <div className="text-text-first bg-background text-sm p-5 rounded-lg">
+                    Chưa có đơn hàng nào được đặt
                 </div>
-
-                {/* list customer */}
-                <div className="text-sm">
-                    {stateArr?.map((item) => (
+            ) : (
+                <div>
+                    {/* category */}
+                    <div
+                        className="grid grid-cols-12 items-center text-sm font-medium 
+                            text-text-first py-4"
+                    >
                         <div
-                            key={item._id}
-                            className="grid grid-cols-12 py-4 items-center text-text-first
-                                    bg-background rounded-lg mb-4"
+                            className={`${
+                                type === 'orders' && 'col-span-2'
+                            } col-span-1 max-sm:col-span-2 px-4 flex gap-2`}
                         >
+                            <input
+                                type="checkbox"
+                                checked={isCheckboxAllRemoveUser}
+                                className="w-4 h-4 cursor-pointer"
+                                onChange={handleCheckAll}
+                            />
+                            {type === 'orders' && <div>Mã ĐH</div>}
+                        </div>
+                        {categoryList.map((item, index) => (
                             <div
-                                className={`max-sm:col-span-2 px-4 items-center ${
-                                    type === 'orders' &&
-                                    'flex items-center gap-3 col-span-2'
-                                } `}
-                            >
-                                <input
-                                    onChange={() => handleCheckSingle(item._id)}
-                                    type="checkbox"
-                                    checked={arrCheckboxAllRemove.includes(
-                                        item._id
-                                    )}
-                                    className={`${
-                                        type === 'orders' && 'translate-y-0'
-                                    } w-4 h-4 translate-y-3 cursor-pointer`}
-                                />
-                                {type === 'orders' && (
-                                    <div className="">
-                                        #{item._id.slice(0, 6)}
-                                    </div>
-                                )}
-                            </div>
-
-                            <div
-                                className="flex items-center gap-2 col-span-3 max-lg:col-span-4
-                                        max-sm:col-span-9"
-                            >
-                                <img
-                                    src={
-                                        item.urlImgAvatar
-                                            ? item.urlImgAvatar
-                                            : avatar
-                                    }
-                                    alt=""
-                                    className="h-12 rounded-full"
-                                />
-                                <div>
-                                    {type === 'customer'
-                                        ? item.lastName
-                                            ? item.firstName +
-                                              ' ' +
-                                              item.lastName
-                                            : item.username
-                                        : item.fullname}
-                                </div>
-                            </div>
-                            <div className="flex col-span-3 gap-2 max-lg:col-span-6 max-sm:hidden items-center">
-                                <img
-                                    src={
-                                        type === 'customer'
-                                            ? email
-                                            : item.products[0].imageUrl
-                                    }
-                                    alt=""
-                                    className={
-                                        type === 'orders' && 'h-10 rounded-md'
-                                    }
-                                />
-                                <div>
-                                    {type === 'customer'
-                                        ? item.email
-                                        : item.products[0].nameProduct}
-                                </div>
-                            </div>
-                            {type === 'customer' && (
-                                <div className="col-span-2 max-lg:hidden">
-                                    {item.phone.replace(
-                                        /(\d{3})\d{4}(\d{3})/,
-                                        '$1****$2'
-                                    )}
-                                </div>
-                            )}
-
-                            <div
+                                key={index}
                                 className={`${
-                                    type === 'customer'
-                                        ? 'col-span-1'
-                                        : 'col-span-2'
-                                }  max-lg:hidden flex gap-2`}
+                                    (type === 'customer' &&
+                                        index === 0 &&
+                                        'col-span-3 max-lg:col-span-4 max-sm:col-span-7') ||
+                                    (type === 'orders' &&
+                                        index === 0 &&
+                                        'hidden') ||
+                                    (index === 1 &&
+                                        'col-span-3 max-lg:col-span-4 max-sm:hidden') ||
+                                    (type === 'customer' &&
+                                        index === 2 &&
+                                        'col-span-2 max-lg:hidden') ||
+                                    (type === 'orders' &&
+                                        index === 2 &&
+                                        'col-span-3 max-lg:hidden') ||
+                                    (index === 3 &&
+                                        type === 'orders' &&
+                                        'col-span-2 max-lg:hidden')
+                                } flex gap-1.5 items-center  col-span-1 `}
                             >
-                                <img src={calendar} alt="" />
-                                {new Date(item.createdAt).toLocaleDateString()}
-                            </div>
-
-                            {type === 'orders' && (
-                                <div
-                                    className="col-span-1 max-lg:hidden flex gap-2 
-                                                text-xs  justify-center"
-                                >
-                                    <div
-                                        className="w-28  bg-green-base text-whiter flex justify-center
-                                                    py-2  rounded-3xl"
-                                    >
-                                        {' '}
-                                        {item.status === 'processing' &&
-                                            'Đang chờ'}
-                                    </div>
-                                </div>
-                            )}
-                            {type === 'customer' && (
-                                <div className="col-span-2 flex justify-end px-5 items-center gap-5 max-lg:hidden">
-                                    <img
-                                        onClick={() =>
-                                            handleAddUser({
-                                                title: 'Cập nhật thông tin',
-                                                form: {
-                                                    username: item.username,
-                                                    email: item.email,
-                                                    password: item.password,
-                                                    phone: item.phone,
-                                                },
-                                            })
-                                        }
-                                        src={edit_1}
-                                        alt=""
-                                        className="h-4 cursor-pointer"
-                                    />
-                                    <img
-                                        onClick={() =>
-                                            handleRemoveUserChecked({
-                                                id: item._id,
-                                                type: 'remove-single',
-                                            })
-                                        }
-                                        src={recycle_gray_bold}
-                                        alt=""
-                                        className="h-4 cursor-pointer"
-                                    />
-                                </div>
-                            )}
-
-                            <div className="lg:hidden flex justify-center">
+                                <span>{item.name}</span>
                                 <img
                                     src={
                                         authRedux.theme === 'light'
-                                            ? more_black
-                                            : more
+                                            ? arr_sort
+                                            : arr_sort_white
                                     }
                                     alt=""
-                                    className="cursor-pointer h-5 "
+                                    className="h-[7px] translate-y-0.5"
                                 />
-                                {isShowMoreAct && (
-                                    <MoreSelectActUser
-                                        isShowMoreAct={isShowMoreAct}
-                                        setShowMoreAct={setShowMoreAct}
-                                    />
-                                )}
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                        {arrCheckboxAllRemove.length > 0 && (
+                            <motion.div
+                                initial={{ y: '-50%', opacity: '0' }}
+                                animate={{
+                                    y:
+                                        arrCheckboxAllRemove.length > 0 &&
+                                        !isAnimationRemoveBtn
+                                            ? '0%'
+                                            : '-50%',
+                                    opacity:
+                                        arrCheckboxAllRemove.length > 0 &&
+                                        !isAnimationRemoveBtn
+                                            ? '1'
+                                            : '0',
+                                }}
+                                transition={{ duration: 0.3 }}
+                                className={`${
+                                    type === 'orders' ? 'col-span-1' : ''
+                                }col-span-2 max-lg:col-span-3 max-md:col-span-3 text-end`}
+                            >
+                                <button
+                                    onClick={handleRemoveUserChecked}
+                                    className=" px-4 py-1.5 rounded-md border border-gray-500
+                            hover:bg-black hover:text-white transition-all ease-linear duration-300"
+                                >
+                                    Xóa
+                                </button>
+                            </motion.div>
+                        )}
+                    </div>
+
+                    {/* list customer */}
+                    <div className="text-sm">
+                        {stateArr?.map((item) => (
+                            <div
+                                key={item._id}
+                                className="grid grid-cols-12 py-4 items-center text-text-first
+                                    bg-background rounded-lg mb-4"
+                            >
+                                <div
+                                    className={`max-sm:col-span-2 px-4 items-center ${
+                                        type === 'orders' &&
+                                        'flex items-center gap-3 col-span-2'
+                                    } `}
+                                >
+                                    <input
+                                        onChange={() =>
+                                            handleCheckSingle(item._id)
+                                        }
+                                        type="checkbox"
+                                        checked={arrCheckboxAllRemove.includes(
+                                            item._id
+                                        )}
+                                        className={`${
+                                            type === 'orders' && 'translate-y-0'
+                                        } w-4 h-4 translate-y-3 cursor-pointer`}
+                                    />
+                                    {type === 'orders' && (
+                                        <div className="">
+                                            #{item._id.slice(0, 6)}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div
+                                    className="flex items-center gap-2 col-span-3 max-lg:col-span-4
+                                        max-sm:col-span-9"
+                                >
+                                    <img
+                                        src={
+                                            item.urlImgAvatar
+                                                ? item.urlImgAvatar
+                                                : avatar
+                                        }
+                                        alt=""
+                                        className="h-12 rounded-full"
+                                    />
+                                    <div>
+                                        {type === 'customer'
+                                            ? item.lastName
+                                                ? item.firstName +
+                                                  ' ' +
+                                                  item.lastName
+                                                : item.username
+                                            : item.fullname}
+                                    </div>
+                                </div>
+                                <div className="flex col-span-3 gap-2 max-lg:col-span-6 max-sm:hidden items-center">
+                                    <img
+                                        src={
+                                            type === 'customer'
+                                                ? email
+                                                : item.products[0].imageUrl
+                                        }
+                                        alt=""
+                                        className={
+                                            type === 'orders' &&
+                                            'h-10 rounded-md'
+                                        }
+                                    />
+                                    <div>
+                                        {type === 'customer'
+                                            ? item.email
+                                            : item.products[0].nameProduct}
+                                    </div>
+                                </div>
+                                {type === 'customer' && (
+                                    <div className="col-span-2 max-lg:hidden">
+                                        {item.phone?.replace(
+                                            /(\d{3})\d{4}(\d{3})/,
+                                            '$1****$2'
+                                        )}
+                                    </div>
+                                )}
+
+                                <div
+                                    className={`${
+                                        type === 'customer'
+                                            ? 'col-span-1'
+                                            : 'col-span-2'
+                                    }  max-lg:hidden flex gap-2`}
+                                >
+                                    <img src={calendar} alt="" />
+                                    {new Date(
+                                        item.createdAt
+                                    ).toLocaleDateString()}
+                                </div>
+
+                                {type === 'orders' && (
+                                    <div
+                                        className="col-span-1 max-lg:hidden flex gap-2 
+                                                text-xs  justify-center"
+                                    >
+                                        <div
+                                            className="w-28  bg-green-base text-whiter flex justify-center
+                                                    py-2  rounded-3xl"
+                                        >
+                                            {' '}
+                                            {item.status === 'processing' &&
+                                                'Đang chờ'}
+                                        </div>
+                                    </div>
+                                )}
+                                {type === 'customer' && (
+                                    <div className="col-span-2 flex justify-end px-5 items-center gap-5 max-lg:hidden">
+                                        <img
+                                            onClick={() =>
+                                                handleAddUser({
+                                                    title: 'Cập nhật thông tin',
+                                                    form: {
+                                                        username: item.username,
+                                                        email: item.email,
+                                                        password: item.password,
+                                                        phone: item.phone,
+                                                    },
+                                                })
+                                            }
+                                            src={edit_1}
+                                            alt=""
+                                            className="h-4 cursor-pointer"
+                                        />
+                                        <img
+                                            onClick={() =>
+                                                handleRemoveUserChecked({
+                                                    id: item._id,
+                                                    type: 'remove-single',
+                                                })
+                                            }
+                                            src={recycle_gray_bold}
+                                            alt=""
+                                            className="h-4 cursor-pointer"
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="lg:hidden flex justify-center">
+                                    <img
+                                        src={
+                                            authRedux.theme === 'light'
+                                                ? more_black
+                                                : more
+                                        }
+                                        alt=""
+                                        className="cursor-pointer h-5 "
+                                    />
+                                    {isShowMoreAct && (
+                                        <MoreSelectActUser
+                                            isShowMoreAct={isShowMoreAct}
+                                            setShowMoreAct={setShowMoreAct}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    {isShowModalConfirmRemove && (
+                        <ConfirmRemoveUser
+                            isShowModalConfirmRemove={isShowModalConfirmRemove}
+                            setIsShowModalConfirmRemove={
+                                setIsShowModalConfirmRemove
+                            }
+                            arrCheckboxAllRemove={arrCheckboxAllRemove}
+                            type={typeAndIdUserDeleted.type}
+                            id={typeAndIdUserDeleted.id}
+                            typePage={type}
+                        />
+                    )}
                 </div>
-                {isShowModalConfirmRemove && (
-                    <ConfirmRemoveUser
-                        isShowModalConfirmRemove={isShowModalConfirmRemove}
-                        setIsShowModalConfirmRemove={
-                            setIsShowModalConfirmRemove
-                        }
-                        arrCheckboxAllRemove={arrCheckboxAllRemove}
-                        type={typeAndIdUserDeleted.type}
-                        id={typeAndIdUserDeleted.id}
-                        typePage={type}
-                    />
-                )}
-            </div>
+            )}
         </div>
     );
 }

@@ -79,16 +79,23 @@ function Dashboard() {
             </div>
 
             {/*  */}
-            <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-6 mb-6">
+            {/* <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-6 mb-6">
                 {listStatistics.map((item, index) => (
                     <div key={index} className=" bg-background p-3 rounded-lg">
-                        <div className="flex justify-between items-center mb-5">
+                        <div className="flex justify-between items-center py-3">
                             <div className="">
-                                <div className="mb-3 text-base text-text-gray-1">
+                                <div className="mb-3 text-text-gray-1">
                                     {item.name}
                                 </div>
                                 <div className="text-2xl font-bold text-text-first">
-                                    40,012
+                                    {(index === 0 &&
+                                        authRedux.allUser?.length) ||
+                                        (index === 1 &&
+                                            authRedux.allUser?.length) ||
+                                        (index === 2 &&
+                                            authRedux.allUser?.length) ||
+                                        (index === 3 &&
+                                            authRedux.allUser?.length)}
                                 </div>
                             </div>
                             <img
@@ -100,16 +107,10 @@ function Dashboard() {
                                 alt=""
                             />
                         </div>
-                        <div className="flex gap-2 items-center text-sm">
-                            <img src={trending_up} alt="" />
-                            <div className="text-green-base">8.5%</div>
-                            <div className="text-text-gray-1">
-                                Up from yesterday
-                            </div>
-                        </div>
+                       
                     </div>
                 ))}
-            </div>
+            </div> */}
 
             {/*  */}
 
@@ -179,8 +180,10 @@ function Dashboard() {
                                     <div className="col-span-2">
                                         #{item._id.slice(0, 6).toUpperCase()}
                                     </div>
-                                    <div className="col-span-4 flex items-center max-md:justify-center gap-2 
-                                                    max-md:col-span-6 max-sm:col-span-9">
+                                    <div
+                                        className="col-span-4 flex items-center max-md:justify-center gap-2 
+                                                    max-md:col-span-6 max-sm:col-span-9"
+                                    >
                                         <img
                                             src={item.products[0].imageUrl}
                                             alt=""
