@@ -13,7 +13,7 @@ import star from '@/assets/svg/star.svg';
 import star_yellow from '@/assets/svg/star_yellow.svg';
 import { setCategoryProductHot } from '@/redux/menuNav';
 import { getAllProductFromLivingRoom } from '@/redux/productSlice';
-import LayoutProduct from '../common/layoutProductList';
+import LayoutProduct from '@/components/common/LayoutProductList';
 
 function HotItems() {
     const [ref, inView] = useInView({ threshold: 0.2, triggerOnce: true });
