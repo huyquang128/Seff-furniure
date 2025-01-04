@@ -2,7 +2,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 import { Navigation } from 'swiper/modules';
-import bed4 from '@/assets/image/bed-4.jpg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faCaretLeft,
@@ -18,14 +17,13 @@ import arr_down from '@/assets/svg/arr-down.svg';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { useEffect, useRef, useState } from 'react';
 import { RotatingLines } from 'react-loader-spinner';
-import FilterModals from '';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { useDispatch } from 'react-redux';
 import { getProductSingleByName } from '@/redux/productSlice';
 import { setIdProduct } from '@/redux/cartSlice';
-
 import LayoutProduct from '../common/layoutProductList';
+import FilterModals from '@/components/modals/FilterModals';
 
 const actionBtnFilter = [
     { title: 'Sắp xếp', icon: sort },

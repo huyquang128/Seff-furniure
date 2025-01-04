@@ -10,6 +10,11 @@ export default defineConfig({
             '@': path.resolve(__dirname, './src'),
         },
     },
+    build: {
+        rollupOptions: {
+            external: ['module-to-externalize'],
+        },
+    },
     server: {
         host: '0.0.0.0', // Cho phép truy cập từ các thiết bị khác
         port: 5173, // Cổng chạy ứng dụng
