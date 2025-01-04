@@ -6,7 +6,6 @@ import { useFloating } from '@floating-ui/react';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { getCartItems, setTotalQuantityInCart } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
-import UserInfoToolkit from '../toolkits/userInfoToolkit';
 import { ListCategoryUser } from '../user/ListCategoryUser';
 import { getAllOrder } from '@/redux/orderSlice';
 import SearchProductToolkit from '../toolkits/SearchProductToolkit';
@@ -32,6 +31,7 @@ import menu from '@/assets/svg/menu.svg';
 import arrowUp from '@/assets/svg/arrow-top.svg';
 import avatar from '@/assets/image/avatar.jpg';
 import CartToolkit from '../toolkits/cartToolkits';
+import UserInfoToolkit from '../toolkits/UserInfoToolkit';
 
 function HeaderHome() {
     const navigate = useNavigate();

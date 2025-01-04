@@ -2,8 +2,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { ListCategoryUser } from '../user/ListCategoryUser';
 import { setActiveTileCategoryUserInfo } from '@/redux/authSlice';
-import { motion, transform } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 function UserInfoToolkit({
