@@ -1,4 +1,4 @@
-import ContentCart from '@/components/cart/contentCart';
+import ContentCart from '@/components/cart/ContentCart';
 import CategoryHome from '@/components/home/CategoryHome';
 import FooterHome from '@/components/home/FooterHome';
 import HeaderHome from '@/components/home/HeaderHome';
