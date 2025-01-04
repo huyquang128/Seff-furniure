@@ -22,7 +22,7 @@ import 'rc-slider/assets/index.css';
 import { useDispatch } from 'react-redux';
 import { getProductSingleByName } from '@/redux/productSlice';
 import { setIdProduct } from '@/redux/cartSlice';
-import LayoutProduct from '../common/layoutProductList';
+import LayoutProduct from '@/components/common/LayoutProductList';
 import FilterModals from '@/components/modals/FilterModals';
 
 const actionBtnFilter = [
