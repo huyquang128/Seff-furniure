@@ -19,6 +19,8 @@ const app = express();
 const PORT = 3000;
 
 const allowedOriginServerPairs = {
+    'https://seff-furniure-3rzz.vercel.app':
+        'https://seff-furniure-server.vercel.app/',
     'http://192.168.1.193:5173': 'http://localhost:3000',
     'http://localhost:5173': 'http://localhost:3000',
     'http://172.20.10.3:5173': 'http://localhost:3000',
