@@ -165,11 +165,6 @@ function App() {
                         element={route.component}
                     />
                 ))}
-
-                {/* <Route
-                    path="living-room/:productName"
-                    element={<ProductDetail />}
-                /> */}
             </Route>
 
             <Route path="/:productName" element={<ProductDetail />} />

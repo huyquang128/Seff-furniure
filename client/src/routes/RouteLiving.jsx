@@ -1,5 +1,5 @@
 import DonChair from '@/pages/rooms/livingRoom/BanhChair';
-import BookShelf from '@/pages/rooms/livingRoom/bookShelf';
+import BookShelf from '@/pages/rooms/livingRoom/BookShelf';
 import BanhChair from '@/pages/rooms/livingRoom/DonChair';
 import LivingInteriorRoom from '@/pages/rooms/livingRoom/LivingInteriorRoom';
 import OpenShelves from '@/pages/rooms/livingRoom/OpenShelves';

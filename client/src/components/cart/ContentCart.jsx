@@ -54,7 +54,6 @@ function ContentCart() {
     );
     // deliveryFee
     const discountCode = useSelector((state) => state.cart.discountCode);
-    const deliveryFee = useSelector((state) => state.cart.deliveryFee);
 
     //hook
     useEffect(() => {
