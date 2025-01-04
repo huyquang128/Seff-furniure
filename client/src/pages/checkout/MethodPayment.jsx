@@ -14,7 +14,7 @@ import {
 } from '@/redux/orderSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import QrPaymentModals from '@/components/modals/QrPaymentModals';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import OrderCompletedModal from '@/components/modals/OrderCompletedModals';
 
 const methodPayments = [

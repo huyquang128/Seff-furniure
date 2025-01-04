@@ -1,4 +1,4 @@
-import visa from '@/assets/image/visa.png';
+import visa from '@/assets/image/Visa.png';
 import checkoutImgCvvHint from '@/assets/image/checkout-img-cvv-hint.jpg';
 import chip from '@/assets/svg/chip.svg';
 import { motion } from 'framer-motion';
