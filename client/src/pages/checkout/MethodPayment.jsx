@@ -66,7 +66,6 @@ function MethodPayment() {
     const valueMethodPayment = useSelector(
         (state) => state.order?.methodPayment
     );
-    console.log('🚀 ~ MethodPayment ~ valueMethodPayment:', valueMethodPayment);
     const userId = useSelector((state) => state?.auth?.user?.id);
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart

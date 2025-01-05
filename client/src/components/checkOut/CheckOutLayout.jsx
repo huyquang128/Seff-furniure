@@ -4,7 +4,6 @@ import InfoProductPayment from './InfoProductPayment';
 function CheckOutLayout() {
     const location = useLocation();
     const redirectCurrent = location.pathname;
-    console.log('🚀 ~ CheckOutLayout ~ redirectCurrent:', redirectCurrent);
 
     return (
         <div className="w-[1440px] mx-auto max-lg:w-full max-md:w-11/12  max-sm:w-full">

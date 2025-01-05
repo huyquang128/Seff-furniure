@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
 import { logout, setUpdateAddressContent } from '@/redux/authSlice';
 import recycle_red_bold from '@/assets/svg/recycle_red_bold.svg';
 import location_yellow from '@/assets/svg/location_yellow.svg';
@@ -10,27 +9,6 @@ import note_edit_black from '@/assets/svg/note_edit_black.svg';
 import { useState } from 'react';
 import AddNewAddressModals from '@/components/modals/AddNewAddressModals';
 import RemoveAddress from '@/components/modals/RemoveAddress';
-
-const formInput = [
-    {
-        type: 'text',
-        placeholder: 'Họ và tên',
-        label: 'Họ và tên',
-        name: 'fullname',
-    },
-    {
-        type: 'text',
-        placeholder: 'Số điện thoại',
-        label: 'Số điện thoại',
-        name: 'phone',
-    },
-    {
-        type: 'text',
-        placeholder: 'Địa chỉ',
-        label: 'Địa chỉ',
-        name: 'detailAddress',
-    },
-];
 
 function DeliveryInformation() {
     const dispatch = useDispatch();
@@ -52,20 +30,9 @@ function DeliveryInformation() {
     const urlImgAvatarData = useSelector(
         (state) => state?.auth.user?.urlImgAvatar
     );
-    const valueFormUser = useSelector(
-        (state) => state.order?.temporaryOrder.valueFormUser
-    );
 
-    const errorMessageInputs = useSelector(
-        (state) => state.order?.errorMessageInputs
-    );
     const addressUser = useSelector((state) => state?.auth.user.address);
     const addressDefault = useSelector((state) => state?.auth.addressDefault);
-
-    //
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    };
 
     const handleLogout = () => {
         dispatch(logout()).then((data) => {
