@@ -120,7 +120,7 @@ function FormList({ type, categoryList, stateStore, stateArr }) {
             )}
 
             {/*  */}
-            {stateArr.length <= 0 ? (
+            {stateArr?.length <= 0 ? (
                 <div className="text-text-first bg-background text-sm p-5 rounded-lg">
                     Chưa có đơn hàng nào được đặt
                 </div>

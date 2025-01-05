@@ -16,20 +16,10 @@ import more from '@/assets/svg/more.svg';
 import more_black from '@/assets/svg/more_black.svg';
 import arr_sort from '@/assets/svg/admin/arr_sort.svg';
 import arr_sort_white from '@/assets/svg/admin/arr_sort_white.svg';
-import { getAllOrder, getOrders } from '@/redux/orderSlice';
+import { getOrders } from '@/redux/orderSlice';
 import { useEffect } from 'react';
 import { getProductTopSelling } from '@/redux/productSlice';
 
-const listStatistics = [
-    { name: 'Tổng khách hàng', img_light: user_3_light, img_dark: user_3_dark },
-    { name: 'Tổng đơn hàng', img_light: order_light, img_dark: order_dark },
-    { name: 'Tổng doanh thu', img_light: sales_light, img_dark: sales_dark },
-    {
-        name: 'Tổng chờ xử lý',
-        img_light: pending_light,
-        img_dark: pending_dark,
-    },
-];
 const categoryOrder = [
     { name: 'Mã ĐH', img_white: arr_sort_white, img_black: arr_sort },
     { name: 'Sản phẩm', img_white: arr_sort_white, img_black: arr_sort },
@@ -77,42 +67,6 @@ function Dashboard() {
                     />
                 </div>
             </div>
-
-            {/*  */}
-            {/* <div className="grid grid-cols-4 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-6 mb-6">
-                {listStatistics.map((item, index) => (
-                    <div key={index} className=" bg-background p-3 rounded-lg">
-                        <div className="flex justify-between items-center py-3">
-                            <div className="">
-                                <div className="mb-3 text-text-gray-1">
-                                    {item.name}
-                                </div>
-                                <div className="text-2xl font-bold text-text-first">
-                                    {(index === 0 &&
-                                        authRedux.allUser?.length) ||
-                                        (index === 1 &&
-                                            authRedux.allUser?.length) ||
-                                        (index === 2 &&
-                                            authRedux.allUser?.length) ||
-                                        (index === 3 &&
-                                            authRedux.allUser?.length)}
-                                </div>
-                            </div>
-                            <img
-                                src={
-                                    authRedux.theme === 'light'
-                                        ? item.img_light
-                                        : item.img_dark
-                                }
-                                alt=""
-                            />
-                        </div>
-                       
-                    </div>
-                ))}
-            </div> */}
-
-            {/*  */}
 
             <SalesCharts />
 
@@ -171,7 +125,7 @@ function Dashboard() {
                         </div>
                         {/* order */}
                         <div>
-                            {orderRedux.orders.map((item, index) => (
+                            {orderRedux?.orders?.map((item, index) => (
                                 <div
                                     key={item._id}
                                     className="grid grid-cols-12 py-4 items-center text-sm text-text-gray-1

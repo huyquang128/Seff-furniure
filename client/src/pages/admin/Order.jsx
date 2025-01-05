@@ -19,7 +19,7 @@ function Order() {
                 type={'orders'}
                 categoryList={categoryListOrder}
                 stateStore={orderRedux}
-                stateArr={orderRedux.orders}
+                stateArr={orderRedux?.orders}
             />
         </>
     );
