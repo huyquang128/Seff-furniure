@@ -45,7 +45,7 @@ function HeaderHome() {
     const [keywords, setKeywords] = useState('');
 
     //state redux
-    const userStore = useSelector((state) => state?.auth.user);
+    const userStore = useSelector((state) => state?.auth?.user);
     const userId = useSelector((state) => state.auth.user?.id);
     const lengthProductInCart = useSelector(
         (state) => state.cart.cartItem?.products?.length
@@ -53,13 +53,7 @@ function HeaderHome() {
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
-    const cartItems = useSelector(
-        (state) => state?.cart?.cartItem
-        // ?.products?.reduce(
-        //         (acc, item) => acc + item.quantity,
-        //         0
-        //     )
-    );
+    const cartItems = useSelector((state) => state?.cart?.cartItem);
 
     const totalQuantityInCart = useSelector(
         (state) => state?.cart?.totalQuantityInCart
