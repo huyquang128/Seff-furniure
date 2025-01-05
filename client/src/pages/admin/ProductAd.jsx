@@ -89,7 +89,7 @@ function ProductAd() {
                             {item.price.toLocaleString('VN-vn')}đ
                         </div>
                         <div className="mx-2 mb-2 flex gap-3 relative">
-                            {item.colors.map((srcImg, index) => (
+                            {item.colors?.map((srcImg, index) => (
                                 <img
                                     key={index}
                                     src={srcImg.images[0]}

@@ -195,7 +195,7 @@ function Dashboard() {
                         />
                     </div>
                     <div className="h-96 overflow-y-scroll">
-                        {productRedux.productTopSelling.map((item) => (
+                        {productRedux?.productTopSelling?.map((item) => (
                             <div
                                 key={item._id}
                                 className="flex mt-7 gap-3 text-text-first"
