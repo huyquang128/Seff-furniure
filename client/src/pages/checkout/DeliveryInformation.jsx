@@ -31,8 +31,8 @@ function DeliveryInformation() {
         (state) => state?.auth.user?.urlImgAvatar
     );
 
-    const addressUser = useSelector((state) => state?.auth.user.address);
-    const addressDefault = useSelector((state) => state?.auth.addressDefault);
+    const addressUser = useSelector((state) => state?.auth?.user?.address);
+    const addressDefault = useSelector((state) => state?.auth?.addressDefault);
 
     const handleLogout = () => {
         dispatch(logout()).then((data) => {
