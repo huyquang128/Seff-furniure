@@ -45,7 +45,7 @@ function LayoutProduct({ item }) {
         setColorIdActive(null);
     };
 
-    const handleClickAddProductFavorite = (id) => {
+    const handleClickAddProductFavorite = (id, name) => {
         dispatch(setProductFavoriteActive(id));
         const formData = new FormData();
         formData.append('userId', userId);
@@ -54,7 +54,7 @@ function LayoutProduct({ item }) {
         dispatch(addFavoriteProduct(formData)).then((data) => {
             if (data.payload) {
                 ToastMessage({
-                    message: '💛 Đã thêm sản phẩm yêu thích',
+                    message: `💛 Đã thêm ${name} vào phần yêu thích`,
                     position: 'top-center',
                     status: 'success',
                 });
@@ -145,7 +145,9 @@ function LayoutProduct({ item }) {
                     <img src={star} alt="" className="h-4" />
                 </div>
                 <div
-                    onClick={() => handleClickAddProductFavorite(item._id)}
+                    onClick={() =>
+                        handleClickAddProductFavorite(item._id, item.name)
+                    }
                     className={`mx-2 ${
                         productFavoriteActive.includes(item._id)
                             ? 'bg-red-100'
