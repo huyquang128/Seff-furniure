@@ -11,6 +11,7 @@ import location_yellow from '@/assets/svg/location_yellow.svg';
 import {
     getProfileUser,
     removeAddressUser,
+    setAddressDefault,
     setUpdateAddressContent,
 } from '@/redux/authSlice';
 import RemoveAddress from '@/components/modals/RemoveAddress';
@@ -125,7 +126,7 @@ function ManageAddress() {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-2 text-sm">
+                                <div className="flex gap-2 text-sm mb-2">
                                     <img
                                         src={phone_black}
                                         alt=""
@@ -139,6 +140,19 @@ function ManageAddress() {
                                         )}
                                     </span>
                                 </div>
+                                {addressDefault !== items._id && (
+                                    <div
+                                        onClick={() =>
+                                            dispatch(
+                                                setAddressDefault(items._id)
+                                            )
+                                        }
+                                        className="text-sm text-yellow-base underline hover:brightness-110
+                                                cursor-pointer"
+                                    >
+                                        Sử dụng làm địa chỉ mặc định
+                                    </div>
+                                )}
                             </div>
                             <div className="flex flex-col gap-3">
                                 <button
@@ -181,7 +195,7 @@ function ManageAddress() {
                             {addressDefault === items._id && (
                                 <div
                                     className="absolute left-6 px-2 py-0.5 top-1 -translate-y-3.5 text-xs bg-gray-200 
-                                    text-text-gray rounded-md"
+                                    text-yellow-base rounded-md"
                                 >
                                     Mặc định
                                 </div>

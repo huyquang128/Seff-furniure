@@ -269,7 +269,6 @@ const authSlice = createSlice({
             action.payload.type === 'update address'
                 ? (state.isLabelSelectProvince = true)
                 : (state.isLabelSelectProvince = false);
-            console.log(action.payload);
             state.formAddAddressNew.firstName = action.payload.firstName;
             state.formAddAddressNew.lastName = action.payload.lastName;
             state.formAddAddressNew.phone = action.payload.phone;

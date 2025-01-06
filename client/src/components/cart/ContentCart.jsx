@@ -114,14 +114,18 @@ function ContentCart() {
                                 "
             >
                 <h2 className="text-xl font-bold ">Giỏ hàng của bạn</h2>
-                <div className="md:hidden sm:block font-semibold">
+                <div
+                    onClick={() => setIsOpenModalsPayment(true)}
+                    className="lg:hidden bg-black-base text-white sm:block border 
+                                p-3 rounded-md text-sm cursor-pointer hover:bg-white
+                                hover:text-black-base hover:border hover:border-black-base
+                                transition-colors ease-in-out duration-300"
+                >
                     <FontAwesomeIcon
                         icon={faFileInvoiceDollar}
                         className="mr-1"
                     />
-                    <span onClick={() => setIsOpenModalsPayment(true)}>
-                        Thanh toán
-                    </span>
+                    <span>Thanh toán</span>
                 </div>
             </div>
 
@@ -132,7 +136,7 @@ function ContentCart() {
                             max-md:max-h-none`}
             >
                 {lengthProductInCart > 0 ? (
-                    <div className="col-span-5 row-span-2 max-md:col-span-7 max-md:z-10 ">
+                    <div className="col-span-5 max-lg:col-span-7 row-span-2 max-md:col-span-7 max-md:z-10 ">
                         <ul className="grid grid-cols-12 border-b border-gray-100">
                             <li className="col-span-5 font-medium py-3 border-gray-100">
                                 Sản phẩm
@@ -141,14 +145,14 @@ function ContentCart() {
                                 Giá
                             </li>
                             <li
-                                className=" max-md:hidden col-span-2 font-medium max-lg:ml-0 max-lg:text-center  
-                                        ml-9 py-3 border-gray-100 max-md:text-start"
+                                className=" max-md:hidden col-span-2 font-medium max-lg:ml-0 
+                                         py-3 border-gray-100 max-md:text-start flex justify-center"
                             >
                                 Số lượng
                             </li>
                             <li
-                                className=" max-md:hidden col-span-2 font-medium text-center py-3 border-gray-100
-                                        max-lg:ml-0 max-lg:text-start"
+                                className=" max-md:hidden col-span-2 font-medium items-center py-3 border-gray-100
+                                        max-lg:ml-0 max-lg:text-center"
                             >
                                 Tạm tính
                             </li>
@@ -168,7 +172,7 @@ function ContentCart() {
                                         <img
                                             src={product.imageUrl}
                                             alt="Product"
-                                            className="h-24 object-cover rounded-md  col-span-1
+                                            className="h-24 object-cover rounded-md col-span-1
                                                     max-lg:col-span-2 max-md:col-span-3 max-sm:col-span-4"
                                         />
                                         <div
@@ -202,7 +206,7 @@ function ContentCart() {
                                     >
                                         {/* action increase or decrease quantity product */}
                                         <div
-                                            className="border border-gray-300 max-md:w-40 rounded-lg items-center h-10 w-10/12 
+                                            className="border border-gray-300 max-md:w-40 rounded-lg items-center h-10 w-24 
                                                 max-lg:w-11/12 max-mx:px-1 flex justify-center"
                                         >
                                             {quantityProductInCart[
@@ -223,8 +227,7 @@ function ContentCart() {
                                             )}
                                             <input
                                                 type="number"
-                                                className="number-quantity outline-none w-7/12 text-center px-3 min-w-16"
-                                                placeholder="0"
+                                                className="number-quantity outline-none w-7/12 text-center px-3 min-w-12"
                                                 value={
                                                     quantityProductInCart[
                                                         product.productId
@@ -313,7 +316,7 @@ function ContentCart() {
 
                 {/* payment cart */}
                 {lengthProductInCart > 0 && (
-                    <div className="max-md:hidden col-span-2 row-span-2 max-md:z-10 rounded-md border ">
+                    <div className="max-lg:hidden col-span-2 row-span-2 max-md:z-10 rounded-md border ">
                         <div className="flex justify-between py-3 px-4 items-center">
                             <h3 className="font-semibold ">Tạm tính</h3>
                             <span className="font-bold text-lg">
@@ -324,15 +327,20 @@ function ContentCart() {
                             <span className="text-sm text-gray-600">
                                 Nhập mã giảm giá nếu có
                             </span>
-                            <div className="flex items-center justify-center border rounded-md overflow-hidden mt-3">
-                                <input
-                                    type="text"
-                                    className="flex-1 outline-none px-3 text-sm"
-                                    placeholder="mã giảm giá"
-                                />
-                                <span className="bg-black text-white text-sm py-3 px-3">
-                                    Sử dụng
-                                </span>
+                            <div
+                                className="flex items-center justify-center border rounded-md
+                                        w-full mt-3 overflow-hidden"
+                            >
+                                <div className="flex-1">
+                                    <input
+                                        type="text"
+                                        className=" outline-none px-3 text-sm w-full"
+                                        placeholder="mã giảm giá"
+                                    />
+                                </div>
+                                <div className="bg-black w-20 min-w-20 text-white text-sm py-3 text-center">
+                                    <div className="w-20 min-w-20">Sử dụng</div>
+                                </div>
                             </div>
                         </div>
 
@@ -378,9 +386,29 @@ function ContentCart() {
                             />
                         )}
 
-                        <div className="flex justify-between items-center px-4 text-gray-700 py-3">
+                        <div className=" px-4 text-gray-700 py-3">
                             <div className="text-sm flex flex-col  gap-2">
-                                <span>Mã giảm giá</span>
+                                <div className="flex justify-between">
+                                    <div>Mã giảm giá</div>
+                                    {discountCode
+                                        ? ListDiscountCode.map(
+                                              (item, index) => {
+                                                  const result = item.code ===
+                                                      discountCode && (
+                                                      <div key={index}>
+                                                          -{' '}
+                                                          {item.price_sale.toLocaleString(
+                                                              'VN-vn'
+                                                          )}
+                                                          ₫
+                                                      </div>
+                                                  );
+
+                                                  return result;
+                                              }
+                                          )
+                                        : 0 + '₫'}
+                                </div>
                                 {ListDiscountCode.map((item, index) => {
                                     const result = item.code ===
                                         discountCode && (
@@ -411,23 +439,6 @@ function ContentCart() {
                                     return result;
                                 })}
                             </div>
-
-                            {discountCode
-                                ? ListDiscountCode.map((item, index) => {
-                                      const result = item.code ===
-                                          discountCode && (
-                                          <span key={index}>
-                                              -{' '}
-                                              {item.price_sale.toLocaleString(
-                                                  'VN-vn'
-                                              )}
-                                              ₫
-                                          </span>
-                                      );
-
-                                      return result;
-                                  })
-                                : 0 + '₫'}
                         </div>
                         <div className="flex justify-between items-center text-sm px-4">
                             <span>Phí vận chuyển</span>

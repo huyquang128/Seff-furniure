@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import discount_code from '@/assets/svg/discount-code.svg';
 import { motion } from 'framer-motion';
 import cartYellow from '@/assets/svg/cart-yellow.svg';
@@ -10,10 +10,13 @@ import DiscountCodeModal from '../modals/DicountCodeModal';
 import close_white from '@/assets/svg/close_white.svg';
 import discount_code_3 from '@/assets/svg/discount_code_3.svg';
 import { ListDiscountCode } from '../common/ListDiscountCode';
+import arrRight from '@/assets/svg/arr-right.svg';
 import { setDiscountPrice } from '@/redux/cartSlice';
 
 function InfoProductPayment() {
     const dispatch = useDispatch();
+    const location = useLocation();
+    const redirectCurrent = location.pathname;
     //
     const [isOpenListProductAnimated, setIsOpenListProductAnimated] =
         useState(false);
@@ -53,6 +56,34 @@ function InfoProductPayment() {
             <h1 className="md:hidden font-medium text-yellow-base mb-3 text-[28px] ">
                 <Link to="/">HOMECOR.</Link>
             </h1>
+            <div className="flex text-xs items-center mb-3 md:hidden">
+                <Link to="/your-cart">Giỏ hàng</Link>
+                <img src={arrRight} alt="" />
+                <Link to="/cart/checkout-step-1">
+                    <span
+                        className={`${
+                            redirectCurrent.includes('checkout-step-1')
+                                ? 'text-yellow-base'
+                                : ''
+                        }`}
+                    >
+                        Thông tin giao hàng
+                    </span>
+                </Link>
+                <img src={arrRight} alt="" />
+
+                <Link to="/cart/checkout-step-2">
+                    <span
+                        className={`${
+                            redirectCurrent.includes('checkout-step-2')
+                                ? 'text-yellow-base'
+                                : ''
+                        } `}
+                    >
+                        Phương thức thanh toán
+                    </span>
+                </Link>
+            </div>
             <div className="md:hidden flex flex-nowrap justify-between  py-5 border-t">
                 <div
                     onClick={toggleListProduct}
@@ -70,14 +101,14 @@ function InfoProductPayment() {
                         <img src={arrowDownYellow} alt="" className="filter " />
                     </span>
                 </div>
-                <span className="text-1xl">
+                {/* <span className="text-1xl">
                     {totalProductInCart.toLocaleString('vn-VN')} ₫
-                </span>
+                </span> */}
             </div>
 
             {/* list products cart */}
             <motion.div
-                className={`flex flex-col justify-between px-5 max-md:px-0 ${
+                className={`flex flex-col justify-between max-md:px-0 ${
                     isOpenListProduct ? 'block' : 'max-md:hidden'
                 }`}
                 initial={{ opacity: 0 }}
@@ -91,27 +122,42 @@ function InfoProductPayment() {
                     cartItems?.products?.map((product, index) => (
                         <div
                             key={index}
-                            className="flex gap-4 items-center border-b py-4 border-gray-100 text-sm"
+                            className="border-b py-4 border-gray-100 text-sm"
                         >
-                            <img
-                                src={product.imageUrl}
-                                alt=""
-                                className="h-16 rounded-md"
-                            />
-                            <div className="w-7/12 flex flex-col justify-between ">
-                                <h3 className=" ">{product?.nameProduct}</h3>
-                                <p className="">
-                                    sl:{' '}
-                                    {quantityProductInCart[product.productId]}
-                                </p>
-                                <p className="text-text-gray-second text-xs">
-                                    Màu sắc:{' '}
-                                    {product.colors
-                                        ?.map((color) => color)
-                                        .join(', ')}
-                                </p>
+                            <div className="flex items-center gap-4">
+                                <img
+                                    src={product.imageUrl}
+                                    alt=""
+                                    className="h-16 rounded-md"
+                                />
+                                <div className="w-7/12 flex flex-col justify-between ">
+                                    <h3 className=" ">
+                                        {product?.nameProduct}
+                                    </h3>
+                                    <p className="">
+                                        sl:{' '}
+                                        {
+                                            quantityProductInCart[
+                                                product.productId
+                                            ]
+                                        }
+                                    </p>
+                                    <p className="text-text-gray-second text-xs">
+                                        Màu sắc:{' '}
+                                        {product.colors
+                                            ?.map((color) => color)
+                                            .join(', ')}
+                                    </p>
+                                </div>
+                                <div className="w-3/12 max-lg:hidden text-end max-lg:w-4/12">
+                                    {' '}
+                                    {priceProductInCart[
+                                        product.productId
+                                    ].toLocaleString('vn-VN')}{' '}
+                                    ₫
+                                </div>
                             </div>
-                            <div className="w-3/12 text-end max-lg:w-4/12">
+                            <div className="lg:hidden mt-3">
                                 {' '}
                                 {priceProductInCart[
                                     product.productId

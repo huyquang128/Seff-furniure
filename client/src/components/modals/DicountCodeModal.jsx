@@ -69,7 +69,7 @@ function DiscountCodeModal({ isShowDiscountModal, setIsShowDiscountModal }) {
                         isShowDiscountModal && !isCloseModalAnimation ? 1 : 0,
                 }}
                 transition={{ duration: 0.3 }}
-                className="w-3/12 max-lg:w-5/12 max-sm:w-10/12 bg-white px-5 flex flex-col rounded-lg items-start text-sm"
+                className="w-96 bg-white px-5 flex flex-col rounded-lg items-start text-sm"
             >
                 <div className="border-b w-full flex items-center justify-between">
                     <h3 className="text-lg py-2 ">Chọn mã giảm giá</h3>

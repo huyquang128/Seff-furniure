@@ -36,7 +36,7 @@ function UserLayout() {
                         </div>
                     ))}
                 </h1>
-                <div className="flex gap-12 ">
+                <div className="flex gap-12">
                     <SideBar />
                     <div className="flex-1 overflow-hidden max-md:w-full">
                         <Outlet />

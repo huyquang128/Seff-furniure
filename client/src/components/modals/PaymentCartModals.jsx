@@ -31,7 +31,12 @@ function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
             >
                 <div className="flex justify-between px-3 py-4">
                     <h3 className="font-bold text-xl">Thanh toán</h3>
-                    <img src={close} alt="" onClick={handleCloseModalPayment} />
+                    <img
+                        src={close}
+                        alt=""
+                        onClick={handleCloseModalPayment}
+                        className="cursor-pointer"
+                    />
                 </div>
                 <div className="flex justify-between py-3 px-4 border border-gray-100 items-center">
                     <h3 className="font-semibold ">Tạm tính</h3>

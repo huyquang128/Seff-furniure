@@ -1,7 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout, setUpdateAddressContent } from '@/redux/authSlice';
+import {
+    logout,
+    setAddressDefault,
+    setUpdateAddressContent,
+} from '@/redux/authSlice';
 import recycle_red_bold from '@/assets/svg/recycle_red_bold.svg';
 import location_yellow from '@/assets/svg/location_yellow.svg';
 import location from '@/assets/svg/location.svg';
@@ -102,7 +106,7 @@ function DeliveryInformation() {
                         )}
                     </div>
                 </Link>
-                <div className="flex flex-col">
+                <div className="flex flex-col overflow-hidden max-w-60">
                     <span className="text-text-gray text-base">
                         {user.lastName && user.firstName
                             ? user?.firstName + ' ' + user?.lastName
@@ -124,7 +128,7 @@ function DeliveryInformation() {
                             <div
                                 key={index}
                                 className=" relative flex items-center justify-between p-4 border rounded-xl border-gray-200
-                                                        mb-5 max-md:gap-3"
+                                                        mb-5 gap-5"
                             >
                                 <div className="flex flex-col gap-2">
                                     <div className="font-medium text-black-base">
@@ -157,6 +161,19 @@ function DeliveryInformation() {
                                             )}
                                         </span>
                                     </div>
+                                    {addressDefault !== items._id && (
+                                        <div
+                                            onClick={() =>
+                                                dispatch(
+                                                    setAddressDefault(items._id)
+                                                )
+                                            }
+                                            className="text-sm text-yellow-base underline hover:brightness-110
+                                                                                    cursor-pointer"
+                                        >
+                                            Sử dụng làm địa chỉ mặc định
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex flex-col gap-3">
                                     <button

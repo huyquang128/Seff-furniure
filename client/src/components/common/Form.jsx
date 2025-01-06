@@ -22,7 +22,6 @@ function FormCommon({
     setIsValidForm,
     addressId,
 }) {
-    console.log('🚀 ~ type:', type);
     const dispatch = useDispatch();
     const [isShowPass, setIsShowPass] = useState(false);
     const [isAnimationValid, setAnimationValid] = useState(false);
@@ -326,26 +325,6 @@ function FormCommon({
                 )}
 
                 {type === 'formAddAddressNew' && <FormSelectAddress />}
-
-                {type === 'formAddAddressNew' && (
-                    <label
-                        htmlFor="add-default-address"
-                        className="flex items-center gap-2 cursor-pointer "
-                    >
-                        <input
-                            type="checkbox"
-                            id="add-default-address"
-                            checked={addressId === addressDefault}
-                            value={addressDefault}
-                            onChange={() =>
-                                dispatch(setAddressDefault(addressId))
-                            }
-                        />
-                        <span className="text-xs hover:text-yellow-base font-medium text-black-text">
-                            Sử dụng làm địa chỉ mặc định
-                        </span>
-                    </label>
-                )}
 
                 <button
                     className="mt-6 w-full text-sm cursor-pointer py-3 rounded-full bg-yellow-base 

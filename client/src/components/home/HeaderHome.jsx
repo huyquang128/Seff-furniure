@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import MenuNavModel from '../modals/menuNavModals';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFloating } from '@floating-ui/react';
-import FadeLoader from 'react-spinners/FadeLoader';
 import { getCartItems, setTotalQuantityInCart } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
 import { ListCategoryUser } from '../user/ListCategoryUser';
@@ -28,11 +27,10 @@ import heart from '@/assets/svg/heart.svg';
 import user from '@/assets/svg/user.svg';
 import search from '@/assets/svg/search.svg';
 import menu from '@/assets/svg/menu.svg';
-import arrowUp from '@/assets/svg/arrow-top.svg';
 import avatar from '@/assets/image/avatar.jpg';
-import CartToolkit from '../toolkits/cartToolkits';
 import UserInfoToolkit from '../toolkits/UserInfoToolkit';
 import EventResize from '../common/EventResize';
+import CartAddProductModal from '../modals/CartAddProductModal';
 
 function HeaderHome() {
     const navigate = useNavigate();
@@ -77,11 +75,10 @@ function HeaderHome() {
     const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenTooltipHeart, setIsOpenTooltipHeart] = useState(false);
-    const [isOpenToolkitCart, setIsOpenToolkitCart] = useState(false);
+    const [isOpenModalCart, setIsOpenModalCart] = useState(false);
     const [isCloseToolkitAnimation, setIsCloseToolkitAnimation] =
         useState(false);
-    const [isCloseModalCartAnimation, setIsCloseModalCartAnimation] =
-        useState(false);
+
     const [isActCloseToolkitUserInfo, setActCloseToolkitUserInfo] =
         useState(false);
     const [isShowSearchProductsToolkit, setIsShowSearchProductsToolkit] =
@@ -140,14 +137,6 @@ function HeaderHome() {
         }, 500);
     };
 
-    const handleCloseModalCart = () => {
-        setIsCloseModalCartAnimation(true);
-        setTimeout(() => {
-            setIsOpenToolkitCart(false);
-            setIsCloseModalCartAnimation(false);
-        }, 400);
-    };
-
     const handleShowToolkitUserInfo = () => {
         if (isShowCategoryUserOption) {
             setActCloseToolkitUserInfo(true);
@@ -192,11 +181,6 @@ function HeaderHome() {
     const { reference, floating } = useFloating({
         placement: 'bottom',
     });
-
-    const { reference: referenceCart, floating: floatingToolkitCart } =
-        useFloating({
-            placement: 'bottom',
-        });
 
     return (
         <div
@@ -314,6 +298,7 @@ function HeaderHome() {
                     <div
                         ref={reference}
                         onMouseEnter={() => setIsOpen(true)}
+                        onClick={() => setIsOpen(true)}
                         onMouseLeave={handleCloseToolkitUser}
                         className="py-5 bg-transparent"
                     >
@@ -364,6 +349,7 @@ function HeaderHome() {
                                     width: '250px',
                                     boxShadow:
                                         'rgba(0, 0, 0, 0.24) 0px 3px 8px',
+                                    overflow: 'hidden',
                                 }}
                             >
                                 <div className="flex flex-col justify-center items-center">
@@ -385,7 +371,7 @@ function HeaderHome() {
                                             <div className="text-white"></div>
                                         )}
                                     </div>
-                                    <span className="mb-4 text-black-base text-sm">
+                                    <span className="mb-4 text-black-base text-sm w-10/12 text-center overflow-hidden">
                                         {userStore?.lastName &&
                                         userStore?.firstName
                                             ? userStore?.firstName +
@@ -448,12 +434,10 @@ function HeaderHome() {
 
                 <div className="relative">
                     <img
-                        ref={referenceCart}
                         src={cart}
                         alt=""
-                        className="h-5 cursor-pointer p-0 "
-                        onMouseEnter={() => setIsOpenToolkitCart(true)}
-                        onMouseLeave={() => setIsOpenToolkitCart(false)}
+                        className="h-5 cursor-pointer p-0"
+                        onClick={() => setIsOpenModalCart(true)}
                     />
                     <span
                         className="absolute bottom-[12px] left-[7px] translate-x-[7px] bg-red-500 cursor-pointer flex justify-center text-white 
@@ -462,15 +446,10 @@ function HeaderHome() {
                     >
                         {totalQuantityInCart || 0}
                     </span>
-                    {isOpenToolkitCart && (
-                        <CartToolkit
-                            floatingToolkitCart={floatingToolkitCart}
-                            setIsOpenToolkitCart={setIsOpenToolkitCart}
-                            isOpenToolkitCart={isOpenToolkitCart}
-                            handleCloseModalCart={handleCloseModalCart}
-                            isCloseModalCartAnimation={
-                                isCloseModalCartAnimation
-                            }
+                    {isOpenModalCart && (
+                        <CartAddProductModal
+                            isOpenModalCart={isOpenModalCart}
+                            setIsOpenModalCart={setIsOpenModalCart}
                         />
                     )}
                 </div>

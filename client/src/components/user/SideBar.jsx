@@ -14,27 +14,29 @@ function SideBar() {
     const locationCurrent = location.pathname.split('/').at(2);
 
     return (
-        <div className="max-xl:w-60 max-md:hidden">
+        <div className="max-xl:w-60 w-64 max-md:hidden">
             <div className="border border-gray-100">
-                <div className="flex gap-3 items-center p-4 border-b border-gray-100 rounded-sm">
-                    <div
-                        className="h-10 w-10 object-cover max-md:hidden rounded-full  border-2 
-                            cursor-pointer bg-blue-400 flex justify-center items-center overflow-hidden"
-                    >
-                        {urlImgAvatar || urlImgAvatarData ? (
-                            <img
-                                src={urlImgAvatarData || urlImgAvatar}
-                                alt=""
-                                className="object-cover"
-                                // onMouseLeave={handleCloseToolkitUser}
-                            />
-                        ) : (
-                            <div className="text-white"></div>
-                        )}
+                <div className="flex w-full gap-3 items-center p-4 border-b border-gray-100 rounded-sm">
+                    <div className='w-4/12'>
+                        <div
+                            className="w-16 h-16 object-cover max-md:hidden rounded-full  border-2
+                                cursor-pointer bg-blue-400 flex justify-center items-center overflow-hidden"
+                        >
+                            {urlImgAvatar || urlImgAvatarData ? (
+                                <img
+                                    src={urlImgAvatarData || urlImgAvatar}
+                                    alt=""
+                                    className="w-16 h-16 object-cover"
+                                    // onMouseLeave={handleCloseToolkitUser}
+                                />
+                            ) : (
+                                <div className="text-white"></div>
+                            )}
+                        </div>
                     </div>
-                    <div>
+                    <div className="overflow-hidden w-8/12">
                         <div>Xin chào 👋</div>
-                        <div className="font-semibold text-black-second">
+                        <div className="font-semibold text-black-second ">
                             {user?.lastName && user?.firstName
                                 ? user?.firstName + ' ' + user?.lastName
                                 : user?.username}

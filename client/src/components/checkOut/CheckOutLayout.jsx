@@ -8,8 +8,9 @@ function CheckOutLayout() {
     return (
         <div className="w-[1440px] mx-auto max-lg:w-full max-md:w-11/12  max-sm:w-full">
             <div
-                className="w-[1244px] mx-auto flex px-[72px] max-lg:w-full max-lg:px-[51px]
-            max-lg:mx-0 max-md:flex-col-reverse max-md:items-center  max-sm:px-4 "
+                className="w-[1244px] mx-auto flex px-[72px] max-lg:w-full
+                        max-lg:mx-0 max-md:flex-col-reverse max-md:items-center 
+                            max-lg:px-5 max-sm:px-4"
             >
                 {/* block left */}
                 <div className="w-7/12 pt-[56px] pr-[66px] max-lg:pr-[30px] max-md:pr-0 max-md:w-full max-md:border-t max-md:pt-5 ">
