@@ -67,19 +67,21 @@ function MyFavorite() {
 
     return (
         <div className="grid grid-cols-4 gap-y-10 gap-5 max-lg:grid-cols-2  w-full max-sm:grid-cols-1 p-1">
-            <div className="col-span-4 flex justify-between">
+            <div className="col-span-4 flex justify-between items-center">
                 <h1 className="text-xl">Sản phẩm yêu thích</h1>
-                <button
-                    onClick={handleDeleteAll}
-                    className="  flex text-sm hover:outline hover:outline-1 hover:outline-red-200 items-center gap-2 bg-red-50 py-2 px-4 rounded-md"
-                >
-                    <img
-                        src={recycle_red_bold}
-                        alt=""
-                        className="-translate-y-[2px] h-4"
-                    />
-                    <span className="text-red-600 ">Xóa tất cả</span>
-                </button>
+                {favoriteProduct && favoriteProduct?.products?.length > 0 && (
+                    <button
+                        onClick={handleDeleteAll}
+                        className="  flex text-sm hover:outline hover:outline-1 hover:outline-red-200 items-center gap-2 bg-red-50 py-2 px-4 rounded-md"
+                    >
+                        <img
+                            src={recycle_red_bold}
+                            alt=""
+                            className="-translate-y-[2px] h-4"
+                        />
+                        <span className="text-red-600 ">Xóa tất cả</span>
+                    </button>
+                )}
             </div>
 
             {/* list products */}

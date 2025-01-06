@@ -82,11 +82,11 @@ function RoomProduct({ menuAndProduct, type }) {
         valueRangePrice[1].toLocaleString('vn-VN') + ' đ',
     ]);
 
-    // chia đôi mảng
+    // chia mảng
     const haftLengthRoomProducts = Math.ceil(
         productFiltered?.length < 8
             ? productFiltered?.length
-            : productFiltered?.length / 2
+            : productFiltered?.length / 9
     );
 
     useEffect(() => {
@@ -279,7 +279,10 @@ function RoomProduct({ menuAndProduct, type }) {
                             key={item._id}
                             className=" py-1.5 pt-3 max-md:px-2   bg-bg-slider rounded-lg cursor-pointer"
                         >
-                            <Link className="flex flex-col gap-2 items-center ">
+                            <Link
+                                to={item.link}
+                                className="flex flex-col gap-2 items-center "
+                            >
                                 <img
                                     src={item.products[0]?.colors[0]?.images[0]}
                                     alt=""

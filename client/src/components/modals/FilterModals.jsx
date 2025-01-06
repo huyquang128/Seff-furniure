@@ -93,8 +93,8 @@ const FilterModals = forwardRef(
                         x: btnId == 3 && !isCloseModalAnimation ? 0 : 435,
                     }}
                     transition={{ duration: 0.5 }}
-                    className="overflow-scroll py-5 bg-white max-lg:w-4/12
-                             max-md:w-6/12 w-3/12 h-full fixed right-0 
+                    className="overflow-scroll py-5 bg-white max-lg:w-6/12
+                             max-md:w-10/12 w-5/12 h-full fixed right-0 
                              max-sm:w-11/12"
                 >
                     <h2 className="mb-4 px-5 text-lg flex justify-between items-center  font-semibold">
@@ -276,16 +276,19 @@ const FilterModals = forwardRef(
                     </div>
 
                     {/*  */}
-                    <div className="mx-5 max-sm:flex-col max-sm:gap-4 flex justify-between">
+                    <div className="mx-5 gap-3 max-sm:flex-col max-sm:gap-4 flex justify-between">
                         <button
                             onClick={resetFilterSelected}
-                            className="bg-red-700 border border-white text-white text-sm px-7 py-3 max-md:px-9   rounded-full"
+                            className="bg-red-700 border border-white text-white 
+                                        text-sm px-7 py-3 max-md:px-9 rounded-full w-1/2
+                                        max-sm:w-full"
                         >
                             Làm mới bộ lọc
                         </button>
                         <button
                             onClick={() => setBtnId(null)}
-                            className="text-sm border border-red-700 px-7 py-3 max-md:px-9 max-sm:px-11 rounded-full"
+                            className="text-sm border border-red-700 px-7 py-3 max-md:px-9 
+                            max-sm:px-11 rounded-full w-1/2 max-sm:w-full"
                         >
                             Lọc sản phẩm
                         </button>

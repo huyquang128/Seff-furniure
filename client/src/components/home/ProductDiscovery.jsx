@@ -46,10 +46,10 @@ function ProductDiscovery() {
                     className="w-full bg-bg-slider max-sm:py-0 max-sm:text-xs  p-3 rounded-xl"
                     breakpoints={{
                         375: {
-                            slidesPerView: 4,
+                            slidesPerView: 3,
                         },
-                        425: {
-                            slidesPerView: 4,
+                        480: {
+                            slidesPerView: 3.6,
                         },
                         768: {
                             slidesPerView: 5,
@@ -72,7 +72,8 @@ function ProductDiscovery() {
                     {childMenu?.map((menu, index) => (
                         <SwiperSlide
                             key={menu._id}
-                            className=" py-4 rounded-2xl hover:bg-white cursor-pointer transition-colors ease-linear duration-400"
+                            className="py-4 rounded-2xl hover:-translate-y-2 cursor-pointer transition-all 
+                                        ease-linear duration-400  "
                         >
                             <Link
                                 to={`/room/${

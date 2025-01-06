@@ -16,7 +16,7 @@ function Blog() {
             className="mt-[180px] max-w-[1440px] mx-auto px-[68px] gap-5
                         max-lg:px-3 max-md:mt-28"
         >
-            <div className="flex text-sm col-span-3">
+            <div className="flex text-sm col-span-3 mb-3">
                 <div>Trang chủ</div>
                 <img src={arr_right_black} alt="" />
                 <div className="font-medium">Blog</div>

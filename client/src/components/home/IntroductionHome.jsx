@@ -60,9 +60,9 @@ function IntroductionHome() {
         const handleResize = () => {
             const width = window.innerWidth;
             setScreenSize({
-                isXs: width <= 375,
-                isSm: width > 375 && width <= 426,
-                isMd: width > 426 && width <= 768,
+                isXs: width <= 425,
+                isSm: width > 425 && width <= 480,
+                isMd: width > 480 && width <= 768,
                 isLg: width > 768 && width <= 1025,
             });
         };
@@ -110,7 +110,7 @@ function IntroductionHome() {
                         375: {
                             slidesPerView: 1.5,
                         },
-                        426: {
+                        480: {
                             slidesPerView: 2,
                         },
                         769: {
@@ -150,11 +150,11 @@ function IntroductionHome() {
                                         initial={{ y: 0 }}
                                         animate={{
                                             y: screenSize.isXs
-                                                ? 200
+                                                ? 190
                                                 : screenSize.isSm
-                                                ? 350
+                                                ? 190
                                                 : screenSize.isMd
-                                                ? 260
+                                                ? 180
                                                 : screenSize.isLg
                                                 ? 220
                                                 : 280,
@@ -169,9 +169,9 @@ function IntroductionHome() {
                                             initial={{ y: 0 }}
                                             animate={{
                                                 y: screenSize.isXs
-                                                    ? -190
+                                                    ? -180
                                                     : screenSize.isSm
-                                                    ? -240
+                                                    ? -180
                                                     : screenSize.isMd
                                                     ? -170
                                                     : screenSize.isLg
