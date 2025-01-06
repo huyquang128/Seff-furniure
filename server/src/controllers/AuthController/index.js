@@ -69,6 +69,7 @@ const login = async (req, res) => {
             secure: true,
             sameSite: 'Lax', // Phù hợp với hầu hết các trường hợp
             maxAge: 24 * 60 * 60 * 1000,
+            sameSite: 'None',
         }).json({
             success: true,
             message: 'User logged in successfully!',
