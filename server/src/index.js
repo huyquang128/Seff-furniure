@@ -20,7 +20,7 @@ const PORT = 3000;
 
 const allowedOriginServerPairs = {
     'https://seff-furniure-3rzz.vercel.app':
-        'https://seff-furniure-server.vercel.app/',
+        'https://seff-furniure-server.vercel.app',
     'http://localhost:5173': 'http://localhost:3000',
 };
 

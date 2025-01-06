@@ -22,7 +22,6 @@ export const loginApi = async (formData) => {
     try {
         const response = await axios.post(
             `${GetBaseUrl()}/auth/login`,
-
             formData,
             {
                 withCredentials: true,
@@ -58,7 +57,6 @@ export const checkAuthApi = async () => {
     try {
         const response = await axios.get(
             `${GetBaseUrl()}/auth/check-auth`,
-
             {
                 withCredentials: true,
             }

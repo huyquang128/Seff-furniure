@@ -63,7 +63,12 @@ const login = async (req, res) => {
         const user = checkUser.toObject();
         delete user.password;
 
-        res.cookie('token', token, { httpOnly: true, secure: true }).json({
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: isProduction, // Chỉ bật khi chạy trên production
+            sameSite: isProduction ? 'Strict' : 'Lax',
+            maxAge: 24 * 60 * 60 * 1000,
+        }).json({
             success: true,
             message: 'User logged in successfully!',
             user: {
