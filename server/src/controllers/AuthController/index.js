@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { uploadImageBasic, uploadImage } = require('../../helper/cloudinary');
 const { default: mongoose } = require('mongoose');
+const isProduction = 'production';
 
 const register = async (req, res) => {
     try {
@@ -65,8 +66,8 @@ const login = async (req, res) => {
 
         res.cookie('token', token, {
             httpOnly: true,
-            secure: isProduction, // Chỉ bật khi chạy trên production
-            sameSite: isProduction ? 'Strict' : 'Lax',
+            secure: true,
+            sameSite: 'Lax', // Phù hợp với hầu hết các trường hợp
             maxAge: 24 * 60 * 60 * 1000,
         }).json({
             success: true,
