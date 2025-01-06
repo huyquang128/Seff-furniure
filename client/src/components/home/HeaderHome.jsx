@@ -40,7 +40,7 @@ function HeaderHome() {
     const ref = useRef();
 
     //state react
-    const [isSize, setIsSize] = useState(770);
+    const [isSize, setIsSize] = useState(768);
     const [refElement, setRefElement] = useState(null);
     const [keywords, setKeywords] = useState('');
 

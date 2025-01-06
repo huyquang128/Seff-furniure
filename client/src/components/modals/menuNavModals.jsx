@@ -8,23 +8,53 @@ import {
     faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import avatar from '@/assets/image/avatar.jpg';
+import heart_yellow from '@/assets/svg/heart_yellow.svg';
 import { logout, setActiveTileCategoryUserInfo } from '@/redux/authSlice';
 
 function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
-    const allMenuNav = useSelector((state) => state.menuNav.menuNav);
-    const [openNavmenuChild, setOpenNavmenuChild] = useState(null);
-    const [toggleMenuChild, setToggleMenuChild] = useState(false);
-    const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
-    const [isCLoseModalMenuAnimation, setIsCLoseModalMenuAnimation] =
-        useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    //
+    const allMenuNav = useSelector((state) => state.menuNav.menuNav);
+    const isAuthenticated = useSelector((state) => state.auth?.isAuthenticated);
+
+    //
+    const [openNavmenuChild, setOpenNavmenuChild] = useState(null);
+    const [toggleMenuChild, setToggleMenuChild] = useState(false);
+    const [isCLoseModalMenuAnimation, setIsCLoseModalMenuAnimation] =
+        useState(false);
+    const [isAlreadyDirectionRoom, setIsDirectionRoom] = useState(false);
+    const [isCloseMenuAnimation, setIsCloseMenuAnimation] = useState(false);
+
+    //hook
+    useEffect(() => {
+        location.pathname.includes('room')
+            ? setIsDirectionRoom(true)
+            : setIsDirectionRoom(false);
+    }, []);
+
+    // useEffect(() => {
+    //     let timeout;
+
+    //     return () => clearTimeout(timeout);
+    // }, [toggleMenuChild]);
+
+    //events handle
     const handleClickMenuParent = (id) => {
-        setToggleMenuChild(!toggleMenuChild);
+        if (toggleMenuChild) {
+            setIsCloseMenuAnimation(true);
+            setTimeout(() => {
+                setIsCloseMenuAnimation(false);
+                setToggleMenuChild(false);
+            }, 300);
+        } else {
+            setToggleMenuChild(true);
+        }
         setOpenNavmenuChild(id);
     };
 
@@ -46,7 +76,7 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
             className={`fixed top-0 w-full left-0 bottom-0 flex bg-gray-800 bg-opacity-40 z-50`}
         >
             <motion.div
-                className={`w-6/12 bg-white max-sm:w-9/12 max-xs:w-full overflow-scroll`}
+                className={`w-6/12 bg-white max-sm:w-10/12 max-xs:w-full overflow-scroll`}
                 initial={{ x: '-100%' }}
                 animate={{
                     x:
@@ -60,13 +90,13 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
                     <div className="text-right">
                         <FontAwesomeIcon
                             icon={faXmark}
-                            className="mb-6 px-4 text-2xl text-yellow-base"
+                            className="mb-2 px-4 text-xl text-yellow-base"
                             onClick={handleCloseModalMenu}
                         />
                     </div>
                     {isAuthenticated ? (
                         <>
-                            <div className="flex justify-between items-center mx-4 mb-4">
+                            <div className="flex justify-between items-center mx-4 mb-2">
                                 <div className="">
                                     <img
                                         onClick={handleDirectToUserInfo}
@@ -85,10 +115,16 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
                                     />
                                 </button>
                             </div>
-                            <div className="flex text-sm sticky mt- bg-black text-white px-4 py-3 items-center cursor-pointer justify-center gap-2 ">
-                                <FontAwesomeIcon icon={faLocationDot} />
-                                <span>Hà nội</span>
-                            </div>
+                            <Link to="/user/My-favorite">
+                                <div className="text-sm text-yellow-600 gap-2 bg-orange-100 py-2 flex items-center justify-center">
+                                    <img
+                                        src={heart_yellow}
+                                        alt=""
+                                        className="h-4"
+                                    />
+                                    Sản phẩm yêu thích
+                                </div>
+                            </Link>
                         </>
                     ) : (
                         <>
@@ -117,21 +153,51 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
                             key={menu._id}
                             className="transition-all duration-300 ease-in-out  flex justify-between px-4 py-4 border border-zinc-100 font-medium  "
                         >
-                            <div>
-                                <Link to={menu.link}>{menu.title}</Link>
+                            <div className="">
+                                <Link
+                                    to={
+                                        (menu.title === 'About' &&
+                                            `/${menu.link}`) ||
+                                        (menu.title === 'Blog' &&
+                                            `/${menu.link}`) ||
+                                        `/room/${menu.link}`
+                                    }
+                                >
+                                    {menu.title}
+                                </Link>
+
                                 {/* menu parent */}
                                 {openNavmenuChild === menu._id &&
                                     toggleMenuChild && (
-                                        <div className="flex flex-col">
+                                        <motion.div
+                                            initial={{ y: '-5%', opacity: 0 }}
+                                            animate={{
+                                                y:
+                                                    toggleMenuChild &&
+                                                    !isCloseMenuAnimation
+                                                        ? '0'
+                                                        : '-5%',
+                                                opacity:
+                                                    toggleMenuChild &&
+                                                    !isCloseMenuAnimation
+                                                        ? 1
+                                                        : 0,
+                                            }}
+                                            transition={{ duration: 0.3 }}
+                                            className="flex flex-col"
+                                        >
                                             {/* menu child */}
                                             {menu.children.map((itemChild) => (
                                                 <div
                                                     key={itemChild._id}
                                                     className="mx-2 py-2 text-sm"
                                                 >
-                                                    <Link to={itemChild.link}>
+                                                    <Link
+                                                        to={`/room/${menu.link}/${itemChild.link}`}
+                                                    >
                                                         {itemChild.title}
                                                     </Link>
+
                                                     {/* menu sub child */}
                                                     {openNavmenuChild ===
                                                         menu._id &&
@@ -149,7 +215,9 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
                                                                         >
                                                                             <Link
                                                                                 to={
-                                                                                    itemSubChild.link
+                                                                                    isAlreadyDirectionRoom
+                                                                                        ? `${menu.link}/${itemChild.link}/${itemSubChild.link}`
+                                                                                        : `/room/${menu.link}/${itemChild.link}/${itemSubChild.link}`
                                                                                 }
                                                                             >
                                                                                 {
@@ -163,7 +231,7 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
                                                         )}
                                                 </div>
                                             ))}
-                                        </div>
+                                        </motion.div>
                                     )}
                             </div>
 

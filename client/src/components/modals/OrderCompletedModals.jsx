@@ -44,7 +44,7 @@ function OrderCompletedModal({
                             : 0,
                 }}
                 transition={{ duration: 0.3 }}
-                className="max-sm:w-8/12 max-xs:w-10/12 bg-white p-6 flex flex-col rounded-lg items-center text-sm"
+                className="max-sm:w-10/12 max-xs:w-10/12 bg-white p-6 flex flex-col rounded-lg items-center text-sm"
             >
                 <div className="p-4 mb-7 rounded-full bg-black flex items-center justify-center border-8 outline outline-8 outline-gray-100 border-gray-200">
                     <img src={bag} alt="" className="h-4" />

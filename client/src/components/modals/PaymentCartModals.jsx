@@ -55,7 +55,7 @@ function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
                     </div>
                 </div>
                 <div
-                    onClick={() => setIsShowDiscountModal(true)}
+                    // onClick={() => setIsShowDiscountModal(true)}
                     className="px-4 text-sm mb-3 flex items-center gap-1 cursor-pointer"
                 >
                     <img src={discount_code} alt="" />
