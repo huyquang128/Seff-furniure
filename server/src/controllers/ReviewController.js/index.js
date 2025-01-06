@@ -29,11 +29,33 @@ const postReviews = async (req, res) => {
             { new: true, upsert: true } // upsert tạo mới nếu không tìm thấy
         );
 
+        // Kiểm tra xem review có được tạo thành công không
+        if (!newReview) {
+            return res.status(500).json({
+                success: false,
+                message: 'Failed to create or update review.',
+            });
+        }
+        console.log('New review created/updated:', newReview);
+
+        // Kiểm tra sự tồn tại của User và Product trước khi cập nhật
+        const user = await User.findById(userId);
+        console.log('🚀 ~ postReviews ~ user:', user);
+        const product = await Product.findById(productId);
+        console.log('🚀 ~ postReviews ~ product:', product);
+
+        if (!user || !product) {
+            return res.status(404).json({
+                success: false,
+                message: 'User or Product not found.',
+            });
+        }
+
         // Hàm cập nhật User và Product
         const updateUserAndProduct = async (Model, modelId, reviewId) => {
             await Model.findByIdAndUpdate(
                 modelId,
-                { $addToSet: { reviewers: reviewId } }, // $addToSet tránh trùng lặp reviewId
+                { $addToSet: { reviews: reviewId } }, // $addToSet tránh trùng lặp reviewId
                 { new: true }
             );
         };

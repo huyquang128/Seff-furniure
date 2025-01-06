@@ -88,7 +88,7 @@ function HeaderHome() {
         useState(false);
     const [isShowTooltipAnimation, setShowTooltipAnimation] = useState(false);
 
-    const isSize = EventResize({ size: 768 });
+    const isSize = EventResize({ size: 1440 });
 
     //hooks
     useEffect(() => {
@@ -229,7 +229,7 @@ function HeaderHome() {
                 className="w-5/12 relative max-md:absolute max-md:bottom-[-50px] max-md:right-0 
                             max-md:left-0 max-md:w-full py-3"
             >
-                {location.pathname.includes('user') && isSize <= 769 ? (
+                {location.pathname.includes('user') && isSize < 769 ? (
                     <>
                         <div className="px-3 py-3 border-b border-gray-100 bg-white">
                             {ListCategoryUser.map((category, index) => (

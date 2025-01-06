@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
     urlImgAvatar: {
         type: String,
     },
-    reviewers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reviewer' }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reviewer' }],
     createdAt: {
         type: Date,
         default: Date.now,
@@ -55,16 +55,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
-    if (!this.reviewers) {
-        this.reviewers = [];
-    }
 
-    // Khởi tạo mảng `address` nếu chưa có
-    if (!this.address) {
-        this.address = [];
-    }
-
-    // this.urlImgAvatar = this.urlImgAvatar || '';
     next();
 });
 

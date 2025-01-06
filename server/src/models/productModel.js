@@ -50,13 +50,10 @@ const productSchema = new mongoose.Schema({
         },
     ],
 });
-
-// productSchema.pre('save', function (next) {
-//     this.sale = sale || '';
-
-//     next();
-// });
-
+productSchema.pre('save', function (next) {
+    this.updatedAt = Date.now();
+    next();
+});
 const Product = mongoose.model('Product', productSchema);
 
 module.exports = { Product };
