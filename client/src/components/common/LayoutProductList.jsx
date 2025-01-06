@@ -10,6 +10,7 @@ import ActiveImgTooltip from '../toolkits/ActiveImgTooltip';
 import { useDispatch, useSelector } from 'react-redux';
 import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
 import ToastMessage from './ToastMessage';
+import { setIdProduct } from '@/redux/cartSlice';
 
 function LayoutProduct({ item }) {
     const dispatch = useDispatch();
@@ -62,7 +63,7 @@ function LayoutProduct({ item }) {
     };
 
     return (
-        <div>
+        <div onClick={() => dispatch(setIdProduct(item._id))}>
             <Link to={`/${item.name}`}>
                 <img
                     src={
@@ -89,7 +90,6 @@ function LayoutProduct({ item }) {
                 </div>
             ) : (
                 <div className="mx-2 font-medium mb-3 flex gap-3 items-center">
-                    {/* <div>{item.sale.toLocaleString('VN-vn')}đ</div> */}
                     <div className=" ">
                         {item.price.toLocaleString('VN-vn')}đ
                     </div>

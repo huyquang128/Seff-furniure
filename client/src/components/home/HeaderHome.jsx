@@ -32,6 +32,7 @@ import arrowUp from '@/assets/svg/arrow-top.svg';
 import avatar from '@/assets/image/avatar.jpg';
 import CartToolkit from '../toolkits/cartToolkits';
 import UserInfoToolkit from '../toolkits/UserInfoToolkit';
+import EventResize from '../common/EventResize';
 
 function HeaderHome() {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ function HeaderHome() {
     const ref = useRef();
 
     //state react
-    const [isSize, setIsSize] = useState(768);
+    // const [isSize, setIsSize] = useState(768);
     const [refElement, setRefElement] = useState(null);
     const [keywords, setKeywords] = useState('');
 
@@ -87,6 +88,8 @@ function HeaderHome() {
         useState(false);
     const [isShowTooltipAnimation, setShowTooltipAnimation] = useState(false);
 
+    const isSize = EventResize({ size: 768 });
+
     //hooks
     useEffect(() => {
         setTimeout(() => {
@@ -95,15 +98,6 @@ function HeaderHome() {
             }
         }, 500);
     }, [totalProductInCart, lengthProductInCart]);
-
-    useEffect(() => {
-        window.addEventListener('resize', function () {
-            setIsSize(window.innerWidth);
-        });
-        return () => {
-            document.removeEventListener('resize', function () {});
-        };
-    }, [isSize]);
 
     useEffect(() => {
         if (userId) dispatch(getAllOrder(userId));

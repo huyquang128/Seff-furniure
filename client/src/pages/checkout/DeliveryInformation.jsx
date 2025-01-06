@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout, setUpdateAddressContent } from '@/redux/authSlice';
 import recycle_red_bold from '@/assets/svg/recycle_red_bold.svg';
 import location_yellow from '@/assets/svg/location_yellow.svg';
+import location from '@/assets/svg/location.svg';
 import phone_black from '@/assets/svg/phone_black.svg';
 import note_edit_black from '@/assets/svg/note_edit_black.svg';
 import { useState } from 'react';
@@ -148,7 +149,13 @@ function DeliveryInformation() {
                                             alt=""
                                             className="h-4 px-1"
                                         />
-                                        <span>(+84) {items.phone}</span>
+                                        <span>
+                                            (+84){' '}
+                                            {items.phone?.replace(
+                                                /(\d{3})\d{4}(\d{3})/,
+                                                '$1****$2'
+                                            )}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-3">

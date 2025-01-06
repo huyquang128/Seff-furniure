@@ -5,13 +5,15 @@ import { useInView } from 'react-intersection-observer';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getBlogPage } from '@/redux/blogSlice';
+import EventResize from '../common/EventResize';
 
 function InfoHot() {
     const dispatch = useDispatch();
-    const [ref, inView] = useInView({ threshold: 0.5 , triggerOnce: true });
+    const [ref, inView] = useInView({ threshold: 0.5, triggerOnce: true });
     const blogRedux = useSelector((state) => state?.blog);
+    const isSize = EventResize({ size: 768 });
 
     //hook
     useEffect(() => {
@@ -25,7 +27,7 @@ function InfoHot() {
                             max-lg:px-3 mb-20"
         >
             <motion.h2
-                initial={{ opacity: 0, y: '-50%', x: 0 }}
+                initial={{ opacity: 0, y: '20%', x: 0 }}
                 animate={inView ? { opacity: 1, y: '0', x: 0 } : { opacity: 0 }}
                 transition={{ duration: 1.4 }}
                 className="text-2xl font-semibold mb-10"
@@ -33,7 +35,7 @@ function InfoHot() {
                 THÔNG TIN NỔI BẬT
             </motion.h2>
             <motion.p
-                initial={{ opacity: 0, y: '-50%', x: 0 }}
+                initial={{ opacity: 0, y: '20%', x: 0 }}
                 animate={inView ? { opacity: 1, y: '0', x: 0 } : { opacity: 0 }}
                 transition={{ duration: 1.4 }}
                 className="font-medium text-sm mb-5"
@@ -42,14 +44,30 @@ function InfoHot() {
                 mới nhất, tìm hiểu về các mẹo lựa chọn đồ nội thất, ý tưởng
                 trang trí nội thất sáng tạo cho ngôi nhà của bạn!
             </motion.p>
-            <motion.div
-                initial={{ opacity: 0, y: '50%', x: 0 }}
-                animate={inView ? { opacity: 1, y: '0', x: 0 } : { opacity: 0 }}
-                transition={{ duration: 1.4 }}
-                className="grid grid-cols-3 max-sm:grid-cols-1 max-md:grid-cols-2 gap-5 mb-10"
-            >
-                {blogRedux?.blogs?.map((item) => (
-                    <div key={item._id}>
+
+            {/* block blog info-hot */}
+            <div className="grid grid-cols-3 max-sm:grid-cols-1 max-md:grid-cols-2 gap-5 mb-10">
+                {blogRedux?.blogs?.map((item, index) => (
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            x:
+                                index % 2 === 0 && isSize <= 768
+                                    ? '100%'
+                                    : '-100%',
+                            y:
+                                index % 2 === 0 && isSize > 769
+                                    ? '100%'
+                                    : '-100%',
+                        }}
+                        animate={
+                            inView
+                                ? { opacity: 1, x: '0', y: '0' }
+                                : { opacity: 0 }
+                        }
+                        transition={{ duration: 1.4 }}
+                        key={item._id}
+                    >
                         <img
                             src={item.image}
                             alt=""
@@ -69,9 +87,9 @@ function InfoHot() {
                             Xem chi tiết
                             <FontAwesomeIcon icon={faAngleRight} />
                         </button>
-                    </div>
+                    </motion.div>
                 ))}
-            </motion.div>
+            </div>
             <motion.div
                 initial={{ opacity: 0, y: '50%', x: 0 }}
                 animate={inView ? { opacity: 1, y: '0', x: 0 } : { opacity: 0 }}

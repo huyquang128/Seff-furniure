@@ -151,10 +151,12 @@ const cartSlice = createSlice({
         },
         setDiscountPrice: (state, action) => {
             state.discountCode = action.payload;
-            console.log('🚀 ~ action.payload:', action.payload);
         },
         setTotalQuantityInCart: (state, action) => {
             state.totalQuantityInCart = action.payload;
+        },
+        clearAllColorSelected: (state) => {
+            state.color = [];
         },
     },
     extraReducers: (builder) => {
@@ -230,5 +232,6 @@ export const {
     inputQuantityAndTotalPrice,
     setDiscountPrice,
     setTotalQuantityInCart,
+    clearAllColorSelected
 } = cartSlice.actions;
 export default cartSlice.reducer;

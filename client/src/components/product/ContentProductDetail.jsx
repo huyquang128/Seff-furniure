@@ -11,6 +11,7 @@ import { FreeMode, Thumbs } from 'swiper/modules';
 import { Link, useNavigate } from 'react-router-dom';
 import {
     addToCart,
+    clearAllColorSelected,
     decreaseQuantity,
     increaseQuantity,
     setIdProduct,
@@ -29,6 +30,7 @@ import arr_right_black from '@/assets/svg/arr_right_black.svg';
 import ToastMessage from '../common/ToastMessage';
 import heart from '@/assets/svg/heart.svg';
 import heart_red from '@/assets/svg/heart_red.svg';
+import close from '@/assets/svg/close.svg';
 import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
 
 function ContentProductDetail({ productName }) {
@@ -53,7 +55,7 @@ function ContentProductDetail({ productName }) {
     const reviewStore = useSelector((state) => state?.review.reviews);
     const averageStarNumber = useSelector((state) => state?.review.averageStar);
     const reviewsRedux = useSelector((state) => state?.review);
-    const userId = useSelector((state) => state?.auth?.user.id);
+    const userId = useSelector((state) => state?.auth?.user?.id);
     const productFavoriteActive = useSelector(
         (state) => state?.favoriteProducts?.productFavoriteActive
     );
@@ -65,6 +67,8 @@ function ContentProductDetail({ productName }) {
     const [selectInfoReviewBtn, setSelectInfoReviewBtn] = useState(false);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [activeColorImage, setActiveColorImage] = useState(0);
+    const [activeColorImageTop, setActiveColorImageTop] = useState(null);
+
     const [isShowReviewModal, setIsShowReviewModal] = useState(false);
 
     //hooks
@@ -127,7 +131,6 @@ function ContentProductDetail({ productName }) {
         if (user) {
             setIsShowReviewModal(true);
         } else {
-            console.log('123');
             ToastMessage({
                 message: 'Vui lòng đăng nhập để bình luận!',
                 position: 'top-right',
@@ -136,13 +139,25 @@ function ContentProductDetail({ productName }) {
         }
     };
 
-    const handleClickAddProductFavorite = (id) => {
+    const handleClickAddProductFavorite = (id, name) => {
         dispatch(setProductFavoriteActive(id));
         const formData = new FormData();
         formData.append('userId', userId);
         formData.append('productId', id);
 
-        dispatch(addFavoriteProduct(formData));
+        dispatch(addFavoriteProduct(formData)).then((data) => {
+            if (data.payload?.success) {
+                ToastMessage({
+                    message: `Đã thêm ${name} vào danh sách yêu thích!`,
+                    position: 'top-center',
+                    status: 'success',
+                });
+            }
+        });
+    };
+
+    const handleActiveImageTop = (index) => {
+        setActiveColorImageTop(index);
     };
 
     return (
@@ -220,9 +235,17 @@ function ContentProductDetail({ productName }) {
                                 ]?.images.map((imageUrl, index) => (
                                     <SwiperSlide key={index} className="">
                                         <img
+                                            onClick={() =>
+                                                handleActiveImageTop(index)
+                                            }
                                             src={imageUrl}
                                             alt=""
-                                            className="w-20 h-20 rounded-lg border"
+                                            //activeColorImageTop
+                                            className={`w-20 h-20 rounded-lg border ${
+                                                activeColorImageTop === index
+                                                    ? 'border-yellow-base'
+                                                    : ''
+                                            }`}
                                         />
                                     </SwiperSlide>
                                 ))}
@@ -277,7 +300,7 @@ function ContentProductDetail({ productName }) {
                             </span>
                         </div>
                         <span className="">Màu sắc</span>
-                        <div className="flex gap-3 mt-2 mb-4">
+                        <div className="flex gap-3 mt-2">
                             {singleProductDetail?.colors.map((color, index) => (
                                 <div
                                     key={index}
@@ -304,7 +327,25 @@ function ContentProductDetail({ productName }) {
                                 </div>
                             ))}
                         </div>
-                        <div className="mb-2">Kích thước</div>
+                        {colorName.length <= 0 ? (
+                            <span className="text-xs text-red-500">
+                                Vui lòng chọn màu sắc
+                            </span>
+                        ) : (
+                            <div className="text-sm flex gap-2 mt-2 items-center">
+                                <div className="text-black-base">
+                                    Màu đã chọn:{' '}
+                                </div>
+                                <div className="text-yellow-base">
+                                    {colorName.map((col) => col).join(', ')}
+                                </div>
+                                <div onClick={() => dispatch(clearAllColorSelected())} className="p-1.5 bg-gray-100 rounded-full">
+                                    <img src={close} alt="" className='h-4' />
+                                </div>
+                            </div>
+                        )}
+
+                        <div className="mb-2 mt-4">Kích thước</div>
                         <div
                             className="bg-bg-slider w-4/12 rounded-md text-sm 
                                         flex justify-center py-2 "
@@ -357,8 +398,13 @@ function ContentProductDetail({ productName }) {
                                 />
                             </div>
                             <button
+                                disabled={colorName.length <= 0}
                                 onClick={handleAddToCart}
-                                className="flex-1 bg-red-700 px-3 py-1  rounded-full text-white"
+                                className={`flex-1 ${
+                                    colorName.length <= 0
+                                        ? ' bg-gray-600 opacity-45 cursor-not-allowed'
+                                        : 'bg-red-700'
+                                }  px-3 py-1  rounded-full text-white`}
                             >
                                 Thêm vào giỏ hàng
                             </button>
@@ -366,7 +412,8 @@ function ContentProductDetail({ productName }) {
                         <div
                             onClick={() =>
                                 handleClickAddProductFavorite(
-                                    singleProductDetail?._id
+                                    singleProductDetail?._id,
+                                    singleProductDetail?.name
                                 )
                             }
                             className="flex items-center gap-3 mb-6 cursor-pointer hover:brightness-110"

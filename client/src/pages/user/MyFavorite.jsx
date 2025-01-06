@@ -16,9 +16,9 @@ function MyFavorite() {
     const ref = useRef();
 
     //state redux
-    const userId = useSelector((state) => state?.auth.user.id);
+    const userId = useSelector((state) => state?.auth?.user?.id);
     const favoriteProduct = useSelector(
-        (state) => state?.favoriteProducts.favoriteProduct
+        (state) => state?.favoriteProducts?.favoriteProduct
     );
 
     //state react
