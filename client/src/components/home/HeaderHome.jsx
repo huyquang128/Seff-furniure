@@ -1,8 +1,7 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import MenuNavModel from '../modals/menuNavModals';
 import { useDispatch, useSelector } from 'react-redux';
-import { useFloating } from '@floating-ui/react';
 import { getCartItems, setTotalQuantityInCart } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
 import { ListCategoryUser } from '../user/ListCategoryUser';
@@ -13,12 +12,7 @@ import {
     setProductsSearch,
 } from '@/redux/productSlice';
 import FavoriteToolkit from '../toolkits/FavoriteToolkit';
-import {
-    checkAuth,
-    login,
-    logout,
-    setActiveTileCategoryUserInfo,
-} from '@/redux/authSlice';
+import { logout } from '@/redux/authSlice';
 import { debounce } from 'lodash';
 
 import arr_top_bold from '@/assets/svg/arr-top-bold.svg';
@@ -27,10 +21,10 @@ import heart from '@/assets/svg/heart.svg';
 import user from '@/assets/svg/user.svg';
 import search from '@/assets/svg/search.svg';
 import menu from '@/assets/svg/menu.svg';
-import avatar from '@/assets/image/avatar.jpg';
 import UserInfoToolkit from '../toolkits/UserInfoToolkit';
 import EventResize from '../common/EventResize';
 import CartAddProductModal from '../modals/CartAddProductModal';
+import close from '@/assets/svg/close.svg';
 
 function HeaderHome() {
     const navigate = useNavigate();
@@ -85,8 +79,7 @@ function HeaderHome() {
         useState(false);
     const [isShowTooltipAnimation, setShowTooltipAnimation] = useState(false);
 
-    const isSize = EventResize({ size: 1440 });
-
+    const isSize = EventResize({ size: 768 });
     //hooks
     useEffect(() => {
         setTimeout(() => {
@@ -177,11 +170,6 @@ function HeaderHome() {
         });
     };
 
-    // floating ui
-    const { reference, floating } = useFloating({
-        placement: 'bottom',
-    });
-
     return (
         <div
             className={`max-w-[1440px] mx-auto max-xl:px-[68px] 
@@ -210,100 +198,108 @@ function HeaderHome() {
 
             {/* search */}
             <div
-                className="w-5/12 relative max-md:absolute max-md:bottom-[-50px] max-md:right-0 
-                            max-md:left-0 max-md:w-full py-3"
+                className={`w-5/12 relative max-md:absolute max-md:bottom-[-50px] max-md:right-0 
+                            max-md:left-0 max-md:w-full py-3`}
             >
-                {location.pathname.includes('user') && isSize < 769 ? (
-                    <>
-                        <div className="px-3 py-3 border-b border-gray-100 bg-white">
-                            {ListCategoryUser.map((category, index) => (
-                                <div
-                                    key={index}
-                                    onClick={handleShowToolkitUserInfo}
-                                    className="flex justify-between items-center"
-                                >
-                                    {isActiveCategoryUserInfoTitle ===
-                                        category.link && (
-                                        <>
-                                            <div
-                                                className="text-sm flex gap-1 items-center font-medium 
+                {/* { && isSize < 769 ? ( */}
+                <>
+                    <div
+                        className={`px-3 py-3 border-b border-gray-100 bg-white
+                           ${
+                               location.pathname.includes('user')
+                                   ? 'md:hidden'
+                                   : 'hidden'
+                           }`}
+                    >
+                        {ListCategoryUser.map((category, index) => (
+                            <div
+                                key={index}
+                                onClick={handleShowToolkitUserInfo}
+                                className="flex justify-between items-center"
+                            >
+                                {isActiveCategoryUserInfoTitle ===
+                                    category.link && (
+                                    <>
+                                        <div
+                                            className="text-sm flex gap-1 items-center font-medium 
                                                           text-yellow-base"
-                                            >
-                                                <img
-                                                    src={category.svg_yellow}
-                                                    alt=""
-                                                    className="h-5 -translate-y-[2px]"
-                                                />
-                                                {category.title}
-                                            </div>
-                                            <img src={arr_top_bold} alt="" />
-                                        </>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                        {isShowCategoryUserOption && (
-                            <UserInfoToolkit
-                                isShowCategoryUserOption={
-                                    isShowCategoryUserOption
-                                }
-                                setShowCategoryUserOption={
-                                    setShowCategoryUserOption
-                                }
-                                isActCloseToolkitUserInfo={
-                                    isActCloseToolkitUserInfo
-                                }
-                                setActCloseToolkitUserInfo={
-                                    setActCloseToolkitUserInfo
-                                }
-                            />
-                        )}
-                    </>
-                ) : (
-                    <div ref={ref} className="relative">
-                        {/* search products */}
-                        <input
-                            onFocus={handleFocusSearchInput}
-                            type="text"
-                            className="border-b-[1px] text-sm max-md:bg-gray-100 border-black-base outline-none text-black-base w-full 
+                                        >
+                                            <img
+                                                src={category.svg_yellow}
+                                                alt=""
+                                                className="h-5 -translate-y-[2px]"
+                                            />
+                                            {category.title}
+                                        </div>
+                                        <img src={arr_top_bold} alt="" />
+                                    </>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    {isShowCategoryUserOption && (
+                        <UserInfoToolkit
+                            isShowCategoryUserOption={isShowCategoryUserOption}
+                            setShowCategoryUserOption={
+                                setShowCategoryUserOption
+                            }
+                            isActCloseToolkitUserInfo={
+                                isActCloseToolkitUserInfo
+                            }
+                            setActCloseToolkitUserInfo={
+                                setActCloseToolkitUserInfo
+                            }
+                        />
+                    )}
+                </>
+                {/* ) : ( */}
+                <div
+                    ref={ref}
+                    className={`relative  ${
+                        location.pathname.includes('user') && 'max-md:hidden'
+                    }`}
+                >
+                    {/* search products */}
+                    <input
+                        onFocus={handleFocusSearchInput}
+                        type="text"
+                        className="border-b-[1px] text-sm max-md:bg-gray-100 border-black-base outline-none text-black-base w-full 
                                     py-2 max-md:px-16 max-md:py-3  max-md:border-hidden max-md:text-sm 
                                      placeholder:text-black-text"
-                            placeholder="Bạn đang tìm sản phầm nào?"
-                            value={keywords || ''}
-                            onChange={handleChangeValueSearchProducts}
+                        placeholder="Bạn đang tìm sản phầm nào?"
+                        value={keywords || ''}
+                        onChange={handleChangeValueSearchProducts}
+                    />
+                    <img
+                        src={search}
+                        alt=""
+                        className="h-5 max-md:h-4 cursor-pointer absolute right-0 bottom-1 max-md:bottom-3.5 max-md:left-8"
+                    />
+                    {isShowSearchProductsToolkit && (
+                        <SearchProductToolkit
+                            isShowSearchProductsToolkit={
+                                isShowSearchProductsToolkit
+                            }
+                            setIsShowSearchProductsToolkit={
+                                setIsShowSearchProductsToolkit
+                            }
+                            refElement={refElement}
+                            keywords={keywords}
                         />
-                        <img
-                            src={search}
-                            alt=""
-                            className="h-5 max-md:h-4 cursor-pointer absolute right-0 bottom-1 max-md:bottom-3.5 max-md:left-8"
-                        />
-                        {isShowSearchProductsToolkit && (
-                            <SearchProductToolkit
-                                isShowSearchProductsToolkit={
-                                    isShowSearchProductsToolkit
-                                }
-                                setIsShowSearchProductsToolkit={
-                                    setIsShowSearchProductsToolkit
-                                }
-                                refElement={refElement}
-                                keywords={keywords}
-                            />
-                        )}
-                    </div>
-                )}
+                    )}
+                </div>
+                {/* )} */}
             </div>
+
+            {/*  */}
             <div className="flex gap-10 max-sm:gap-5 px-2 items-center relative">
                 {/* user login */}
                 {isAuthenticated ? (
                     <div
-                        ref={reference}
-                        onMouseEnter={() => setIsOpen(true)}
                         onClick={() => setIsOpen(true)}
-                        onMouseLeave={handleCloseToolkitUser}
                         className="py-5 bg-transparent"
                     >
                         <div
-                            onMouseEnter={() => setIsOpen(true)}
                             className="h-10 w-10 object-cover max-md:hidden rounded-full  border-2 
                             cursor-pointer bg-blue-400 flex justify-center items-center overflow-hidden"
                         >
@@ -312,7 +308,6 @@ function HeaderHome() {
                                     src={urlImgAvatarData || urlImgAvatar}
                                     alt=""
                                     className="object-cover"
-                                    // onMouseLeave={handleCloseToolkitUser}
                                 />
                             ) : (
                                 <div className="text-white"></div>
@@ -329,9 +324,6 @@ function HeaderHome() {
                                             : 0,
                                 }}
                                 transition={{ duration: 0.4 }}
-                                ref={floating}
-                                onMouseEnter={() => setIsOpen(true)}
-                                onMouseLeave={handleCloseToolkitUser}
                                 className={`${
                                     isAuthenticated && 'right-[180px]'
                                 } `}
@@ -343,7 +335,7 @@ function HeaderHome() {
                                         urlImgAvatar ? '130px' : '100px'
                                     }`,
                                     color: 'black',
-                                    paddingTop: '30px',
+                                    // paddingTop: 'px',
                                     borderRadius: '12px',
                                     zIndex: '10',
                                     width: '250px',
@@ -353,8 +345,15 @@ function HeaderHome() {
                                 }}
                             >
                                 <div className="flex flex-col justify-center items-center">
+                                    <div className="flex justify-end w-full p-2">
+                                        <img
+                                            onClick={handleCloseToolkitUser}
+                                            src={close}
+                                            alt=""
+                                            className="bg-slate-200 rounded-full cursor-pointer h-5"
+                                        />
+                                    </div>
                                     <div
-                                        onMouseEnter={() => setIsOpen(true)}
                                         className="h-14 w-14 object-cover max-md:hidden rounded-full border-2 
                                                      cursor-pointer overflow-hidden bg-blue-400 flex justify-center items-center mb-3"
                                     >

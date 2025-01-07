@@ -17,7 +17,7 @@ function SideBar() {
         <div className="max-xl:w-60 w-64 max-md:hidden">
             <div className="border border-gray-100">
                 <div className="flex w-full gap-3 items-center p-4 border-b border-gray-100 rounded-sm">
-                    <div className='w-4/12'>
+                    <div className="w-4/12">
                         <div
                             className="w-16 h-16 object-cover max-md:hidden rounded-full  border-2
                                 cursor-pointer bg-blue-400 flex justify-center items-center overflow-hidden"
@@ -27,7 +27,6 @@ function SideBar() {
                                     src={urlImgAvatarData || urlImgAvatar}
                                     alt=""
                                     className="w-16 h-16 object-cover"
-                                    // onMouseLeave={handleCloseToolkitUser}
                                 />
                             ) : (
                                 <div className="text-white"></div>

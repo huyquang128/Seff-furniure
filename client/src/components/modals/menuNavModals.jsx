@@ -38,12 +38,6 @@ function MenuNavModals({ openModelMenu, setOpenModelMenu }) {
             : setIsDirectionRoom(false);
     }, []);
 
-    // useEffect(() => {
-    //     let timeout;
-
-    //     return () => clearTimeout(timeout);
-    // }, [toggleMenuChild]);
-
     //events handle
     const handleClickMenuParent = (id) => {
         if (toggleMenuChild) {
