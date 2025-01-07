@@ -161,11 +161,11 @@ function DeliveryInformation() {
                                             )}
                                         </span>
                                     </div>
-                                    {addressDefault !== items._id && (
+                                    {addressDefault !== index && (
                                         <div
                                             onClick={() =>
                                                 dispatch(
-                                                    setAddressDefault(items._id)
+                                                    setAddressDefault(index)
                                                 )
                                             }
                                             className="text-sm text-yellow-base underline hover:brightness-110
@@ -215,7 +215,7 @@ function DeliveryInformation() {
                                         </span>
                                     </button>
                                 </div>
-                                {addressDefault === items._id && (
+                                {addressDefault === index && (
                                     <div
                                         className="absolute left-6 px-2 py-0.5 top-1 -translate-y-3.5 text-xs bg-gray-200 
                                                     text-text-gray rounded-md"

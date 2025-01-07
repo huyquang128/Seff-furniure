@@ -7,13 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
     getCartItems,
     setDiscountPrice,
-    updateCartItemQuantityAndTotalPrice,
     updateTotalPriceByIdCart,
 } from '@/redux/cartSlice';
 
 function DiscountCodeModal({ isShowDiscountModal, setIsShowDiscountModal }) {
     const dispatch = useDispatch();
-
+    console.log('123');
     //state react
     const [isCloseModalAnimation, setCloseModalAnimation] = useState(false);
 

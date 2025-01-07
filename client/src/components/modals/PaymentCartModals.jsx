@@ -4,12 +4,14 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import discount_code from '@/assets/svg/discount-code.svg';
+import DiscountCodeModal from './DicountCodeModal';
 
 function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
     const totalProductInCart = useSelector(
         (state) => state.cart?.totalProductInCart
     );
     const navigate = useNavigate();
+    const [isShowDiscountModal, setIsShowDiscountModal] = useState(false);
     const [isCloseModalAnimation, setIsCloseModalAnimation] = useState(false);
     const handleCloseModalPayment = () => {
         setIsCloseModalAnimation(true);
@@ -22,7 +24,7 @@ function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
     return (
         <motion.div className="fixed top-0 bottom-0 right-0 left-0 flex  bg-models z-20">
             <motion.div
-                className="w-5/12 bg-white max-sm:w-10/12 fixed right-0 h-full opacity-1 opacity-1"
+                className="w-96 max-sm:w-80 bg-white fixed right-0 h-full opacity-1 opacity-1"
                 initial={{ x: 350 }}
                 animate={{
                     x: isOpenModalsPayment && !isCloseModalAnimation ? 0 : 350,
@@ -60,14 +62,20 @@ function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
                     </div>
                 </div>
                 <div
-                    // onClick={() => setIsShowDiscountModal(true)}
+                    onClick={() => setIsShowDiscountModal(true)}
                     className="px-4 text-sm mb-3 flex items-center gap-1 cursor-pointer"
                 >
                     <img src={discount_code} alt="" />
-                    <span className="text-yellow-base hover:brightness-110">
+                    <span
+                        onClick={() => setIsOpenModalsPayment(true)}
+                        className="text-yellow-base hover:brightness-110"
+                    >
                         Xem thêm mã giảm giá
                     </span>
                 </div>
+
+                {/*  */}
+
                 <div className="flex justify-between px-4 text-gray-700 py-3  border-b border-gray-100">
                     <span className="text-sm">Phí vận chuyển</span>
                     <span>20.000đ</span>
@@ -78,15 +86,24 @@ function PaymentCartModals({ isOpenModalsPayment, setIsOpenModalsPayment }) {
                         {totalProductInCart.toLocaleString('vn-VN')} đ
                     </span>
                 </div>
-                <div className="mx-4">
+                <div className="px-5">
                     <button
                         onClick={() => navigate('/cart/checkout-step-1')}
-                        className="bg-black text-white w-full mb-4 px-7 hover:brightness-150 py-3 rounded-md "
+                        className="bg-black-base font-medium border-black-base text-white w-full mb-4 px-7 border hover:brightness-150 py-3 
+                                    rounded-sm hover:bg-white hover:text-black hover:border-black-base
+                                    transition-colors ease-in-out duration-300"
                     >
                         Thanh toán
                     </button>
                 </div>
             </motion.div>
+            {/* modal discount code */}
+            {isShowDiscountModal && (
+                <DiscountCodeModal
+                    isShowDiscountModal={isShowDiscountModal}
+                    setIsShowDiscountModal={setIsShowDiscountModal}
+                />
+            )}
         </motion.div>
     );
 }

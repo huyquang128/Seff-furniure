@@ -386,6 +386,7 @@ function ContentCart() {
                             />
                         )}
 
+                        {/*  */}
                         <div className=" px-4 text-gray-700 py-3">
                             <div className="text-sm flex flex-col  gap-2">
                                 <div className="flex justify-between">
@@ -440,6 +441,8 @@ function ContentCart() {
                                 })}
                             </div>
                         </div>
+
+                        {/*  */}
                         <div className="flex justify-between items-center text-sm px-4">
                             <span>Phí vận chuyển</span>
                             <span>Miễn phí</span>

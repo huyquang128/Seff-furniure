@@ -76,7 +76,7 @@ const initialState = {
     addressStore: 'hn',
     theme: 'light',
     isLabelSelectProvince: false,
-    addressDefault: null,
+    addressDefault: 0,
     typeAddOrUpdateUser: false,
 };
 

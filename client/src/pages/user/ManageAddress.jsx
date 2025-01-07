@@ -8,12 +8,7 @@ import AddNewAddressModals from '@/components/modals/AddNewAddressModals';
 import { useDispatch, useSelector } from 'react-redux';
 import location from '@/assets/svg/location.svg';
 import location_yellow from '@/assets/svg/location_yellow.svg';
-import {
-    getProfileUser,
-    removeAddressUser,
-    setAddressDefault,
-    setUpdateAddressContent,
-} from '@/redux/authSlice';
+import { setAddressDefault, setUpdateAddressContent } from '@/redux/authSlice';
 import RemoveAddress from '@/components/modals/RemoveAddress';
 
 function ManageAddress() {
@@ -140,12 +135,10 @@ function ManageAddress() {
                                         )}
                                     </span>
                                 </div>
-                                {addressDefault !== items._id && (
+                                {addressDefault !== index && (
                                     <div
                                         onClick={() =>
-                                            dispatch(
-                                                setAddressDefault(items._id)
-                                            )
+                                            dispatch(setAddressDefault(index))
                                         }
                                         className="text-sm text-yellow-base underline hover:brightness-110
                                                 cursor-pointer"
@@ -192,7 +185,7 @@ function ManageAddress() {
                                     <span className="text-red-600 ">Xóa</span>
                                 </button>
                             </div>
-                            {addressDefault === items._id && (
+                            {addressDefault === index && (
                                 <div
                                     className="absolute left-6 px-2 py-0.5 top-1 -translate-y-3.5 text-xs bg-gray-200 
                                     text-yellow-base rounded-md"

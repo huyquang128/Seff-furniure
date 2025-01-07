@@ -36,7 +36,7 @@ function RemoveAddress({
             setIsOpenModalRemoveAddress(false);
         }, 300);
         dispatch(removeAddressUser(formData)).then((data) => {
-            if (data.payload.success) {
+            if (data.payload?.success) {
                 ToastMessage({
                     message: 'Đã xóa địa chỉ',
                     position: 'top-center',
