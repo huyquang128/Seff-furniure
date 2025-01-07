@@ -1,7 +1,7 @@
 import close from '@/assets/svg/close.svg';
 import cartEmpty from '@/assets/svg/cart-empty.svg';
 import recycle from '@/assets/svg/recycle.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteCartItem } from '@/redux/cartSlice';
 import { motion } from 'framer-motion';
@@ -69,6 +69,7 @@ function CartAddProductModal({ isOpenModalCart, setIsOpenModalCart }) {
                 >
                     <img src={close} alt="" className="h-5" />
                 </div>
+
                 <div className="bg-white flex-1 p-5 h-full overflow-scroll">
                     <div
                         className="flex items-center justify-between border-b 

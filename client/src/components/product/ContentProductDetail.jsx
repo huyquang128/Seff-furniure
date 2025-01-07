@@ -13,6 +13,7 @@ import {
     addToCart,
     clearAllColorSelected,
     decreaseQuantity,
+    getCartItems,
     increaseQuantity,
     setIdProduct,
     setTotalQuantityInCart,
@@ -32,6 +33,8 @@ import heart from '@/assets/svg/heart.svg';
 import heart_red from '@/assets/svg/heart_red.svg';
 import close from '@/assets/svg/close.svg';
 import { addFavoriteProduct, setProductFavoriteActive } from '@/redux/favorite';
+import CartAddProductModal from '../modals/CartAddProductModal';
+import { ColorRing } from 'react-loader-spinner';
 
 function ContentProductDetail({ productName }) {
     const navigate = useNavigate();
@@ -44,6 +47,7 @@ function ContentProductDetail({ productName }) {
     const productId = singleProductDetail?._id;
     const user = useSelector((state) => state.auth?.user);
     const quantity = useSelector((state) => state.cart?.quantity);
+    const isCartLoading = useSelector((state) => state.cart?.isCartLoading);
     const colorName = useSelector((state) => state.cart?.color);
     const totalPriceProduct = useSelector(
         (state) => state.cart?.totalPriceProduct
@@ -68,8 +72,8 @@ function ContentProductDetail({ productName }) {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const [activeColorImage, setActiveColorImage] = useState(0);
     const [activeColorImageTop, setActiveColorImageTop] = useState(null);
-
     const [isShowReviewModal, setIsShowReviewModal] = useState(false);
+    const [isOpenModalCart, setIsOpenModalCart] = useState(false);
 
     //hooks
     useEffect(() => {
@@ -118,10 +122,10 @@ function ContentProductDetail({ productName }) {
                 dispatch(
                     setTotalQuantityInCart(totalQuantityInCart + quantity)
                 );
-                ToastMessage({
-                    message: `Đã thêm ${productName} vào giỏ hàng ️🛒`,
-                    position: 'top-center',
-                    status: 'success',
+                dispatch(getCartItems(user?.id)).then((data) => {
+                    if (data?.payload?.success) {
+                        setIsOpenModalCart(true);
+                    }
                 });
             }
         });
@@ -339,8 +343,13 @@ function ContentProductDetail({ productName }) {
                                 <div className="text-yellow-base">
                                     {colorName.map((col) => col).join(', ')}
                                 </div>
-                                <div onClick={() => dispatch(clearAllColorSelected())} className="p-1.5 bg-gray-100 rounded-full">
-                                    <img src={close} alt="" className='h-4' />
+                                <div
+                                    onClick={() =>
+                                        dispatch(clearAllColorSelected())
+                                    }
+                                    className="p-1.5 bg-gray-100 rounded-full"
+                                >
+                                    <img src={close} alt="" className="h-4" />
                                 </div>
                             </div>
                         )}
@@ -406,7 +415,28 @@ function ContentProductDetail({ productName }) {
                                         : 'bg-red-700'
                                 }  px-3 py-1  rounded-full text-white`}
                             >
-                                Thêm vào giỏ hàng
+                                {isCartLoading ? (
+                                    <div className="flex justify-center items-center">
+                                        {' '}
+                                        <ColorRing
+                                            visible={true}
+                                            height="30"
+                                            width="30"
+                                            ariaLabel="color-ring-loading"
+                                            wrapperStyle={{}}
+                                            wrapperClass="color-ring-wrapper"
+                                            colors={[
+                                                '#e15b64',
+                                                '#f47e60',
+                                                '#f8b26a',
+                                                '#abbd81',
+                                                '#849b87',
+                                            ]}
+                                        />
+                                    </div>
+                                ) : (
+                                    'Thêm vào giỏ hàng'
+                                )}
                             </button>
                         </div>
                         <div
@@ -663,6 +693,14 @@ function ContentProductDetail({ productName }) {
                                 isShowReviewModal={isShowReviewModal}
                                 setIsShowReviewModal={setIsShowReviewModal}
                                 productName={productName}
+                            />
+                        )}
+
+                        {/* modal cart */}
+                        {isOpenModalCart && (
+                            <CartAddProductModal
+                                isOpenModalCart={isOpenModalCart}
+                                setIsOpenModalCart={setIsOpenModalCart}
                             />
                         )}
                     </div>
